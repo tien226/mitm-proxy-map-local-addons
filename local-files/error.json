@@ -1,0 +1,3 @@
+{
+    "error": {"status":404,"code":"200502400030412","message":"Not Found","detail":"The URI requested is invalid or the resource requested does not exists.","action":"NoAutoRetry"}
+}

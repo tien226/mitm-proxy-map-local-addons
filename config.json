@@ -1,8 +1,14 @@
 [
-  {
+   {
+     "status_code": 400,
+     "url": "https://api.dev.nudge-platform.com/v1/card/usage_limits?cardID=b01517fa-f721-497b-a5ea-23868b8310c9",
+     "method": "GET",
+     "local_file": "./debt_balances.json"
+   },
+   {
     "status_code": 200,
+    "url": "https://api.dev.nudge-platform.com/v1/club/card_clubs",
     "method": "GET",
-    "url": "https://api.dev.nudge-platform.com/v1/notification/user_informations",
-    "local_file": "notification.json"
+    "local_file": "./rewards.json"
   }
 ]

@@ -1,0 +1,24 @@
+{
+    "listBankAccountInfos": [
+        {
+            "serialNumber": "",
+            "directDebitAccountId": 0,
+            "receivingAgencyNumber": null,
+            "applyStartDate": null,
+            "applyEndDate": null,
+            "dateType": null,
+            "customerIDGW": null,
+            "customerIDMuf": null,
+            "bankCode": null,
+            "accountBranchCode": null,
+            "accountNumber": null,
+            "accountHolder": null,
+            "holderType": null,
+            "accountType": null,
+            "accountDefectFlag": null,
+            "identityVerificationResult": null,
+            "appliedFlag": "1",
+            "applyScheduleStatus": ""
+          }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "directDebitHistoryList": [
+        {
+            "accountBranchCode": "045",
+            "accountNumber": "0142591",
+            "accountType": "1",
+            "actTranDate": "20240422",
+            "availableBalanceDepositStatus": "1",
+            "bankCode": "0005",
+            "directDebitFailReason": "",
+            "directDebitPaymentAmount": 0,
+            "directDebitPaymentDate": "20",
+            "directDebitPaymentMonth": "202404",
+            "directDebitPaymentReflectionDate": "20240426",
+            "directDebitPaymentResult": "0",
+            "responseTranResultCode": ""
+        },
+        {
+            "accountBranchCode": "",
+            "accountNumber": "",
+            "accountType": "",
+            "actTranDate": "20240321",
+            "availableBalanceDepositStatus": "5",
+            "bankCode": "",
+            "directDebitFailReason": "",
+            "directDebitPaymentAmount": 0,
+            "directDebitPaymentDate": "20",
+            "directDebitPaymentMonth": "202403",
+            "directDebitPaymentReflectionDate": "20240327",
+            "directDebitPaymentResult": "3",
+            "responseTranResultCode": ""
+        }
+    ]
+}

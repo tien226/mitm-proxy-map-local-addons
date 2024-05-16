@@ -1,3 +1,217 @@
-[
-    
-]
+{
+    "atmRepaymentFee": {
+        "aboutUrl": "https://nudgehelp.freshdesk.com/a/solutions/articles/65000186444",
+        "description": "手数料は入金額によって変わります。\n¥1〜¥10,000の場合：¥110\n¥10,001以上の場合：¥220",
+        "enableFlag": "1"
+    },
+    "mallConfigs": {
+        "generalConfig": {
+            "biometricIntervalMinutes": 3,
+            "hideCardInfoSeconds": 10
+        },
+        "malls": [
+            {
+                "checkoutPage": {
+                    "cardCVVId": "SafeInput",
+                    "cardExpirationId": "splitCardExpiration",
+                    "cardNumberId": "splitCardNo",
+                    "path": "bgt_order_checkout"
+                },
+                "customUserAgent": "",
+                "domain": "temu.com",
+                "id": "temu",
+                "popupConfirmMessage": "Do you want to fill your card information automatically?",
+                "popupConfirmTitle": "Nudge"
+            },
+            {
+                "checkoutPage": {
+                    "cardCVVId": "",
+                    "cardExpirationId": "",
+                    "cardNumberId": "",
+                    "path": ""
+                },
+                "customUserAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
+                "domain": "qoo10.jp",
+                "id": "qoo10",
+                "popupConfirmMessage": "Do you want to fill your card information automatically?",
+                "popupConfirmTitle": "Nudge"
+            }
+        ]
+    },
+    "nudge_club_project_config": [
+        {
+            "clubID": 2000195,
+            "target_description": "決済額の一部がプロジェクトの支援に使われます。",
+            "target_items": [
+                {
+                    "amount": 1000,
+                    "image": "https://contents.dev.nudge-platform.com/club/2000195/cover/yurikachanx100.png"
+                }
+            ],
+            "target_raised_amount_label": "現在の本数は",
+            "target_title": "ナッジの森に木を植えよう🌳",
+            "target_total_amount": 0,
+            "target_total_amount_label": "",
+            "target_type": 0,
+            "target_unit": "個"
+        },
+        {
+            "clubID": 2000298,
+            "target_description": "",
+            "target_items": [],
+            "target_raised_amount_label": "支援総額",
+            "target_title": "支援総額100万円でクラブ会員限定イベント開催！",
+            "target_total_amount": 70000,
+            "target_total_amount_label": "目標支援額",
+            "target_type": 1,
+            "target_unit": ""
+        },
+        {
+            "clubID": 2000376,
+            "target_description": "内容",
+            "target_items": [
+                {
+                    "amount": 8000,
+                    "image": "https://i.ibb.co/TqYwHpJ/treex100.png"
+                },
+                {
+                    "amount": 800,
+                    "image": "https://i.ibb.co/4TnChFm/treex10.png"
+                },
+                {
+                    "amount": 80,
+                    "image": "https://i.ibb.co/Cs1R5d1/tree.png"
+                }
+            ],
+            "target_raised_amount_label": "現在の枚数",
+            "target_title": "レジ袋を集めろう！",
+            "target_total_amount": 0,
+            "target_total_amount_label": "",
+            "target_type": 0,
+            "target_unit": "枚"
+        },
+        {
+            "clubID": 2000375,
+            "target_description": "内容",
+            "target_items": [
+                {
+                    "amount": 8000,
+                    "image": "https://i.ibb.co/TqYwHpJ/treex100.png"
+                },
+                {
+                    "amount": 800,
+                    "image": "https://i.ibb.co/4TnChFm/treex10.png"
+                },
+                {
+                    "amount": 80,
+                    "image": "https://i.ibb.co/Cs1R5d1/tree.png"
+                }
+            ],
+            "target_raised_amount_label": "現在の枚数",
+            "target_title": "レジ袋を集めろう！",
+            "target_total_amount": 0,
+            "target_total_amount_label": "",
+            "target_type": 0,
+            "target_unit": "枚"
+        },
+        {
+            "clubID": 2000001,
+            "target_description": "内容",
+            "target_items": [
+                {
+                    "amount": 8000,
+                    "image": "https://i.ibb.co/TqYwHpJ/treex100.png"
+                },
+                {
+                    "amount": 800,
+                    "image": "https://i.ibb.co/4TnChFm/treex10.png"
+                },
+                {
+                    "amount": 80,
+                    "image": "https://i.ibb.co/Cs1R5d1/tree.png"
+                }
+            ],
+            "target_raised_amount_label": "現在の枚数",
+            "target_title": "レジ袋を集めろう！",
+            "target_total_amount": 0,
+            "target_total_amount_label": "",
+            "target_type": 0,
+            "target_unit": "枚"
+        }
+    ],
+    "nudge_white_list": [
+        "nudge-staging.freshdesk.com",
+        "nudgehelp.freshdesk.com",
+        "help.nudge.works",
+        "contents.dev.nudge-platform.com",
+        "contents.stg.nudge-platform.com",
+        "contents.nudge-platform.com",
+        "youtube.com",
+        "youtu.be",
+        "notion.so",
+        "nudgeworks.notion.site",
+        "forms.gle",
+        "docs.google.com",
+        "drive.google.com",
+        "pkg.navitime.co.jp",
+        "technology-p.com",
+        "go-candeohotels.reservation.jp",
+        "ksbd.net",
+        "rocinantes.org",
+        "ashinaga.org",
+        "ashinaga.us4.list-manage.com",
+        "bit.ly",
+        "line.me",
+        "zutool.jp",
+        "kddi-povo.app.link",
+        "nudge.cards",
+        "appconfig.stg.nudge-platform.com",
+        "gift.starbucks.co.jp",
+        "povo.jp",
+        "px.a8.net",
+        "temu.com",
+        "blog.cleancoder.com"
+    ],
+    "premium_features": {
+        "premiumActivateCode": "b515209b0c265e76f17fb4795cbf5f58f30e06a33268094a72b59e23ce383082",
+        "premiumFeatures": [
+            {
+                "endDate": "2022-08-30 23:10",
+                "featureId": "NF000001",
+                "featureName": "",
+                "startDate": "2022-07-31 23:10"
+            },
+            {
+                "endDate": "2022-10-10 23:10",
+                "featureId": "NF000002",
+                "featureName": "",
+                "startDate": "2022-09-10 23:10"
+            },
+            {
+                "endDate": "2022-09-11 23:10",
+                "featureId": "FIDNFT0001",
+                "featureName": "NFT",
+                "startDate": "2022-09-10 23:10"
+            },
+            {
+                "endDate": "2023-06-30 23:10",
+                "featureId": "FIDAW0001",
+                "featureName": "hi",
+                "startDate": "2023-05-21 23:10"
+            },
+            {
+                "endDate": "2024-12-30 23:10",
+                "featureId": "FIDSUBSC001",
+                "featureName": "hi",
+                "startDate": "2023-12-01 23:10"
+            },
+            {
+                "endDate": "2024-12-30 23:10",
+                "featureId": "FIDAM001",
+                "featureName": "Affiliate mall",
+                "startDate": "2023-12-01 23:10"
+            }
+        ]
+    },
+    "updateSubscribedCardInfoInterval": 1
+}

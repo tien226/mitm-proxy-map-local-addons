@@ -1,0 +1,79 @@
+{
+    "clubDetail": {
+        "categoryCode": 1,
+        "categoryName": "test",
+        "clubDescription": "クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要クラブ概要",
+        "clubID": 2000905,
+        "clubImageUrl": "https://contents.dev.nudge-platform.com/club/2000905/card/img-2d4bcab5-9375-4262-aec0-5206f9f9450f.png",
+        "clubLimitNumber": 999999999,
+        "clubName": "new club クラブ名クラブ名クラブ名クラブ名クラEND",
+        "clubOwnerID": 0,
+        "clubOwnerImageUrl": "",
+        "clubOwnerName": "",
+        "clubParticipants": 0,
+        "formContent": "{\"description\":\"A Quan Test\",\"title\":\"Hello A\",\"questions\":[{\"id\":\"6d49377c-6487-4286-828d-a319d93822d4\",\"question\":\"Question 1\",\"order\":1,\"keyboardType\":\"text\",\"description\":\"Type input\",\"type\":\"input\",\"required\":false,\"answer\":\"1\"},{\"required\":false,\"question\":\"Question 2 \",\"keyboardType\":\"text\",\"order\":2,\"id\":\"6d4cd1df-c85c-4ba5-8866-0c60d2e7c912\",\"type\":\"textarea\",\"description\":\"Type textarea\",\"answer\":\"2\"},{\"order\":3,\"type\":\"address\",\"question\":\"Question 3\",\"id\":\"9af99529-6782-4436-9834-f5774342f24d\",\"required\":false,\"addressAnswer\":{\"city\":\"千代田区\",\"postalCode\":\"1000005\",\"town\":\"丸の内（次のビルを除く）\",\"prefecture\":\"東京都\"},\"description\":\"Type address\"},{\"question\":\"Question 4\",\"order\":4,\"answerComments\":[{\"optionId\":\"f831e6fb-c9f9-436b-a42d-a354b4db3a18\",\"commentValue\":\"1111\"}],\"id\":\"385330a3-5b79-40a4-a062-7d2d8b6bbd6e\",\"description\":\"Type radio\\/checkbox\",\"required\":false,\"answers\":[\"f831e6fb-c9f9-436b-a42d-a354b4db3a18\"],\"options\":[{\"order\":1,\"allowComment\":true,\"id\":\"f831e6fb-c9f9-436b-a42d-a354b4db3a18\",\"value\":\"OP 1\",\"commentPlaceholder\":\"111\"},{\"value\":\"Op 2\",\"id\":\"d8ff0236-ba89-47f7-801f-557ba0ec0b45\",\"commentPlaceholder\":\"\",\"allowComment\":false,\"order\":2}],\"type\":\"checkbox\"}]}",
+        "coverImageUrl": "https://contents.dev.nudge-platform.com/club/2000905/cover/img-a815b02c-ecab-466e-83ba-0bc61d96e235.png",
+        "physicalCardDesigns": [
+            {
+                "backDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2000905/physical-card/4000514/img-b9b5a852-0696-47e7-81e1-1299afe1fae9.png",
+                "designID": 4000514,
+                "designImageUrl": "https://contents.dev.nudge-platform.com/club/2000905/physical-card/4000514/img-7b7587dc-fb61-466c-b470-019913775786.png",
+                "designName": "card 1 202402016",
+                "distributionEndDate": 99991231,
+                "distributionEndTime": "23:59:59",
+                "distributionStartDate": 20240216,
+                "distributionStartTime": "00:00:00",
+                "frontDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2000905/physical-card/4000514/img-22862532-1fb9-4bdf-b602-3dd82f4356b6.png",
+                "issuanceCost": 50
+            }
+        ],
+        "releaseEndDate": 99991231,
+        "releaseEndTime": "23:59:59",
+        "releaseStartDate": 20240216,
+        "releaseStartTime": "00:00:00",
+        "releaseStatus": "0",
+        "rewards": [],
+        "themeColor": "#0F1F4D"
+    },
+    "commonDesigns": [
+        {
+            "backDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000001/img-4a9a6cff-aec2-47d3-914c-6a3a56f41e86.png",
+            "designColor": "#0F1F4D",
+            "designID": 4000001,
+            "designImageUrl": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000001/img-b20c6538-8511-4007-822e-070d74a369f5.png",
+            "designName": "Nudge Navy",
+            "distributionEndDate": 99991231,
+            "distributionEndTime": "23:59:59",
+            "distributionStartDate": 20210723,
+            "distributionStartTime": "00:00:00",
+            "frontDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000001/img-61de99c0-a9fc-4c2e-a66f-2453f086554c.png",
+            "issuanceCost": 1000
+        },
+        {
+            "backDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000003/img-372bee47-bea8-4ee2-afeb-7104b3496d5a.png",
+            "designColor": "#FF968A",
+            "designID": 4000003,
+            "designImageUrl": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000003/img-4b5d872f-330d-4035-bf5d-c552514a0f2a.png",
+            "designName": "Nudge Pink",
+            "distributionEndDate": 99991231,
+            "distributionEndTime": "23:59:59",
+            "distributionStartDate": 20210723,
+            "distributionStartTime": "00:00:00",
+            "frontDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000003/img-e373d28e-d30f-423c-9266-cc3f1fc44b2e.png",
+            "issuanceCost": 1000
+        },
+        {
+            "backDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000002/img-ed563078-1ec5-489f-8a02-daea1070890c.png",
+            "designColor": "#9FA1A0",
+            "designID": 4000002,
+            "designImageUrl": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000002/img-77a3f164-40bb-4b58-af72-02b62314c831.png",
+            "designName": "Nudge Gray",
+            "distributionEndDate": 99991231,
+            "distributionEndTime": "23:59:59",
+            "distributionStartDate": 20210723,
+            "distributionStartTime": "00:00:00",
+            "frontDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000002/img-e6b1a3a9-dfd9-40c5-a6bf-4b593fbd795e.png",
+            "issuanceCost": 1000
+        }
+    ]
+}

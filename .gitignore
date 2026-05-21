@@ -1,0 +1,8 @@
+.venv/
+.mitmweb.log
+.flow-cache/
+app/desktop/node_modules/
+app/backend/static/
+__pycache__/
+*.pyc
+.DS_Store

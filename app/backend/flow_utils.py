@@ -1,0 +1,66 @@
+"""Normalize mitmproxy 12 flow JSON for the TFT Proxy UI."""
+
+from typing import Any, Dict, List, Optional
+
+
+def build_pretty_url(request: Dict[str, Any]) -> str:
+    scheme = request.get("scheme") or "https"
+    host = request.get("host") or ""
+    port = request.get("port")
+    path = request.get("path") or "/"
+    url = f"{scheme}://{host}"
+    if port and port not in (80, 443):
+        url = f"{url}:{port}"
+    if not path.startswith("/"):
+        path = f"/{path}"
+    return f"{url}{path}"
+
+
+def has_map_local_header(headers: Optional[List[Any]]) -> bool:
+    if not headers:
+        return False
+    for header in headers:
+        if isinstance(header, (list, tuple)) and len(header) >= 2:
+            name = str(header[0]).lower()
+            if name == "x-map-local":
+                return True
+    return False
+
+
+def compute_duration_ms(request: Dict[str, Any], response: Optional[Dict[str, Any]]) -> Optional[float]:
+    if response is None:
+        return None
+    request_start = request.get("timestamp_start")
+    response_end = response.get("timestamp_end")
+    if request_start is None or response_end is None:
+        return None
+    try:
+        return (float(response_end) - float(request_start)) * 1000.0
+    except (TypeError, ValueError):
+        return None
+
+
+def normalize_flow(flow: Dict[str, Any]) -> Dict[str, Any]:
+    request = dict(flow.get("request") or {})
+    response = flow.get("response")
+    request["pretty_url"] = build_pretty_url(request)
+    map_local = False
+    if response:
+        map_local = has_map_local_header(response.get("headers"))
+    normalized = dict(flow)
+    normalized["request"] = request
+    if response:
+        normalized["response"] = dict(response)
+    normalized["metadata"] = {"map_local": "true" if map_local else "false"}
+    duration_ms = compute_duration_ms(request, normalized.get("response"))
+    if duration_ms is not None:
+        normalized["duration_ms"] = round(duration_ms, 2)
+    if "timestamp_created" in flow:
+        normalized["timestamp_created"] = flow["timestamp_created"]
+    if "client_conn" in flow:
+        normalized["client_conn"] = flow["client_conn"]
+    return normalized
+
+
+def normalize_flows(flows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    return [normalize_flow(flow) for flow in flows]

@@ -1,0 +1,388 @@
+{
+    " androidDeleteClipboardSeconds": 300,
+    "485bc03e-e37d-4fd6-aee8-fca8e58fd94f": {},
+    "4bd1b006-4b55-401c-920d-813fd3e2e89d": null,
+    "90e1a9be-ce0f-4f55-9bae-d4f29cd31c01": [
+        "Ford",
+        "BMW",
+        "Fiat"
+    ],
+    "Created config on 16.June": "string_vaue",
+    "New field for Nudge": "Version #13",
+    "Test from giang": "abcd",
+    "atmRepaymentFee": {
+        "aboutUrl": "https://nudgehelp.freshdesk.com/a/solutions/articles/65000186444",
+        "description": "手数料は入金額によって変わります。\n¥1〜¥10,000の場合：¥110\n¥10,001以上の場合：¥220",
+        "enableFlag": "1",
+        "newKey": "vvalue"
+    },
+    "balanceCacheThresholdSeconds": 60,
+    "card": {
+        "design": {
+            "lightSweepAnimationConfig": {
+                "duration": 5000,
+                "initialDelay": 500,
+                "repeatDelay": 0
+            }
+        }
+    },
+    "changePaymentMethodDetailsLink": "https://help.nudge.works/support/solutions/articles/65000174796",
+    "changePaymentMethodScreenContent": "<p>Nudgeでは以下の2つのご返済方法をご用意しております。</p><p>※それぞれのご返済方法についての詳細は、<a href='https://help.nudge.works/support/solutions/articles/65000174796' target='_blank'>こちら</a>をご覧ください。</p><br><p>1️⃣いつでも好きなだけ返済</p><p>■返済方法</p><p>①セブン銀行ATMからの入金</p><p>または</p><p>②返済用口座への銀行振</p><br><p>2️⃣月1回おまとめ払い(口座自動引き落とし)</p><p>■返済方法</p><p>③自動で設定口座へ引落しを実行</p><br/><p>【ご注意事項】</p><p>・①②はお客様ご自身で返済をする方法です。</p><p>　ご返済は柔軟に行うことはできますが、ご返済忘れにご注意ください。</p><p>・③は一度設定いただければ、翌月より自動で引落しが実行されます。</p><p>※返済を忘れてしまうことが心配な場合や、ご自身での返済がお手間な場合は、ぜひ③口座自動引落しをご利用ください。</p>",
+    "claimedCategories": [
+        {
+            "targetItemType": "11",
+            "targetName": "ガチャ"
+        },
+        {
+            "targetItemType": "4",
+            "targetName": "画像"
+        },
+        {
+            "targetItemType": "5",
+            "targetName": "音声"
+        },
+        {
+            "targetItemType": "6",
+            "targetName": "動画"
+        },
+        {
+            "targetItemType": "8",
+            "targetName": "NFT"
+        },
+        {
+            "targetItemType": "3",
+            "targetName": "クーポン"
+        },
+        {
+            "targetItemType": "7",
+            "targetName": "フォーム"
+        }
+    ],
+    "club_card_design_id_display_settings": [],
+    "credit_limit_guide_url": "https://help.nudge.works/ja-JP/support/solutions/articles/65000189191",
+    "credit_limit_range": "0-999999999",
+    "credit_limit_request_cycle": 0,
+    "customCardMaxZoomScale": 5,
+    "customCardMinZoomScale": 0.2,
+    "customCardZoomRestrictionFactor": 1,
+    "differentAddressInfoUrl": "https://help.nudge.works/ja-JP/support/solutions/articles/65000190071",
+    "differentUsageAndBillingMonthUrl": "https://help.nudge.works/support/solutions/articles/65000190164",
+    "enShAd": true,
+    "historyInquiryHistoryFromTis": [
+        {
+            "cardID": "",
+            "historyInquies": [
+                {
+                    "activityType": "28",
+                    "atmFee": 0,
+                    "authNo": "      ",
+                    "chbillCcy": null,
+                    "remarks": "VC",
+                    "settleStatus": "0",
+                    "tranAmt": 1,
+                    "tranAmtChbillCcy": null,
+                    "tranCcy": "JPY",
+                    "tranDate": "20250514",
+                    "tranDesc": "REISSUE_CARD_CANCEL",
+                    "tranFee": 0,
+                    "tranFeeChbillCcy": null,
+                    "transactionType": "N",
+                    "xchgFee": 0,
+                    "xchgRate": null
+                }
+            ]
+        }
+    ],
+    "isShowChangePaymentMethodScreen": true,
+    "issue_month_count": 3,
+    "limitedTimeRewardEndWarningDays": 3,
+    "mallConfigs": {
+        "generalConfig": {
+            "biometricIntervalMinutes": 1,
+            "hideCardInfoSeconds": 1
+        },
+        "malls": [
+            {
+                "checkoutPage": {
+                    "cardCVVId": "SafeInput",
+                    "cardExpirationId": "splitCardExpiration",
+                    "cardNumberId": "splitCardNo",
+                    "path": "bgt_order_checkout"
+                },
+                "customUserAgent": "",
+                "domain": "temu.com",
+                "id": "temu",
+                "popupConfirmMessage": "Do you want to fill your card information automatically?",
+                "popupConfirmTitle": "Nudge"
+            },
+            {
+                "checkoutPage": {
+                    "cardCVVId": "",
+                    "cardExpirationId": "",
+                    "cardNumberId": "",
+                    "path": ""
+                },
+                "customUserAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
+                "domain": "qoo10.jp",
+                "id": "qoo10",
+                "popupConfirmMessage": "Do you want to fill your card information automatically?",
+                "popupConfirmTitle": "Nudge"
+            }
+        ]
+    },
+    "maxSelectedRegistrationDesign": 5,
+    "maxSelectedReissuanceDesign": 5,
+    "nftBenefitLimit": 5,
+    "nftQrCodeBaseUrl": "https://appconfig.dev.nudge-platform.com/qr/nft_qr_scan.html",
+    "nft_benefit_limit": 10,
+    "notice_mark_as_read_condition": {
+        "interval_in_minute": 10
+    },
+    "nudge_club_project_config": [
+        {
+            "clubID": 2000922,
+            "target_description": "決済額の一部がプロジェクトの支援に使われます。",
+            "target_items": [
+                {
+                    "amount": 1000,
+                    "image": "https://contents.dev.nudge-platform.com/club/2000195/cover/yurikachanx100.png"
+                }
+            ],
+            "target_raised_amount_label": "現在の本数は",
+            "target_title": "ナッジの森に木を植えよう🌳",
+            "target_total_amount": 0,
+            "target_total_amount_label": "",
+            "target_type": 0,
+            "target_unit": "個"
+        },
+        {
+            "clubID": 2000298,
+            "target_description": "",
+            "target_items": [],
+            "target_raised_amount_label": "支援総額",
+            "target_title": "支援総額100万円でクラブ会員限定イベント開催！",
+            "target_total_amount": 70000,
+            "target_total_amount_label": "目標支援額",
+            "target_type": 1,
+            "target_unit": ""
+        },
+        {
+            "clubID": 2000376,
+            "target_description": "内容",
+            "target_items": [
+                {
+                    "amount": 8000,
+                    "image": "https://i.ibb.co/TqYwHpJ/treex100.png"
+                },
+                {
+                    "amount": 800,
+                    "image": "https://i.ibb.co/4TnChFm/treex10.png"
+                },
+                {
+                    "amount": 80,
+                    "image": "https://i.ibb.co/Cs1R5d1/tree.png"
+                }
+            ],
+            "target_raised_amount_label": "現在の枚数",
+            "target_title": "レジ袋を集めろう！",
+            "target_total_amount": 0,
+            "target_total_amount_label": "",
+            "target_type": 0,
+            "target_unit": "枚"
+        },
+        {
+            "clubID": 2000375,
+            "target_description": "内容",
+            "target_items": [
+                {
+                    "amount": 8000,
+                    "image": "https://i.ibb.co/TqYwHpJ/treex100.png"
+                },
+                {
+                    "amount": 800,
+                    "image": "https://i.ibb.co/4TnChFm/treex10.png"
+                },
+                {
+                    "amount": 80,
+                    "image": "https://i.ibb.co/Cs1R5d1/tree.png"
+                }
+            ],
+            "target_raised_amount_label": "現在の枚数",
+            "target_title": "レジ袋を集めろう！",
+            "target_total_amount": 0,
+            "target_total_amount_label": "",
+            "target_type": 0,
+            "target_unit": "枚"
+        },
+        {
+            "clubID": 2000001,
+            "target_description": "内容",
+            "target_items": [
+                {
+                    "amount": 8000,
+                    "image": "https://i.ibb.co/TqYwHpJ/treex100.png"
+                },
+                {
+                    "amount": 800,
+                    "image": "https://i.ibb.co/4TnChFm/treex10.png"
+                },
+                {
+                    "amount": 80,
+                    "image": "https://i.ibb.co/Cs1R5d1/tree.png"
+                }
+            ],
+            "target_raised_amount_label": "現在の枚数",
+            "target_title": "レジ袋を集めろう！",
+            "target_total_amount": 0,
+            "target_total_amount_label": "",
+            "target_type": 0,
+            "target_unit": "枚"
+        }
+    ],
+    "nudge_white_list": [
+        "https://www.techtarget.com/whatis/definition/audio",
+        "techtarget.com",
+        "*.freshdesk.com",
+        "*.works",
+        "youtube.com",
+        "youtu.be",
+        "notion.so",
+        "nudgeworks.notion.site",
+        "forms.gle",
+        "pkg.navitime.co.jp",
+        "technology-p.com",
+        "go-candeohotels.reservation.jp",
+        "ksbd.net",
+        "rocinantes.org",
+        "ashinaga.org",
+        "ashinaga.us4.list-manage.com",
+        "bit.ly",
+        "line.me",
+        "zutool.jp",
+        "kddi-povo.app.link",
+        "nudge.cards",
+        "gift.starbucks.co.jp",
+        "povo.jp",
+        "*.net",
+        "temu.com",
+        "blog.cleancoder.com",
+        "*.co.jp",
+        "*.google.com",
+        "google.com",
+        "sampledomain.com",
+        "kenh14.com"
+    ],
+    "occupation_club_mappings": [
+        {
+            "club_ids": [
+                2001027,
+                2001028,
+                2001002
+            ],
+            "occupation_code": "11"
+        },
+        {
+            "club_ids": [
+                2001002
+            ],
+            "occupation_code": "07"
+        }
+    ],
+    "payment_push_setting": {
+        "content": "{{merchant_info}}{{payment_amount_info}}",
+        "content_html": "{{merchant_info_html}}{{payment_amount_info_html}}",
+        "cta_button_text": "決済",
+        "cta_screen_id": "NM010801",
+        "merchant_info": "加盟店：{{merchant_name}}",
+        "merchant_info_html": "<p>加盟店：{{merchant_name}}</p>",
+        "payment_amount_info": "決済金額：￥{{amount}}",
+        "payment_amount_info_html": "<p>決済金額：￥{{amount}}</p>",
+        "sns_share_flag": true,
+        "sns_share_hashtag": "#Nudge #ナッジカード #Nudgeカードで決済しました",
+        "title": "🛍️  決済しました（速報）"
+    },
+    "physical_card_design_settings": [],
+    "physical_design_distribution_month_count": 1,
+    "premium_features": {
+        "premiumActivateCode": "b515209b0c265e76f17fb4795cbf5f58f30e06a33268094a72b59e23ce383082",
+        "premiumFeatures": [
+            {
+                "endDate": "2022-08-30 23:10",
+                "featureId": "NF000001",
+                "featureName": "",
+                "startDate": "2022-07-31 23:10"
+            },
+            {
+                "endDate": "2022-10-10 23:10",
+                "featureId": "NF000002",
+                "featureName": "",
+                "startDate": "2022-09-10 23:10"
+            },
+            {
+                "endDate": "2024-12-31 10:00",
+                "featureId": "FIDNFT0001",
+                "featureName": "NFT",
+                "startDate": "2022-12-01 00:00"
+            },
+            {
+                "endDate": "2024-07-11 09:50",
+                "featureId": "FIDAW0001",
+                "featureName": "Automatic Withdrawal",
+                "startDate": "2023-05-21 23:10"
+            },
+            {
+                "endDate": "2024-05-31 17:00",
+                "featureId": "FIDSUBSC001",
+                "featureName": "Subscription",
+                "startDate": "2024-02-27 00:00"
+            },
+            {
+                "endDate": "2024-12-31 10:30",
+                "featureId": "FIDAM001",
+                "featureName": "Affiliate mall",
+                "startDate": "2024-04-10 23:10"
+            },
+            {
+                "endDate": "2026-05-30 10:30",
+                "featureId": "FIDCRUP001",
+                "featureName": "Increase Credit Limit",
+                "startDate": "2025-05-15 23:10"
+            }
+        ]
+    },
+    "pushNotiSettingPopupLimit": 100,
+    "pushNotiSettingPopupMinInterval": 0,
+    "realCardDetailSupportUrl": "https://help.nudge.works/ja-JP/support/solutions/articles/65000190395",
+    "realCardSliderSupportUrl": "https://help.nudge.works/ja-JP/support/solutions/articles/65000190395",
+    "settlementDataArrivalTimeNoteUrl": "https://help.nudge.works/support/solutions/articles/65000174790",
+    "simplifiedRegisteredMailUrl": "https://help.nudge.works/ja-JP/support/solutions/articles/65000189902",
+    "subscriptionsBenefitLimit": 10,
+    "test 1 string": "test 1 string",
+    "test impact": [
+        {
+            "0.1": 1,
+            "0.2": 2,
+            "0.3": 3
+        },
+        {
+            "1.1": "item 1.1",
+            "1.2": "item 1.2",
+            "1.3": "item 1.3",
+            "1.4": "item 1.4"
+        },
+        {
+            "2.1": 2.1,
+            "2.2": 2.2,
+            "2.3": [
+                1,
+                2,
+                3
+            ],
+            "2.4": "1,2 mixed between text and number",
+            "2.5": "added more"
+        }
+    ],
+    "test int": 10,
+    "test null": null,
+    "test string": "<h1>返済方法のご選択</h1><p>Nudgeでは以下の2つのご返済方法をご用意しております。</p><p>※それぞれのご返済方法についての詳細は、<a href='https://help.nudge.works/support/solutions/articles/65000174796'>こちら</a>をご覧ください。</p><h2>1)いつでも好きなだけ返済</h2><p>■返済方法</p><p>①セブン銀行ATMからの入金</p><p>または</p><p>②返済用口座への銀行振込</p><h2>2）月1回おまとめ払い(口座自動引き落とし)</h2><p>■返済方法</p><p>③自動で設定口座へ引落しを実行</p><h3>【ご注意事項】</h3><p>・①②はお客様ご自身で返済をする方法です。</p><p>ご返済は柔軟に行うことはできますが、ご返済忘れにご注意ください。</p><p>・③は一度設定いただければ、翌月より自動で引落しが実行されます。</p><p>※返済を忘れてしまうことが心配な場合や、ご自身での返済がお手間な場合は、ぜひ③口座自動引落しをご利用ください。a</p>"
+}

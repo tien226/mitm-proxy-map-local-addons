@@ -1,0 +1,36 @@
+{
+  "clubID": 2001091,
+  "clubName": "Da Club",
+  "contractOrganizationID": 3,
+  "contractOrganizationName": "Nudge ONLY Test Org",
+  "memberImageUrl": "",
+  "themeColor": "#214D0F",
+  "showRewardRequestForm": false,
+  "rewardRequestFormAltText": "",
+  "nextReward": {
+    "remainingAmountToReward": 123,
+    "reward": {
+      "rewardID": 300003752,
+      "rewardName": "test totalOrder",
+      "clubID": 2001091,
+      "description": "",
+      "rewardImageUrl": "https://contents.dev.nudge-platform.com/club/2001091/reward/300003752/img-aab58390-c660-47ce-96e2-eaf42414d716.png",
+      "thumbnailImageUrl": "",
+      "rewardDownloadUrl": "",
+      "rewardType": "1",
+      "createdBy": "",
+      "shipmentSource": "",
+      "achieveAmount": 123,
+      "distributionStatus": "0",
+      "distributionStartDate": 20260330,
+      "distributionStartTime": "000000",
+      "distributionEndDate": 99991231,
+      "distributionEndTime": "235959",
+      "totalOrder": 3,
+      "limitEditionFlag": "",
+      "formContent": "",
+      "rewardAchieveFlag": "0",
+      "hideDisclaimer": false
+    }
+  }
+}

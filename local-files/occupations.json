@@ -1,0 +1,408 @@
+{
+    "occupations": [
+        {
+            "occupationID": "01",
+            "sectionID": 1,
+            "title": "Personal Details",
+            "description": "<p><span><span>This section helps us understand basic information about you so we can personalize your experience and ensure eligibility where required.</span></span></p>",
+            "questions": [
+                {
+                    "id": "e0464998-2bdb-43bb-9b05-0d4a12b2fd64",
+                    "order": 0,
+                    "type": "select",
+                    "required": false,
+                    "question": "What is your gender?",
+                    "expanded": false,
+                    "description": "Your gender",
+                    "questionImageUrl": "",
+                    "questionImageFileName": "",
+                    "placeholder": "placeholder",
+                    "answer": "02",
+                    "options": [
+                        {
+                            "id": "4e869ec6-42e5-4787-b300-ce626005e1da",
+                            "order": 0,
+                            "value": "Male",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "921196af-5a9d-44e8-966f-a0c956277e8b",
+                            "order": 1,
+                            "value": "Female",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "isOccupation": false
+                },
+                {
+                    "id": "21728423-232b-44a3-912f-3c08177cb851",
+                    "order": 2,
+                    "type": "input",
+                    "required": true,
+                    "question": "勤務先名",
+                    "expanded": false,
+                    "description": "",
+                    "options": [],
+                    "keyboardType": "text",
+                    "answer": "answer",
+                    "answerComments": [],
+                    "isOccupation": false
+                },
+                {
+                    "id": "0dc0bf2a-d6c4-4928-ae83-974e392e7152",
+                    "order": 3,
+                    "type": "select",
+                    "required": false,
+                    "question": "What is your preferred language?",
+                    "expanded": false,
+                    "description": "Your preferred language",
+                    "questionImageUrl": "https://contents.dev.nudge-platform.com/notification/10000006446/img-f515bea2-270d-466c-b9b3-7a06e255bc7d.png",
+                    "questionImageFileName": "download.jpeg",
+                    "placeholder": "placeholder",
+                    "options": [
+                        {
+                            "id": "4efa549e-8a08-43bc-96ec-abfb5c4074fe",
+                            "order": 0,
+                            "value": "English",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "9872ef0c-a98a-4240-81a5-100d65b731fa",
+                            "order": 1,
+                            "value": "Japanese",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "900a1f3b-3d4e-477a-a3c2-252c1e165495",
+                            "order": 2,
+                            "value": "Vietnamese",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "answer": "",
+                    "answerComments": [],
+                    "isOccupation": false
+                }
+            ]
+        },
+        {
+            "occupationID": "02",
+            "sectionID": 1,
+            "title": "Personal Details",
+            "description": "<p><span><span>This section helps us understand basic information about you so we can personalize your experience and ensure eligibility where required.</span></span></p>",
+            "questions": [
+                {
+                    "id": "21728423-232b-44a3-912f-3c08177cb851",
+                    "order": 2,
+                    "type": "input",
+                    "required": true,
+                    "question": "勤務先名",
+                    "expanded": false,
+                    "description": "",
+                    "options": [],
+                    "keyboardType": "text",
+                    "answer": "1241",
+                    "answerComments": [],
+                    "isOccupation": false
+                }
+            ]
+        },
+        {
+            "occupationID": "03",
+            "sectionID": 1,
+            "title": "Personal Details",
+            "description": "<p><span><span>This section helps us understand basic information about you so we can personalize your experience and ensure eligibility where required.</span></span></p>",
+            "questions": [
+                {
+                    "id": "21728423-232b-44a3-912f-3c08177cb851",
+                    "order": 2,
+                    "type": "input",
+                    "required": true,
+                    "question": "勤務先名",
+                    "expanded": false,
+                    "description": "",
+                    "options": [],
+                    "keyboardType": "text",
+                    "answer": "1241",
+                    "answerComments": [],
+                    "isOccupation": false
+                }
+            ]
+        },
+        {
+            "occupationID": "04",
+            "sectionID": 1,
+            "title": "Personal Details",
+            "description": "<p><span><span>This section helps us understand basic information about you so we can personalize your experience and ensure eligibility where required.</span></span></p>",
+            "questions": [
+                {
+                    "id": "21728423-232b-44a3-912f-3c08177cb851",
+                    "order": 2,
+                    "type": "input",
+                    "required": true,
+                    "question": "勤務先名",
+                    "expanded": false,
+                    "description": "",
+                    "options": [],
+                    "keyboardType": "text",
+                    "answer": "1241",
+                    "answerComments": [],
+                    "isOccupation": false
+                }
+            ]
+        },
+        {
+            "occupationID": "05",
+            "sectionID": 1,
+            "title": "Personal Details",
+            "description": "<p><span><span>This section helps us understand basic information about you so we can personalize your experience and ensure eligibility where required.</span></span></p>",
+            "questions": [
+                {
+                    "id": "21728423-232b-44a3-912f-3c08177cb851",
+                    "order": 2,
+                    "type": "input",
+                    "required": true,
+                    "question": "勤務先名",
+                    "expanded": false,
+                    "description": "",
+                    "options": [],
+                    "keyboardType": "text",
+                    "answer": "1241",
+                    "answerComments": [],
+                    "isOccupation": false
+                }
+            ]
+        },
+        {
+            "occupationID": "06",
+            "sectionID": 1,
+            "title": "Personal Details",
+            "description": "<p><span><span>This section helps us understand basic information about you so we can personalize your experience and ensure eligibility where required.</span></span></p>",
+            "questions": [
+                {
+                    "id": "21728423-232b-44a3-912f-3c08177cb851",
+                    "order": 2,
+                    "type": "input",
+                    "required": true,
+                    "question": "勤務先名",
+                    "expanded": false,
+                    "description": "",
+                    "options": [],
+                    "keyboardType": "text",
+                    "answer": "1241",
+                    "answerComments": [],
+                    "isOccupation": false
+                }
+            ]
+        },
+        {
+            "occupationID": "07",
+            "sectionID": 1,
+            "title": "Personal Details",
+            "description": "<p><span><span>This section helps us understand basic information about you so we can personalize your experience and ensure eligibility where required.</span></span></p>",
+            "questions": [
+                {
+                    "id": "e0464998-2bdb-43bb-9b05-0d4a12b2fd64",
+                    "order": 0,
+                    "type": "select",
+                    "required": false,
+                    "question": "What is your gender?",
+                    "expanded": false,
+                    "description": "Your gender",
+                    "questionImageUrl": "",
+                    "questionImageFileName": "",
+                    "placeholder": "placeholder",
+                    "options": [
+                        {
+                            "id": "4e869ec6-42e5-4787-b300-ce626005e1da",
+                            "order": 0,
+                            "value": "Male",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "921196af-5a9d-44e8-966f-a0c956277e8b",
+                            "order": 1,
+                            "value": "Female",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "isOccupation": false
+                },
+                {
+                    "id": "0cbe6f92-e701-49be-bfae-accb391ed388",
+                    "order": 1,
+                    "type": "input",
+                    "required": false,
+                    "question": "PHA+aGVsbG8gd29ybGQ8L3A+",
+                    "expanded": false,
+                    "description": "PHA+aGVsbG8gd29ybGQ8L3A+",
+                    "questionImageUrl": "https://contents.dev.nudge-platform.com/notification/10000006446/img-f515bea2-270d-466c-b9b3-7a06e255bc7d.png",
+                    "questionImageFileName": "download.jpeg",
+                    "placeholder": "placeholder",
+                    "options": [
+                        {
+                            "id": "0d025aae-4037-425f-a58c-a69708a5749d",
+                            "order": 0,
+                            "value": "オプション値 1",
+                            "allowComment": false,
+                            "answerImageUrl": "https://contents.dev.nudge-platform.com/notification/10000006446/img-c801bc05-4326-4ef3-a54d-344d5599bed6.png",
+                            "answerImageFileName": "download456.jpeg"
+                        },
+                        {
+                            "id": "a7ca04ad-e5ff-4f90-91d9-881821d8d16a",
+                            "order": 1,
+                            "value": "オプション値 2",
+                            "allowComment": false,
+                            "answerImageUrl": "https://contents.dev.nudge-platform.com/notification/10000006446/img-c25511b9-c826-473d-85a4-feba859ccc9c.png",
+                            "answerImageFileName": "download123.jpeg"
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "isOccupation": false
+                },
+                {
+                    "id": "21728423-232b-44a3-912f-3c08177cb851",
+                    "order": 2,
+                    "type": "input",
+                    "required": true,
+                    "question": "勤務先名",
+                    "expanded": false,
+                    "description": "",
+                    "options": [],
+                    "keyboardType": "text",
+                    "answer": "1241",
+                    "answerComments": [],
+                    "isOccupation": false
+                },
+                {
+                    "id": "0dc0bf2a-d6c4-4928-ae83-974e392e7152",
+                    "order": 3,
+                    "type": "select",
+                    "required": false,
+                    "question": "What is your preferred language?",
+                    "expanded": false,
+                    "description": "Your preferred language",
+                    "questionImageUrl": "https://contents.dev.nudge-platform.com/notification/10000006446/img-f515bea2-270d-466c-b9b3-7a06e255bc7d.png",
+                    "questionImageFileName": "download.jpeg",
+                    "placeholder": "placeholder",
+                    "options": [
+                        {
+                            "id": "4efa549e-8a08-43bc-96ec-abfb5c4074fe",
+                            "order": 0,
+                            "value": "English",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "9872ef0c-a98a-4240-81a5-100d65b731fa",
+                            "order": 1,
+                            "value": "Japanese",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "900a1f3b-3d4e-477a-a3c2-252c1e165495",
+                            "order": 2,
+                            "value": "Vietnamese",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "answer": "",
+                    "answerComments": [],
+                    "isOccupation": false
+                }
+            ]
+        },
+        {
+            "occupationID": "11",
+            "sectionID": 1,
+            "title": "Personal Details",
+            "description": "<p><span><span>This section helps us understand basic information about you so we can personalize your experience and ensure eligibility where required.</span></span></p>",
+            "questions": [
+                {
+                    "id": "0cbe6f92-e701-49be-bfae-accb391ed388",
+                    "order": 1,
+                    "type": "input",
+                    "required": false,
+                    "question": "PHA+aGVsbG8gd29ybGQ8L3A+",
+                    "expanded": false,
+                    "description": "PHA+aGVsbG8gd29ybGQ8L3A+",
+                    "questionImageUrl": "https://contents.dev.nudge-platform.com/notification/10000006446/img-f515bea2-270d-466c-b9b3-7a06e255bc7d.png",
+                    "questionImageFileName": "download.jpeg",
+                    "placeholder": "placeholder",
+                    "options": [
+                        {
+                            "id": "0d025aae-4037-425f-a58c-a69708a5749d",
+                            "order": 0,
+                            "value": "オプション値 1",
+                            "allowComment": false,
+                            "answerImageUrl": "https://contents.dev.nudge-platform.com/notification/10000006446/img-c801bc05-4326-4ef3-a54d-344d5599bed6.png",
+                            "answerImageFileName": "download456.jpeg"
+                        },
+                        {
+                            "id": "a7ca04ad-e5ff-4f90-91d9-881821d8d16a",
+                            "order": 1,
+                            "value": "オプション値 2",
+                            "allowComment": false,
+                            "answerImageUrl": "https://contents.dev.nudge-platform.com/notification/10000006446/img-c25511b9-c826-473d-85a4-feba859ccc9c.png",
+                            "answerImageFileName": "download123.jpeg"
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "isOccupation": false
+                },
+                {
+                    "id": "0dc0bf2a-d6c4-4928-ae83-974e392e7152",
+                    "order": 3,
+                    "type": "select",
+                    "required": false,
+                    "question": "What is your preferred language?",
+                    "expanded": false,
+                    "description": "Your preferred language",
+                    "questionImageUrl": "https://contents.dev.nudge-platform.com/notification/10000006446/img-f515bea2-270d-466c-b9b3-7a06e255bc7d.png",
+                    "questionImageFileName": "download.jpeg",
+                    "placeholder": "placeholder",
+                    "options": [
+                        {
+                            "id": "4efa549e-8a08-43bc-96ec-abfb5c4074fe",
+                            "order": 0,
+                            "value": "English",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "9872ef0c-a98a-4240-81a5-100d65b731fa",
+                            "order": 1,
+                            "value": "Japanese",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "900a1f3b-3d4e-477a-a3c2-252c1e165495",
+                            "order": 2,
+                            "value": "Vietnamese",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "answer": "",
+                    "answerComments": [],
+                    "isOccupation": false
+                }
+            ]
+        }
+    ]
+}

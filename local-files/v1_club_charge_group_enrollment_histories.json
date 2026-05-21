@@ -1,0 +1,17 @@
+{
+  "enrollmentHistoryList": [
+    {
+      "userID": "b4075ec1-8b44-422e-97e1-a0b72bbc5984",
+      "chargeGroupID": 2,
+      "serialNumber": 1,
+      "enrollmentDateTime": "2023-07-29 17:20:10",
+      "withdrawalDateTime": "2024-01-10 16:26:00",
+      "chargeStartDate": 20200101,
+      "chargeEndDate": 20220303,
+      "oneTimeAmount": 9000,
+      "amount": 10000,
+      "status": "98",
+      "enrollingFlag": "false"
+    }
+  ]
+}

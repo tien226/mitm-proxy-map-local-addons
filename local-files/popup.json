@@ -1,0 +1,22 @@
+{
+    "popups": [
+      {
+        "popupID": 600888,
+        "title": "Display on Home screen 1",
+        "content": "Description",
+        "contentHtml": "<p>Description</p>",
+        "imageUrl": "https://contents.dev.nudge-platform.com/popup/default/important.png",
+        "displayScreenID": "",
+        "ctaButtonText": "CTA button",
+        "ctaScreenID": "NM011702",
+        "ctaCategoryCode": "",
+        "ctaNoticeID": "",
+        "ctaUrl": "",
+        "ctaUrlHandler": "app",
+        "snsShareFlag": false,
+        "snsShareHashtag": "",
+        "canDismiss": true,
+        "ctaAffiliateMallID": 38
+      }
+    ]
+  }

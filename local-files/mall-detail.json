@@ -1,0 +1,21 @@
+{
+    "affiliateMallID": 38,
+    "cashbackDate": "",
+    "cashbackRate": "",
+    "coverImg": "",
+    "createdAt": "2024-04-11T19:17:00+09:00",
+    "description": "",
+    "fromDate": "2024-04-30T00:00:00+09:00",
+    "isDeleted": 0,
+    "mallName": "test アフィリエイト登録画面",
+    "nonTargetProduct": "",
+    "note": "",
+    "priorityOrder": 0,
+    "status": 0,
+    "targetProduct": "",
+    "title": "<p>testtest</p>",
+    "toDate": "2024-05-31T23:59:59+09:00",
+    "updatedAt": "2024-04-12T15:33:53+09:00",
+    "url": "https://www.notion.so/",
+    "urlHandle": "app"
+}

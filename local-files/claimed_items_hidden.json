@@ -1,0 +1,37 @@
+{
+  "claimedItems": [
+    {
+      "claimedItemID": 102,
+      "targetItemType": "6",
+      "claimedItemDistributionType": "lottery",
+      "rewardID": 5002,
+      "achieveRewardMonth": 202510,
+      "timeLimitedAchievementHistoryID": 30002,
+      "warehouseItemID": 7002,
+      "thumbnailUrl": "https://example.com/thumb2.jpg",
+      "sampleImageUrl": "https://example.com/sample2.jpg",
+      "downloadUrl": "https://example.com/download/item2.mp4",
+      "description": "Reward item description 2",
+      "mediaItems": [
+        {
+          "description": "Teaser video",
+          "mediaUrl": "https://example.com/video1.mp4",
+          "thumbnailUrl": "https://example.com/video1_thumb.jpg",
+          "processedUrl": "https://example.com/video1_processed.mp4"
+        }
+      ],
+      "formContent": null,
+      "isDeadlineExceeded": true,
+      "formDeadline": "2025-08-31T23:59:59Z",
+      "consumableDeadline": "2025-09-15T23:59:59Z",
+      "formAnswer": "Yes, I agree",
+      "formAnsweredAt": "2025-08-15T12:00:00Z",
+      "hideMediaDisclaimer": true,
+      "hideFormDisclaimer": false,
+      "isUsed": true,
+      "usedAt": "2025-09-01T10:00:00Z",
+      "isFavorited": false,
+      "isHidden": true
+    }
+  ]
+}

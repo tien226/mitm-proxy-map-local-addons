@@ -1,0 +1,42 @@
+{
+    "banners": [
+        {
+      "bannerID": 100970,
+      "content": "<p>hẹ hẹ hẹ</p>",
+      "textColor": "#000000",
+      "backgroundColor": "#EEEEEE",
+      "imageUrl": "",
+      "ctaType": "url",
+      "ctaScreenID": "",
+      "ctaCategoryCode": "",
+      "ctaNoticeID": "",
+      "ctaAffiliateMallID": null,
+      "ctaAffiliateMallCategoryID": null,
+      "ctaUrl": "https://www.google.com/",
+      "ctaUrlHandler": "browser",
+      "displayScreenID": "NM010901",
+      "isRead": false,
+      "isCtaClicked": false,
+      "clubID": 2001052
+    },
+    {
+      "bannerID": 100970,
+      "content": "<p>hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ vv hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ v  hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ hẹ</p>",
+      "textColor": "#000000",
+      "backgroundColor": "#EEEEEE",
+      "imageUrl": "",
+      "ctaType": "url",
+      "ctaScreenID": "",
+      "ctaCategoryCode": "",
+      "ctaNoticeID": "",
+      "ctaAffiliateMallID": null,
+      "ctaAffiliateMallCategoryID": null,
+      "ctaUrl": "https://www.google.com/",
+      "ctaUrlHandler": "browser",
+      "displayScreenID": "NM010901",
+      "isRead": false,
+      "isCtaClicked": false,
+      "clubID": 2001052
+    }
+    ]
+}

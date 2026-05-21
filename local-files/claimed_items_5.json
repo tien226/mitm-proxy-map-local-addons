@@ -1,0 +1,76 @@
+{
+  "claimedItems": [
+    {
+      "claimedItemID": 500,
+      "claimedItemType": "5",
+      "claimedItemDistributionType": "direct",
+      "rewardID": 5001,
+      "achieveRewardMonth": 202509,
+      "timeLimitedAchievementHistoryID": 30001,
+      "warehouseItemID": 7001,
+      "thumbnailUrl": "https://example.com/thumb1.jpg",
+      "imageUrl": "https://contents.dev.nudge-platform.com/club/2000195/reward/300001864/img-dd730016-98ae-4dc6-b683-d579d9eee5a9.png",
+      "downloadUrl": "https://example.com/download/item1.zip",
+      "description": "Reward item description 1",
+      "mediaItems": [
+        {
+          "caption": "Main banner",
+          "mediaUrl": "https://contents.dev.nudge-platform.com/reward-for-download/300002216/file-8a01d55a-72ff-4565-a47e-5c6ea316d7c9-2000195_300002216_19253bef-04f0-46ad-8f82-a731a6a67de0_I-love-her-first.mp3",
+          "thumbnailUrl": "https://example.com/media1_thumb.jpg",
+          "processedUrl": "https://example.com/media1_processed.jpg"
+        },
+        {
+          "caption": "Detail image",
+          "mediaUrl": "https://example.com/media2.jpg",
+          "thumbnailUrl": "https://example.com/media2_thumb.jpg",
+          "processedUrl": "https://example.com/media2_processed.jpg"
+        }
+      ],
+      "formContent": "<p>Please fill this form</p>",
+      "isDeadlineExceeded": false,
+      "formDeadline": "2025-12-31T23:59:59Z",
+      "consumableDeadline": "2026-01-31T23:59:59Z",
+      "formAnswer": null,
+      "formAnsweredAt": null,
+      "hideMediaDisclaimer": false,
+      "hideFormDisclaimer": false,
+      "isUsed": false,
+      "usedAt": null,
+      "isFavorited": true,
+      "isHidden": false
+    },
+    {
+      "claimedItemID": 501,
+      "claimedItemType": "5",
+      "claimedItemDistributionType": "lottery",
+      "rewardID": 5002,
+      "achieveRewardMonth": 202510,
+      "timeLimitedAchievementHistoryID": 30002,
+      "warehouseItemID": 7002,
+      "thumbnailUrl": "https://example.com/thumb2.jpg",
+      "imageUrl": "https://example.com/sample2.jpg",
+      "downloadUrl": "https://example.com/download/item2.mp4",
+      "description": "Reward item description 2",
+      "mediaItems": [
+        {
+          "caption": "Teaser video",
+          "mediaUrl": "https://example.com/video1.mp4",
+          "thumbnailUrl": "https://example.com/video1_thumb.jpg",
+          "processedUrl": "https://example.com/video1_processed.mp4"
+        }
+      ],
+      "formContent": null,
+      "isDeadlineExceeded": true,
+      "formDeadline": "2025-08-31T23:59:59Z",
+      "consumableDeadline": "2025-09-15T23:59:59Z",
+      "formAnswer": "Yes, I agree",
+      "formAnsweredAt": "2025-08-15T12:00:00Z",
+      "hideMediaDisclaimer": true,
+      "hideFormDisclaimer": false,
+      "isUsed": true,
+      "usedAt": "2025-09-01T10:00:00Z",
+      "isFavorited": false,
+      "isHidden": false
+    }
+  ]
+}

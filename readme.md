@@ -2,6 +2,17 @@
 
 Easy map local for request with [mitmproxy](https://mitmproxy.org/)
 
+## TFT Proxy App (Proxyman-style UI)
+
+Use the visual app instead of editing `config.json` by hand:
+
+```bash
+chmod +x launch-app.sh open-proxy-app.sh
+./launch-app.sh
+```
+
+See **[APP_README.md](./APP_README.md)** for full guide.
+
 ## Installation
 
 ### Prerequisites

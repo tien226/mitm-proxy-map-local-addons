@@ -1,0 +1,61 @@
+{
+  "banners": [
+    {
+      "bannerID": 101302,
+      "content": "",
+      "textColor": "#000000",
+      "backgroundColor": "#EEEEEE",
+      "imageUrl": "https://contents.dev.nudge-platform.com/banner/101302/img-7d823a1f-da39-404f-85cf-1d3b6042ae99.png",
+      "ctaType": "screen",
+      "ctaScreenID": "NM011102",
+      "ctaCategoryCode": "",
+      "ctaNoticeID": "",
+      "ctaAffiliateMallID": null,
+      "ctaAffiliateMallCategoryID": null,
+      "ctaUrl": "",
+      "ctaUrlHandler": "app",
+      "displayScreenID": "NM011801",
+      "isRead": true,
+      "isCtaClicked": true,
+      "clubID": 2001092
+    },
+    {
+      "bannerID": 101378,
+      "content": "<p>Click here to notice details</p>",
+      "textColor": "#000000",
+      "backgroundColor": "#EEEEEE",
+      "imageUrl": "",
+      "ctaType": "screen",
+      "ctaScreenID": "NM011002",
+      "ctaCategoryCode": "",
+      "ctaNoticeID": "10000011685",
+      "ctaAffiliateMallID": null,
+      "ctaAffiliateMallCategoryID": null,
+      "ctaUrl": "",
+      "ctaUrlHandler": "app",
+      "displayScreenID": "NM010601",
+      "isRead": true,
+      "isCtaClicked": true,
+      "clubID": 2001091
+    },
+    {
+      "bannerID": 101371,
+      "content": "<p>He</p>",
+      "textColor": "#000000",
+      "backgroundColor": "#EEEEEE",
+      "imageUrl": "",
+      "ctaType": "url",
+      "ctaScreenID": "",
+      "ctaCategoryCode": "",
+      "ctaNoticeID": "",
+      "ctaAffiliateMallID": null,
+      "ctaAffiliateMallCategoryID": null,
+      "ctaUrl": "https://kenh14.vn/",
+      "ctaUrlHandler": "browser",
+      "displayScreenID": "NM011801",
+      "isRead": true,
+      "isCtaClicked": true,
+      "clubID": 2001091
+    }
+  ]
+}

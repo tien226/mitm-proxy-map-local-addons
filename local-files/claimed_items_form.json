@@ -1,0 +1,72 @@
+{
+  "claimedItems": [
+    {
+      "claimedItemID": 600,
+      "claimedItemType": "7",
+      "claimedItemName": "form 1",
+      "claimedItemDistributionType": "direct",
+      "rewardID": 5001,
+      "achieveRewardMonth": 202509,
+      "timeLimitedAchievementHistoryID": 30001,
+      "warehouseItemID": 7001,
+      "thumbnailUrl": "https://contents.dev.nudge-platform.com/club/2000195/reward/300001864/img-dd730016-98ae-4dc6-b683-d579d9eee5a9.png",
+      "imageUrl": "hhttps://contents.dev.nudge-platform.com/club/2000195/reward/300001864/img-dd730016-98ae-4dc6-b683-d579d9eee5a9.png",
+      "downloadUrl": "https://example.com/download/item1.zip",
+      "description": "Reward item description 1",
+      "mediaItems": [
+        {
+          "caption": "Main banner",
+          "mediaUrl": "https://contents.dev.nudge-platform.com/club/2000195/reward/300001864/img-dd730016-98ae-4dc6-b683-d579d9eee5a9.png",
+          "thumbnailUrl": "https://contents.dev.nudge-platform.com/reward-for-download/300002224/file-04cc9485-052c-4b70-a042-68444213adcb-2000195_300002224_061f57ed-ea36-4ba8-bffd-6f84cd8a7e0d_download.jpeg",
+          "processedUrl": "https://example.com/media1_processed.jpg"
+        }
+      ],
+      "formContent": "{\"title\":\"title\",\"description\":\"description\",\"questions\":[{\"id\":\"36eca0b7-74fe-4e36-9981-e0d9446643f1\",\"order\":0,\"type\":\"date\",\"required\":false,\"question\":\"Question 1\",\"description\":\"Description 1\",\"keyboardType\":\"text\",\"options\":[]},{\"id\":\"02161bcc-1093-493e-879b-55dbed606ce8\",\"order\":1,\"type\":\"address\",\"required\":false,\"question\":\"Question 2\",\"description\":\"Description 2\",\"keyboardType\":\"text\",\"options\":[]},{\"id\":\"231b9dfa-82eb-43e4-b7da-992265473660\",\"order\":2,\"type\":\"checkbox\",\"required\":true,\"question\":\"Question 3\",\"description\":\"Description 3\",\"keyboardType\":\"text\",\"options\":[{\"id\":\"9239edf1-fbbe-4631-af20-592232d80382\",\"order\":1,\"value\":\"Option 1\",\"allowComment\":false,\"commentPlaceholder\":\"\"},{\"id\":\"14306f7c-263e-470a-b4f2-884f481105af\",\"order\":2,\"value\":\"Option 2\",\"allowComment\":true,\"commentPlaceholder\":\"\"}]}]}",
+      "isDeadlineExceeded": false,
+      "formDeadline": "2025-12-31T23:59:59Z",
+      "consumableDeadline": "2026-01-31T23:59:59Z",
+      "formAnswer": null,
+      "formAnsweredAt": null,
+      "hideMediaDisclaimer": false,
+      "hideFormDisclaimer": false,
+      "isUsed": false,
+      "usedAt": null,
+      "isFavorited": true,
+      "isHidden": false
+    },
+    {
+      "claimedItemID": 600,
+      "claimedItemType": "7",
+      "claimedItemName": "form 2",
+      "claimedItemDistributionType": "direct",
+      "rewardID": 5001,
+      "achieveRewardMonth": 202509,
+      "timeLimitedAchievementHistoryID": 30001,
+      "warehouseItemID": 7001,
+      "thumbnailUrl": "https://contents.dev.nudge-platform.com/club/2000195/reward/300001864/img-dd730016-98ae-4dc6-b683-d579d9eee5a9.png",
+      "imageUrl": "hhttps://contents.dev.nudge-platform.com/club/2000195/reward/300001864/img-dd730016-98ae-4dc6-b683-d579d9eee5a9.png",
+      "downloadUrl": "https://example.com/download/item1.zip",
+      "description": "Reward item description 1",
+      "mediaItems": [
+        {
+          "caption": "Main banner 2",
+          "mediaUrl": "https://contents.dev.nudge-platfo16-98ae-4dc6-b683-d579d9eee5a9.png",
+          "thumbnailUrl": "https://contents.dev.nudge-platform.com/reward-for-download/300002224/file-04cc9485-052c-4b70-a042-68444213adcb-2000195_300002224_061f57ed-ea36-4ba8-bffd-6f84cd8a7e0d_download.jpeg",
+          "processedUrl": "https://example.com/media1_processed.jpg"
+        }
+      ],
+      "formContent": "{\"title\":\"title\",\"description\":\"description\",\"questions\":[{\"id\":\"36eca0b7-74fe-4e36-9981-e0d9446643f1\",\"order\":0,\"type\":\"date\",\"required\":false,\"question\":\"Question 1\",\"description\":\"Description 1\",\"keyboardType\":\"text\",\"options\":[]},{\"id\":\"02161bcc-1093-493e-879b-55dbed606ce8\",\"order\":1,\"type\":\"address\",\"required\":false,\"question\":\"Question 2\",\"description\":\"Description 2\",\"keyboardType\":\"text\",\"options\":[]},{\"id\":\"231b9dfa-82eb-43e4-b7da-992265473660\",\"order\":2,\"type\":\"checkbox\",\"required\":true,\"question\":\"Question 3\",\"description\":\"Description 3\",\"keyboardType\":\"text\",\"options\":[{\"id\":\"9239edf1-fbbe-4631-af20-592232d80382\",\"order\":1,\"value\":\"Option 1\",\"allowComment\":false,\"commentPlaceholder\":\"\"},{\"id\":\"14306f7c-263e-470a-b4f2-884f481105af\",\"order\":2,\"value\":\"Option 2\",\"allowComment\":true,\"commentPlaceholder\":\"\"}]}]}",
+      "isDeadlineExceeded": false,
+      "formDeadline": "2025-12-31T23:59:59Z",
+      "consumableDeadline": "2026-01-31T23:59:59Z",
+      "formAnswer": null,
+      "formAnsweredAt": null,
+      "hideMediaDisclaimer": false,
+      "hideFormDisclaimer": false,
+      "isUsed": false,
+      "usedAt": null,
+      "isFavorited": false,
+      "isHidden": false
+    }
+  ]
+}

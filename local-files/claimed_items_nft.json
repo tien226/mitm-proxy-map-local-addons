@@ -1,0 +1,25 @@
+{
+        "token_id": "1492921469",
+        "chain_name": "polygon",
+        "contract_address": "0x4A3121FAE4CD7Fdb7303B49532e424A7110ecc18",
+        "resource_uri": "https://contents.dev.nudge-platform.com/media-resources/original/videos/1/20250423203835_hello2.mp4?instance_id=1492921469",
+        "metadata": {
+            "animation_url": "https://contents.dev.nudge-platform.com/media-resources/original/videos/1/20250423203835_hello2.mp4?instance_id=1492921469",
+            "attributes": [],
+            "collection": "New Collection 20241021",
+            "description": "test resouce",
+            "external_url": "https://contents.dev.nudge-platform.com/media-resources/original/videos/1/20250423203835_hello2.mp4?instance_id=1492921469",
+            "image": "https://i.ibb.co/MPdGHrb/image.png",
+            "name": "test resouce 2",
+            "reward_description": "��-"
+        },
+        "owner_address": "0x233F1dED8B8eF9Ab02c9369942Ff5Af996272BA0",
+        "minter_address": "0xdABae388E1EeA7b09aF9730b0A9989500b6B3896",
+        "status": "minted",
+        "is_hidden": false,
+        "createdAt": "2025-10-02T14:45:04+09:00",
+        "updatedAt": "2025-10-02T14:45:20+09:00",
+        "updatedPgmID": "event handler",
+        "club_id": "2000843",
+        "club_name": "Nudge Park"
+    }

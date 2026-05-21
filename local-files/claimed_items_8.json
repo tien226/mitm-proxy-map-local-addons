@@ -1,0 +1,136 @@
+{
+  "claimedItems": [
+    {
+      "claimedItemID": 600,
+      "claimedItemType": "8",
+      "claimedItemDistributionType": "direct",
+      "rewardID": 5001,
+      "achieveRewardMonth": 202509,
+      "timeLimitedAchievementHistoryID": 30001,
+      "warehouseItemID": 7001,
+      "thumbnailUrl": "https://contents.dev.nudge-platform.com/club/2000195/reward/300001864/img-dd730016-98ae-4dc6-b683-d579d9eee5a9.png",
+      "imageUrl": "hhttps://contents.dev.nudge-platform.com/club/2000195/reward/300001864/img-dd730016-98ae-4dc6-b683-d579d9eee5a9.png",
+      "downloadUrl": "https://example.com/download/item1.zip",
+      "description": "Reward item description 1",
+      "mediaItems": [
+        {
+          "caption": "Main banner",
+          "mediaUrl": "https://contents.dev.nudge-platform.com/club/2000195/reward/300001864/img-dd730016-98ae-4dc6-b683-d579d9eee5a9.png",
+          "thumbnailUrl": "https://contents.dev.nudge-platform.com/reward-for-download/300002224/file-04cc9485-052c-4b70-a042-68444213adcb-2000195_300002224_061f57ed-ea36-4ba8-bffd-6f84cd8a7e0d_download.jpeg",
+          "processedUrl": "https://example.com/media1_processed.jpg"
+        }
+      ],
+      "formContent": "<p>Please fill this form</p>",
+      "isDeadlineExceeded": false,
+      "formDeadline": "2025-12-31T23:59:59Z",
+      "consumableDeadline": "2026-01-31T23:59:59Z",
+      "formAnswer": null,
+      "formAnsweredAt": null,
+      "hideMediaDisclaimer": false,
+      "hideFormDisclaimer": false,
+      "isUsed": false,
+      "usedAt": null,
+      "isFavorited": true,
+      "isHidden": false
+    },
+    {
+      "claimedItemID": 601,
+      "claimedItemType": "8",
+      "claimedItemDistributionType": "lottery",
+      "rewardID": 5002,
+      "achieveRewardMonth": 202510,
+      "timeLimitedAchievementHistoryID": 30002,
+      "warehouseItemID": 7002,
+      "thumbnailUrl": "https://example.com/thumb2.jpg",
+      "imageUrl": "https://example.com/sample2.jpg",
+      "downloadUrl": "https://example.com/download/item2.mp4",
+      "description": "Reward item description 2",
+      "mediaItems": [
+        {
+          "caption": "Teaser video",
+          "mediaUrl": "https://contents.dev.nudge-platform.com/reward-for-download/300002216/file-8a01d55a-72ff-4565-a47e-5c6ea316d7c9-2000195_300002216_19253bef-04f0-46ad-8f82-a731a6a67de0_I-love-her-first.mp3",
+          "thumbnailUrl": "https://example.com/video1_thumb.jpg",
+          "processedUrl": ""
+        }
+      ],
+      "formContent": null,
+      "isDeadlineExceeded": true,
+      "formDeadline": "2025-08-31T23:59:59Z",
+      "consumableDeadline": "2025-09-15T23:59:59Z",
+      "formAnswer": "Yes, I agree",
+      "formAnsweredAt": "2025-08-15T12:00:00Z",
+      "hideMediaDisclaimer": true,
+      "hideFormDisclaimer": false,
+      "isUsed": true,
+      "usedAt": "2025-09-01T10:00:00Z",
+      "isFavorited": false,
+      "isHidden": false
+    },
+    {
+      "claimedItemID": 600,
+      "claimedItemType": "8",
+      "claimedItemDistributionType": "direct",
+      "rewardID": 5001,
+      "achieveRewardMonth": 202509,
+      "timeLimitedAchievementHistoryID": 30001,
+      "warehouseItemID": 7001,
+      "thumbnailUrl": "https://contents.dev.nudge-platform.com/club/2000195/reward/300001864/img-dd730016-98ae-4dc6-b683-d579d9eee5a9.png",
+      "imageUrl": "hhttps://contents.dev.nudge-platform.com/club/2000195/reward/300001864/img-dd730016-98ae-4dc6-b683-d579d9eee5a9.png",
+      "downloadUrl": "https://example.com/download/item1.zip",
+      "description": "Reward item description 1",
+      "mediaItems": [
+        {
+          "caption": "Main banner",
+          "mediaUrl": "ht049/reward/300002666/img-47e4953e-fc48-4693-92b9-501baf61a6f3.png",
+          "thumbnailUrl": "https://contents.dev.nudge-platform.com/reward-for-download/300002224/file-04cc9485-052c-4b70-a042-68444213adcb-2000195_300002224_061f57ed-ea36-4ba8-bffd-6f84cd8a7e0d_download.jpeg",
+          "processedUrl": "https://example.com/media1_processed.jpg"
+        }
+      ],
+      "formContent": "<p>Please fill this form</p>",
+      "isDeadlineExceeded": false,
+      "formDeadline": "2025-12-31T23:59:59Z",
+      "consumableDeadline": "2026-01-31T23:59:59Z",
+      "formAnswer": null,
+      "formAnsweredAt": null,
+      "hideMediaDisclaimer": false,
+      "hideFormDisclaimer": false,
+      "isUsed": false,
+      "usedAt": null,
+      "isFavorited": true,
+      "isHidden": false
+    },
+    {
+      "claimedItemID": 601,
+      "claimedItemType": "8",
+      "claimedItemDistributionType": "lottery",
+      "rewardID": 5002,
+      "achieveRewardMonth": 202510,
+      "timeLimitedAchievementHistoryID": 30002,
+      "warehouseItemID": 7002,
+      "thumbnailUrl": "https://example.com/thumb2.jpg",
+      "imageUrl": "https://example.com/sample2.jpg",
+      "downloadUrl": "https://example.com/download/item2.mp4",
+      "description": "Reward item description 2",
+      "mediaItems": [
+        {
+          "caption": "Teaser video",
+          "mediaUrl": "https://contents.dev.nudge-platform.com/reward-for-download/300000201/file-54b03225-8160-4915-b564-7a9f4e9a305c-2000195_300000201_faafd7b9-9c3e-44c7-8975-d39d0653a9f0_file_example_MP4_1920_18MG.mp4",
+          "thumbnailUrl": "https://example.com/video1_thumb.jpg",
+          "processedUrl": "https://contents.dev.nudge-platform.com/reward-for-download/300000201/file-54b03225-8160-4915-b564-7a9f4e9a305c-2000195_300000201_faafd7b9-9c3e-44c7-8975-d39d0653a9f0_file_example_MP4_1920_18MG.mp4"
+        }
+      ],
+      "formContent": null,
+      "isDeadlineExceeded": true,
+      "formDeadline": "2025-08-31T23:59:59Z",
+      "consumableDeadline": "2025-09-15T23:59:59Z",
+      "formAnswer": "Yes, I agree",
+      "formAnsweredAt": "2025-08-15T12:00:00Z",
+      "hideMediaDisclaimer": true,
+      "hideFormDisclaimer": false,
+      "isUsed": true,
+      "usedAt": "2025-09-01T10:00:00Z",
+      "isFavorited": false,
+      "isHidden": false
+    }
+  ]
+}

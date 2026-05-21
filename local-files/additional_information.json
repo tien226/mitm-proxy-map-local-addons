@@ -1,0 +1,250 @@
+{
+    "sections": [
+        {
+            "sectionID": 1,
+            "title": "Personal Details",
+            "description": "<p><span><span>This section helps us understand basic information about you so we can personalize your experience and ensure eligibility where required.</span></span></p>",
+            "questions": [
+                {
+                    "id": "beb00484-bbbb-46e9-85bd-7f7335b25d25",
+                    "order": 1,
+                    "type": "select",
+                    "required": true,
+                    "question": "What is your occupation?",
+                    "expanded": true,
+                    "description": "",
+                    "placeholder": "Select your occupation",
+                    "suffixText": "$$$",
+                    "options": [
+                        {
+                            "id": "a5f27538-9606-4325-b169-cf572410f2c9",
+                            "order": 0,
+                            "value": "Student",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "0464c385-8826-4bd7-9860-84998579c293",
+                            "order": 1,
+                            "value": "Staff",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "f27c2691-9ed7-44e7-9c22-d249af7babf8",
+                            "order": 2,
+                            "value": "Freelancer",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "answer": "02",
+                    "isOccupation": true
+                },
+                {
+                    "id": "21728423-232b-44a3-912f-3c08177cb851",
+                    "order": 2,
+                    "type": "input",
+                    "required": true,
+                    "question": "勤務先名",
+                    "expanded": false,
+                    "description": "",
+                    "options": [],
+                    "keyboardType": "text",
+                    "answer": "1241",
+                    "answerComments": [],
+                    "isOccupation": false
+                }
+            ]
+        },
+        {
+            "sectionID": 3,
+            "title": "Professional / Background Info",
+            "description": "<p style=\"text-align: right\"><span><span>This helps us tailor services, recommendations, or features based on your career, industry, or background.</span></span></p>",
+            "questions": [
+                {
+                    "id": "e06160f5-9549-41b3-9731-dc5797cc76db",
+                    "order": 0,
+                    "type": "select",
+                    "required": false,
+                    "question": "What is your occupation or job title?",
+                    "expanded": true,
+                    "placeholder": "",
+                    "options": [
+                        {
+                            "id": "f07b5853-fade-4a40-a4c9-6976b5ef34ea",
+                            "order": 0,
+                            "value": "自身が世帯主(両親・祖父母と同居)",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "37228ac4-d35f-4393-b3ca-211f78a3d8d0",
+                            "order": 1,
+                            "value": "自身が世帯主(両親・祖父母と同居していない)",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "0ee30b93-2c68-468d-b765-a08f12f7f8e2",
+                            "order": 2,
+                            "value": "世帯主でない(両親・祖父母と同居)",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "bf4b358a-69bc-41a9-9e06-62cd700a131d",
+                            "order": 3,
+                            "value": "世帯主でない(両親・祖父母と同居していない)",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "answer": "0ee30b93-2c68-468d-b765-a08f12f7f8e2",
+                    "answerComments": [],
+                    "isOccupation": false
+                }
+            ]
+        },
+        {
+            "sectionID": 5,
+            "title": "Security & Recovery",
+            "description": "<p><span><span>This ensures section your account stays protected and can be securely recovered if you ever lose access.</span></span></p>",
+            "questions": [
+                {
+                    "id": "c25434c0-d21b-4a94-bfd1-d4dc94f5b4c4",
+                    "order": 0,
+                    "type": "address",
+                    "required": true,
+                    "question": "What is your backup email address (if any)?",
+                    "expanded": false,
+                    "description": "For backing up purpose",
+                    "questionImageUrl": "https://contents.dev.nudge-platform.com/form-template/15/file-57303669-5c4f-4858-a507-0828ed97118c-15_a63d4c35-0627-4829-90c0-54cff020350e_filename_img-aedb9ee6-aa89-402e-ae73-7b20c3dbfbfa.png",
+                    "questionImageFileName": "img-aedb9ee6-aa89-402e-ae73-7b20c3dbfbfa.png",
+                    "placeholder": "Your G-mail account",
+                    "suffixText": "@gmail.com",
+                    "options": [
+                        {
+                            "id": "ba1c4793-8fbf-484f-85d3-78bfbd2b6793",
+                            "order": 0,
+                            "value": "mlnlkkl",
+                            "allowComment": true,
+                            "commentPlaceholder": "jjjjj",
+                            "answerImageUrl": "",
+                            "answerImageFileName": ""
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "addressAnswer": {
+                        "postalCode": "1000011",
+                        "prefecture": "宮城県Ｂ２３４５６",
+                        "city": "千代田区ａａ",
+                        "town": "皇居外苑２"
+                    },
+                    "answerComments": [],
+                    "isOccupation": false
+                },
+                {
+                    "id": "9aac08bd-dc8d-48d4-8542-0108bb3d57fc",
+                    "order": 1,
+                    "type": "checkbox",
+                    "required": true,
+                    "question": "Would you like to enable two-factor authentication?",
+                    "expanded": true,
+                    "description": "To Secure your information",
+                    "questionImageUrl": "https://contents.dev.nudge-platform.com/form-template/15/file-ba1d6d0d-e004-4b6a-b694-360d2e8af54e-15_c23982a3-28d4-41e4-b378-adfde7c40009_filename_img-aedb9ee6-aa89-402e-ae73-7b20c3dbfbfa.png",
+                    "questionImageFileName": "img-aedb9ee6-aa89-402e-ae73-7b20c3dbfbfa.png",
+                    "placeholder": "",
+                    "suffixText": "ok",
+                    "options": [
+                        {
+                            "id": "24ae70c7-1ce5-4ff2-87f1-9196e3d1c69d",
+                            "order": 0,
+                            "value": "Yes",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        },
+                        {
+                            "id": "5dbc809e-bc6f-4c4e-9dd2-c5d6d11765cb",
+                            "order": 1,
+                            "value": "No",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "answers": [
+                        "5dbc809e-bc6f-4c4e-9dd2-c5d6d11765cb"
+                    ],
+                    "answerComments": [],
+                    "isOccupation": false
+                },
+                {
+                    "id": "c2b0d658-6fdf-47f1-9a8b-de67f0fad92b",
+                    "order": 2,
+                    "type": "input",
+                    "required": true,
+                    "question": "What is your preferred security question?",
+                    "expanded": true,
+                    "description": "",
+                    "questionImageUrl": "https://contents.dev.nudge-platform.com/user-addinfo-source-question/62f296f6-f098-49aa-9787-086c42c16cd1/file-cbcfaa34-4df3-4358-9ef8-427db8676193-user_additional_info_62f296f6-f098-49aa-9787-086c42c16cd1_filename_file-45b1c4ab-dc60-4be5-80a2-760dc7d31b0c-hay-vung-tin-vao-nhung-uoc-mong-ban-da-gui-den-vu-tru.png",
+                    "questionImageFileName": "file-45b1c4ab-dc60-4be5-80a2-760dc7d31b0c-hay-vung-tin-vao-nhung-uoc-mong-ban-da-gui-den-vu-tru.png",
+                    "suffixText": "$$",
+                    "options": [],
+                    "keyboardType": "text",
+                    "answer": "answer text",
+                    "answerComments": [],
+                    "isOccupation": false
+                },
+                {
+                    "id": "eea98d60-036e-4275-8b15-b6d0ca3e948e",
+                    "order": 3,
+                    "type": "select",
+                    "required": false,
+                    "question": "Dropdown question",
+                    "expanded": true,
+                    "description": "content desc",
+                    "placeholder": "content",
+                    "suffixText": "sufftext",
+                    "options": [
+                        {
+                            "id": "36de9806-62f9-43e0-807e-5d3309c9224b",
+                            "order": 0,
+                            "value": "option 1",
+                            "allowComment": true,
+                            "commentPlaceholder": "other placeholders"
+                        },
+                        {
+                            "id": "69ea0b50-a465-43e0-afa4-d5f75043922d",
+                            "order": 1,
+                            "value": "option 2",
+                            "allowComment": false,
+                            "commentPlaceholder": ""
+                        }
+                    ],
+                    "keyboardType": "text",
+                    "answer": "69ea0b50-a465-43e0-afa4-d5f75043922d",
+                    "answerComments": [],
+                    "isOccupation": false
+                },
+                {
+                    "id": "2ad9c9cf-de31-415a-bb93-a50efea58643",
+                    "order": 4,
+                    "type": "textarea",
+                    "required": false,
+                    "question": "area",
+                    "expanded": true,
+                    "placeholder": "hihi",
+                    "suffixText": "suff",
+                    "options": [],
+                    "keyboardType": "text",
+                    "answer": "area text",
+                    "answerComments": [],
+                    "isOccupation": false
+                }
+            ]
+        }
+    ]
+}

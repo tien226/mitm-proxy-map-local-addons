@@ -1,18 +1,113 @@
 {
-    "blockchain_wallets": [
-        {
-            "address": "0x62c35b8DE5A15Db45dc18A7429aeb254051CA738",
-            "chain_name": "polygon"
-        }
-    ],
+    "userInfo": {
+        "loginCode": "1",
+        "userID": "89362a4d-79c5-442b-b3c4-86c58150a278",
+        "phoneNumber": "09038368580",
+        "nickname": "he",
+        "surname": "ＡＢＣＤ",
+        "name": "横浜業業者",
+        "romajiSurname": "ABC",
+        "romajiName": "PHUONG",
+        "kanaSurname": "ハ",
+        "kanaName": "ナ",
+        "birthday": 19890331,
+        "postalCode": "1200001",
+        "prefecture": "東京都",
+        "municipal": "足立区",
+        "streetAddress": "東和３",
+        "sendingPostalCode": "1200001",
+        "sendingPrefectures": "東京都",
+        "sendingMunicipality": "足立区",
+        "sendingStreetAddress": "東和３",
+        "accountType": "2",
+        "userType": "1",
+        "emailAddressList": [
+            {
+                "serialNum": 1,
+                "email": "phuong.test24@gmail.com",
+                "accountType": "2",
+                "loginFlag": "0"
+            },
+            {
+                "serialNum": 5,
+                "email": "haphuong.test20@gmail.com",
+                "accountType": "2",
+                "loginFlag": "0"
+            }
+        ],
+        "cicScreeningResult": "1",
+        "usageStatus": "3",
+        "statusHistoryList": [
+            {
+                "updateDatetime": "2024-10-28 12:52:32",
+                "updatedUsageStatus": "0"
+            },
+            {
+                "updateDatetime": "2024-10-28 12:59:31",
+                "updatedUsageStatus": "1"
+            },
+            {
+                "updateDatetime": "2024-10-28 13:16:21",
+                "updatedUsageStatus": "2"
+            },
+            {
+                "updateDatetime": "2024-10-28 13:16:46",
+                "updatedUsageStatus": "3"
+            },
+            {
+                "updateDatetime": "2024-11-12 13:15:26",
+                "updatedUsageStatus": "4"
+            },
+            {
+                "updateDatetime": "2024-11-12 14:15:34",
+                "updatedUsageStatus": "3"
+            },
+            {
+                "updateDatetime": "2025-03-13 14:15:30",
+                "updatedUsageStatus": "4"
+            },
+            {
+                "updateDatetime": "2025-03-13 18:15:29",
+                "updatedUsageStatus": "3"
+            },
+            {
+                "updateDatetime": "2025-03-17 16:15:37",
+                "updatedUsageStatus": "4"
+            },
+            {
+                "updateDatetime": "2025-03-17 18:15:31",
+                "updatedUsageStatus": "3"
+            }
+        ],
+        "creditLimit": "100000",
+        "creditLimitInt": 100000,
+        "withdrawalReserve": {
+            "scheduledWithdrawalDate": "20250827",
+            "withdrawalApplyDate": "20250728",
+            "reasonWithdrawalTypeCode": "99",
+            "withdrawalReserveStatus": "4",
+            "withdrawalReserveStatusText": "退会予約キャンセル",
+            "withdrawalReserveStatusFlag": false,
+            "createdAt": "2025-07-28T17:29:33+09:00"
+        },
+        "displayActBalanceFlag": false
+    },
     "cardInfo": [
         {
-            "backDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000003/img-372bee47-bea8-4ee2-afeb-7104b3496d5a.png",
-            "cardID": "91d67f93-42bc-4a34-933e-59d56f7ff5fd",
+            "cardID": "92682820-2c55-4b43-84c5-8396ecea2a04",
+            "userID": "89362a4d-79c5-442b-b3c4-86c58150a278",
+            "clubID": 2001037,
+            "designID": 4000829,
+            "designType": "1",
+            "designImageUrl": "https://contents.dev.nudge-platform.com/club/2001047/physical-card/4000829/img-f3c0c3da-4f02-48c9-af9a-aa1ce29dea81.png",
+            "frontDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2001047/physical-card/4000829/img-4721e1fa-9e9f-4765-948d-42ff511e5ffd.png",
+            "backDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2001047/physical-card/4000829/img-a077d268-d3bb-45a9-995a-62726551ce16.png",
+            "tisContractNo": "0000166502",
+            "brandCode": "visa",
             "cardStatus01": "0",
-            "cardStatus02": "1",
+            "cardStatus02": "0",
             "cardStatus03": "0",
-            "cardStatus04": "1",
+            "cardStatus04": "0",
             "cardStatus05": "0",
             "cardStatus06": "0",
             "cardStatus07": "0",
@@ -24,199 +119,1158 @@
             "cardStatus13": "0",
             "cardStatus14": "0",
             "cardStatus15": "0",
-            "clubID": 2000812,
-            "clubInfo": [
-                {
-                    "coverImageUrl": "https://contents.dev.nudge-platform.com/club/2000812/cover/img-d3315aea-cd13-4856-add1-47620ebb0652.png",
-                    "memberImageUrl": "https://contents.dev.nudge-platform.com/club/2000812/card/img-109ed8a0-115c-4372-99ca-cf3074962231.png",
-                    "memberNum": 2,
-                    "themeColor": "#0F1F4D"
-                }
-            ],
-            "designID": 4000003,
-            "designImageUrl": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000003/img-4b5d872f-330d-4035-bf5d-c552514a0f2a.png",
-            "frontDesignWithoutNumber": "https://contents.dev.nudge-platform.com/club/2000000/physical-card/4000003/img-e373d28e-d30f-423c-9266-cc3f1fc44b2e.png",
+            "domesticShpOneLmt": 600000,
+            "domesticShpDayLmt": 600000,
+            "domesticShpMthLmt": 600000,
+            "overseasShpOneLmt": 630000,
+            "overseasShpDayLmt": 630000,
+            "overseasShpMthLmt": 630000,
             "physicalCardIssuanceHistoryList": [
                 {
-                    "activatedFlg": 1,
-                    "cardExpirationMonth": "",
-                    "cardReceiptDatetime": "",
                     "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
                     "registeredMailNum": "",
-                    "reissueFlg": 1
-                },
-                {
-                    "activatedFlg": 1,
-                    "cardExpirationMonth": "",
                     "cardReceiptDatetime": "",
+                    "cardExpirationMonth": ""
+                },
+                {
                     "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
                     "registeredMailNum": "",
-                    "reissueFlg": 1
-                },
-                {
-                    "activatedFlg": 1,
-                    "cardExpirationMonth": "",
-                    "cardReceiptDatetime": "2023-12-13 23:56:25",
-                    "firstIssueFlg": 0,
-                    "registeredMailNum": "123456",
-                    "reissueFlg": 1
-                },
-                {
-                    "activatedFlg": 1,
-                    "cardExpirationMonth": "",
-                    "cardReceiptDatetime": "2023-12-13 23:56:25",
-                    "firstIssueFlg": 0,
-                    "registeredMailNum": "123456",
-                    "reissueFlg": 1
-                },
-                {
-                    "activatedFlg": 1,
-                    "cardExpirationMonth": "",
-                    "cardReceiptDatetime": "2023-12-13 23:56:25",
-                    "firstIssueFlg": 0,
-                    "registeredMailNum": "123456",
-                    "reissueFlg": 1
-                },
-                {
-                    "activatedFlg": 1,
-                    "cardExpirationMonth": "",
                     "cardReceiptDatetime": "",
-                    "firstIssueFlg": 0,
-                    "registeredMailNum": "",
-                    "reissueFlg": 1
+                    "cardExpirationMonth": ""
                 },
                 {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
                     "activatedFlg": 1,
-                    "cardExpirationMonth": "",
+                    "registeredMailNum": "",
                     "cardReceiptDatetime": "",
-                    "firstIssueFlg": 0,
-                    "registeredMailNum": "",
-                    "reissueFlg": 1
+                    "cardExpirationMonth": ""
                 },
                 {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
                     "activatedFlg": 1,
-                    "cardExpirationMonth": "",
+                    "registeredMailNum": "",
                     "cardReceiptDatetime": "",
-                    "firstIssueFlg": 0,
-                    "registeredMailNum": "",
-                    "reissueFlg": 1
+                    "cardExpirationMonth": ""
                 },
                 {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
                     "activatedFlg": 1,
-                    "cardExpirationMonth": "",
+                    "registeredMailNum": "",
                     "cardReceiptDatetime": "",
-                    "firstIssueFlg": 0,
-                    "registeredMailNum": "",
-                    "reissueFlg": 1
+                    "cardExpirationMonth": ""
                 },
                 {
-                    "activatedFlg": 1,
-                    "cardExpirationMonth": "",
-                    "cardReceiptDatetime": "2023-11-22 13:06:12",
                     "firstIssueFlg": 0,
-                    "registeredMailNum": "32378592433",
-                    "reissueFlg": 1
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
+                },
+                {
+                    "firstIssueFlg": 0,
+                    "reissueFlg": 1,
+                    "activatedFlg": 1,
+                    "registeredMailNum": "a",
+                    "cardReceiptDatetime": "2025-09-11 14:30:49",
+                    "cardExpirationMonth": ""
                 }
             ],
-            "tisContractNo": "0000110574",
-            "userID": "907fad43-ac82-435f-8360-911c2daf691f"
+            "clubInfo": [
+                {
+                    "clubID": 2001037,
+                    "clubName": "Club Test 2",
+                    "memberImageUrl": "https://contents.dev.nudge-platform.com/club/2001037/card/img-57edabe4-4a92-4f8b-8d41-5d328dd920bd.png",
+                    "coverImageUrl": "https://contents.dev.nudge-platform.com/club/2001037/cover/img-905e0f05-3b33-4475-bdd6-3fa431371364.png",
+                    "themeColor": "#0F1F4D",
+                    "memberNum": 1
+                }
+            ]
         }
     ],
-    "directDebitAppliedFlag": true,
     "noticeSettingInfo": {
-        "clubNoticeValue": "1",
-        "enableNoticeValue": "1",
-        "generalNoticeValue": "1",
-        "paymentNoticeValue": "1",
-        "repayNoticeValue": "1"
+        "enableNoticeValue": "0",
+        "generalNoticeValue": "0",
+        "paymentNoticeValue": "0",
+        "repayNoticeValue": "0",
+        "clubNoticeValue": "0"
     },
-    "userInfo": {
-        "accountType": "2",
-        "birthday": 19890331,
-        "cicScreeningResult": "1",
-        "creditLimit": "30000",
-        "creditLimitInt": 30000,
-        "emailAddressList": [
-            {
-                "accountType": "2",
-                "email": "hiepzen8labs@gmail.com",
-                "loginFlag": "0",
-                "serialNum": 1
-            }
-        ],
-        "kanaName": "ウィーク",
-        "kanaSurname": "ナサタハ",
-        "loginCode": "1",
-        "municipal": "千代田区",
-        "name": "番号花子",
-        "phoneNumber": "09038368580",
-        "postalCode": "1000005",
-        "prefecture": "東京都",
-        "romajiName": "KATAKANA",
-        "romajiSurname": "NASATAHA",
-        "sendingMunicipality": "新宿区",
-        "sendingPostalCode": "1600000",
-        "sendingPrefectures": "東京都",
-        "sendingStreetAddress": "１－　　　　　　２",
-        "statusHistoryList": [
-            {
-                "updateDatetime": "2022-10-12 11:58:35",
-                "updatedUsageStatus": "0"
-            },
-            {
-                "updateDatetime": "2022-10-13 16:12:17",
-                "updatedUsageStatus": "1"
-            },
-            {
-                "updateDatetime": "2022-10-13 16:31:31",
-                "updatedUsageStatus": "2"
-            },
-            {
-                "updateDatetime": "2022-10-13 16:34:08",
-                "updatedUsageStatus": "3"
-            },
-            {
-                "updateDatetime": "2023-08-25 19:00:28",
-                "updatedUsageStatus": "4"
-            },
-            {
-                "updateDatetime": "2023-08-25 23:43:25",
-                "updatedUsageStatus": "3"
-            },
-            {
-                "updateDatetime": "2023-08-30 15:00:24",
-                "updatedUsageStatus": "4"
-            },
-            {
-                "updateDatetime": "2023-09-05 14:23:55",
-                "updatedUsageStatus": "3"
-            },
-            {
-                "updateDatetime": "2023-10-03 20:15:26",
-                "updatedUsageStatus": "4"
-            },
-            {
-                "updateDatetime": "2023-10-04 18:10:25",
-                "updatedUsageStatus": "3"
-            },
-            {
-                "updateDatetime": "2023-10-10 12:15:28",
-                "updatedUsageStatus": "4"
-            },
-            {
-                "updateDatetime": "2023-10-19 16:21:52",
-                "updatedUsageStatus": "3"
-            },
-            {
-                "updateDatetime": "2023-12-15 21:16:53",
-                "updatedUsageStatus": "4"
-            }
-        ],
-        "streetAddress": "１",
-        "surname": "タハタ",
-        "usageStatus": "3",
-        "userID": "907fad43-ac82-435f-8360-911c2daf691f",
-        "userType": "1",
-        "withdrawalReserve": null
-    }
+    "blockchain_wallets": [
+        {
+            "chain_name": "polygon",
+            "address": "0x2686722F2a067Dcf8709735D84be93DF51129CE9"
+        }
+    ],
+    "directDebitAppliedFlag": false
 }

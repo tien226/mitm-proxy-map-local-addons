@@ -1,0 +1,32 @@
+{
+    "claimedCategories": [
+        {
+            "claimedItemType": "11",
+            "categoryName": "ガチャ"
+        },
+        {
+            "claimedItemType": "4",
+            "categoryName": "画像"
+        },
+        {
+            "claimedItemType": "5",
+            "categoryName": "音声"
+        },
+        {
+            "claimedItemType": "6",
+            "categoryName": "動画"
+        },
+        {
+            "claimedItemType": "8",
+            "categoryName": "NFT"
+        },
+        {
+            "claimedItemType": "3",
+            "categoryName": "クーポン"
+        },
+        {
+            "claimedItemType": "7",
+            "categoryName": "フォーム"
+        }
+    ]
+}

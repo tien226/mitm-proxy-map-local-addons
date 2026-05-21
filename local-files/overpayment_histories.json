@@ -1,0 +1,28 @@
+{
+  "overpaymentHistoryList": [
+    {
+      "baseDate": "20250310",
+      "repaidAmount": "300",
+      "appliedAmount": "0",
+      "overpaidAmount": "300",
+      "appliedFlg": "0",
+      "estimateExpireDate": "20250906"
+    },
+    {
+      "baseDate": "20250311",
+      "repaidAmount": "2300",
+      "appliedAmount": "0",
+      "overpaidAmount": "2300",
+      "appliedFlg": "0",
+      "estimateExpireDate": "20250907"
+    },
+    {
+      "baseDate": "20250312",
+      "repaidAmount": "400",
+      "appliedAmount": "0",
+      "overpaidAmount": "400",
+      "appliedFlg": "0",
+      "estimateExpireDate": "20251018"
+    }
+  ]
+}

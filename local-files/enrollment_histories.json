@@ -1,0 +1,25 @@
+{
+    "clubID": 2001049,
+    "targets": [
+        {
+      "targetRaisedAmountLabel": "fighting",
+      "targetTitle": "bbbbb",
+      "targetTotalAmount": 100,
+      "targetTotalAmountLabel": "goal",
+      "targetType": 1,
+      "backgroundColor": "#D07878",
+      "progressBarColor": "#EA5B83",
+      "textColor01": "#000000",
+      "textColor02": "#8D9199",
+      "textColor03": "#8D9199",
+      "visibleTargetAmount": true,
+      "visibleCurrentResult": true,
+      "visibleCurrentProcessPercentage": true,
+      "visibleCurrentProcessBar": true,
+      "visibleAttendant": true,
+      "backgroundImageURL": "https://contents.dev.nudge-platform.com/club-target/2001052/68/img-9f5a507a-3103-4fac-9dd9-4c685445ac5c.png",
+      "targetStatus": "published",
+      "targetSectionTitle": "クラブ目標"
+    }
+    ]
+}

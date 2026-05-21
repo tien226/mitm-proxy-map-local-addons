@@ -57,14 +57,7 @@ export function FlowInspector({
     <div className="flow-inspector">
       <div className="flow-summary">
         <div className="flow-summary-row">
-          <div className="flow-summary-meta">
-            <span className={`method method-${flow.request.method}`}>{flow.request.method}</span>
-            {statusCode !== undefined && (
-              <span className={`status-badge status-${Math.floor(statusCode / 100)}xx`}>
-                {statusCode} {statusReason ?? "OK"}
-              </span>
-            )}
-          </div>
+          <div className="flow-summary-url">{url}</div>
           <div className="flow-summary-actions">
             <button
               className="btn btn-copy-curl"
@@ -84,7 +77,6 @@ export function FlowInspector({
             </button>
           </div>
         </div>
-        <div className="flow-summary-url">{url}</div>
       </div>
       {loadError && <div className="error-banner">{loadError}</div>}
       <div className="flow-panes">

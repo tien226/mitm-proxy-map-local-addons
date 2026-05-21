@@ -9,31 +9,6 @@ export function SetupPanel({ status }: SetupPanelProps) {
   return (
     <div className="setup-panel">
       <h2>Device Setup</h2>
-      <div className="setup-card setup-card-primary">
-        <h3>Điện thoại thật (cùng Wi‑Fi với Mac)</h3>
-        <p>
-          Dùng IP Mac — <strong>không</strong> dùng <code>{emulatorHost}</code>.
-        </p>
-        <p>
-          Wi‑Fi → mạng đang dùng (ví dụ <strong>zen8labs</strong>) → Proxy → <strong>Thủ công</strong>:
-          <br />
-          Host: <code>{status.local_ip}</code>
-          <br />
-          Port: <code>{status.proxy_port}</code>
-        </p>
-        <p>
-          <strong>Bỏ qua proxy cho:</strong> xóa hết (để trống). Xóa{" "}
-          <code>example.com</code>, <code>localhost</code>, v.v. — nếu để mặc định dễ báo &quot;không có
-          internet&quot;.
-        </p>
-        <p>
-          Tắt VPN trên điện thoại. Mac và điện thoại phải cùng một Wi‑Fi.
-        </p>
-        <p>
-          Mở Safari/Chrome trên điện thoại → <code>http://mitm.it</code> → tải cert Android → cài tin cậy
-          (xem <code>certificates-setups.md</code>).
-        </p>
-      </div>
       <div className="setup-card">
         <h3>1. Start proxy</h3>
         <p>
@@ -41,8 +16,31 @@ export function SetupPanel({ status }: SetupPanelProps) {
           <code>0.0.0.0:{status.proxy_port}</code> (all interfaces).
         </p>
       </div>
+      <div className="setup-card setup-card-primary">
+        <h3>2. Physical phone (same Wi‑Fi as Mac)</h3>
+        <p>
+          Use your Mac IP — <strong>do not</strong> use <code>{emulatorHost}</code>.
+        </p>
+        <p>
+          Wi‑Fi → your network → Proxy → <strong>Manual</strong>:
+          <br />
+          Host: <code>{status.local_ip}</code>
+          <br />
+          Port: <code>{status.proxy_port}</code>
+        </p>
+        <p>
+          <strong>Bypass proxy for:</strong> clear all fields (leave empty). Remove{" "}
+          <code>example.com</code>, <code>localhost</code>, etc. — defaults often cause
+          &quot;no internet&quot; errors.
+        </p>
+        <p>Turn off VPN on the phone. Mac and phone must be on the same Wi‑Fi.</p>
+        <p>
+          On the phone, open Safari/Chrome → <code>http://mitm.it</code> → download the Android
+          certificate → install and trust it (see <code>certificates-setups.md</code>).
+        </p>
+      </div>
       <div className="setup-card setup-card-warning">
-        <h3>Android Emulator (AndroidWifi)</h3>
+        <h3>3. Android Emulator (AndroidWifi)</h3>
         <p>
           If your Wi‑Fi name is <strong>AndroidWifi</strong>, you are on the <strong>emulator</strong>.
           Do <strong>not</strong> use <code>{status.local_ip}</code>.
@@ -70,22 +68,16 @@ export function SetupPanel({ status }: SetupPanelProps) {
         </p>
       </div>
       <div className="setup-card">
-        <h3>1. Start proxy</h3>
+        <h3>4. Map Local</h3>
         <p>
-          Click <strong>Start Proxy</strong> in the toolbar. Proxy listens on{" "}
-          <code>0.0.0.0:{status.proxy_port}</code> (all interfaces).
+          Open the <strong>Map Local</strong> tab — map API URLs to JSON files in{" "}
+          <code>local-files/</code>.
         </p>
       </div>
       <div className="setup-card">
-        <h3>2. Map Local</h3>
+        <h3>5. macOS certificate (this Mac)</h3>
         <p>
-          Tab <strong>Map Local</strong> — map API URLs to JSON in <code>local-files/</code>.
-        </p>
-      </div>
-      <div className="setup-card">
-        <h3>macOS certificate (this Mac)</h3>
-        <p>
-          Run <code>./setup.sh</code> once to trust mitmproxy CA on macOS.
+          Run <code>./setup.sh</code> once to trust the mitmproxy CA on macOS.
         </p>
       </div>
     </div>

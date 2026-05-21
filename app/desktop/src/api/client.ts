@@ -1,6 +1,6 @@
 import type { MapLocalRule, MitmFlow, ProxyStatus } from "../types";
 
-const API_BASE = import.meta.env.DEV ? "http://127.0.0.1:9876" : "";
+const API_BASE = import.meta.env.DEV ? "http://127.0.0.1:6789" : "";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE}${path}`, init);

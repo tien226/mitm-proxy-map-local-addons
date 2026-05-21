@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const { spawn } = require("child_process");
 
-const BACKEND_PORT = 9876;
+const BACKEND_PORT = 6789;
 const PROJECT_ROOT = path.resolve(__dirname, "../../..");
 let backendProcess = null;
 let mainWindow = null;

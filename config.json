@@ -1,9 +1,1 @@
-[
-  {
-    "method": "GET",
-    "url": "https://api.dev.nudge-platform.com/v1/user/informations",
-    "local_file": "v1_user_informations.json",
-    "status_code": 200,
-    "delay_ms": 0
-  }
-]
+[]

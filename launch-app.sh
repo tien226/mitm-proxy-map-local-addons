@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BACKEND_DIR="$ROOT_DIR/app/backend"
 DESKTOP_DIR="$ROOT_DIR/app/desktop"
 VENV_DIR="$ROOT_DIR/.venv"
-PORT=9876
+PORT=6789
 MODE="${1:-}"
 
 echo "==> TFT Proxy App"

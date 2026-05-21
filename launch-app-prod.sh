@@ -17,6 +17,6 @@ if [ ! -d "$BACKEND_DIR/static" ]; then
 fi
 
 echo "==> TFT Proxy (production)"
-echo "Open http://127.0.0.1:9876"
-open "http://127.0.0.1:9876" 2>/dev/null || true
-(cd "$BACKEND_DIR" && "$VENV_DIR/bin/python" -m uvicorn main:app --host 127.0.0.1 --port 9876)
+echo "Open http://127.0.0.1:6789"
+open "http://127.0.0.1:6789" 2>/dev/null || true
+(cd "$BACKEND_DIR" && "$VENV_DIR/bin/python" -m uvicorn main:app --host 127.0.0.1 --port 6789)

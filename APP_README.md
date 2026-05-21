@@ -16,7 +16,7 @@ chmod +x launch-app.sh
 ./launch-app.sh
 ```
 
-Opens **http://127.0.0.1:9876** automatically (one port — UI + API).
+Opens **http://127.0.0.1:6789** automatically (one port — UI + API).
 
 Dev mode (hot reload UI on port 5173):
 
@@ -45,7 +45,7 @@ Dev mode (hot reload UI on port 5173):
 
 ```
 app/
-  backend/     # FastAPI control server (port 9876)
+  backend/     # FastAPI control server (port 6789)
   desktop/     # React UI + Electron
 map-local-addons.py
 config.json
@@ -60,7 +60,7 @@ cd app/desktop
 npm install
 npm run build
 cd ../backend
-python3 -m uvicorn main:app --host 127.0.0.1 --port 9876
+python3 -m uvicorn main:app --host 127.0.0.1 --port 6789
 ```
 
-Then open http://127.0.0.1:9876 — static files are served from `app/backend/static/`.
+Then open http://127.0.0.1:6789 — static files are served from `app/backend/static/`.

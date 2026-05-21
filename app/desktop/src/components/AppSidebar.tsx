@@ -8,9 +8,6 @@ interface AppSidebarProps {
   selectedHost: string | null;
   onSelectHost: (host: string | null) => void;
   totalFlowCount: number;
-  localIp: string;
-  proxyPort: number;
-  emulatorHost: string;
 }
 
 export function AppSidebar({
@@ -20,13 +17,9 @@ export function AppSidebar({
   selectedHost,
   onSelectHost,
   totalFlowCount,
-  localIp,
-  proxyPort,
-  emulatorHost,
 }: AppSidebarProps) {
   return (
     <aside className="app-sidebar">
-      <div className="sidebar-brand">TFT Proxy</div>
       <nav className="sidebar-nav">
         <button
           type="button"
@@ -52,15 +45,6 @@ export function AppSidebar({
       </nav>
       {activeSection === "traffic" && (
         <div className="sidebar-domains">
-          <div className="sidebar-section-title">Proxy</div>
-          <div className="sidebar-remote">
-            <div>
-              Emulator: <code>{emulatorHost}:{proxyPort}</code>
-            </div>
-            <div>
-              Phone: <code>{localIp}:{proxyPort}</code>
-            </div>
-          </div>
           <div className="sidebar-section-title">All</div>
           <button
             type="button"

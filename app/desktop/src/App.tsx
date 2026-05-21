@@ -136,9 +136,6 @@ export default function App() {
       selectedHost={selectedHost}
       onSelectHost={setSelectedHost}
       totalFlowCount={flows.length}
-      localIp={status.local_ip}
-      proxyPort={status.proxy_port}
-      emulatorHost={status.emulator_host}
     />
   );
 

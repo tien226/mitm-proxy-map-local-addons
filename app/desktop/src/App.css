@@ -192,21 +192,13 @@ body {
   overflow: hidden;
 }
 
-.sidebar-brand {
-  padding: 12px 14px;
-  font-weight: 700;
-  font-size: 14px;
-  color: #58a6ff;
-  border-bottom: 1px solid #2d333b;
-  flex-shrink: 0;
-}
-
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  padding: 8px;
+  padding: 12px 8px 8px;
   gap: 4px;
   flex-shrink: 0;
+  border-bottom: 1px solid #2d333b;
 }
 
 .sidebar-nav-item {
@@ -571,16 +563,15 @@ body {
 }
 
 .flow-summary {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
   padding: 10px 14px;
   background: #1f2329;
   border-bottom: 1px solid #2d333b;
   flex-shrink: 0;
 }
 
-.flow-summary-url {
+.flow-summary-row .flow-summary-url {
+  flex: 1;
+  min-width: 0;
   font-size: 12px;
   color: #c9d1d9;
   word-break: break-all;

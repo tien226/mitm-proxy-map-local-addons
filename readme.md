@@ -31,7 +31,7 @@ See **[APP_README.md](./APP_README.md)** for full guide.
 2. Clone this repository:
 
    ```shell
-   git clone https://github.com/quanzen8labs/mitm-proxy-map-local-addons.git
+   git clone https://github.com/tien226/mitm-proxy-map-local-addons.git
    ```
 
 ## Using

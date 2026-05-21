@@ -1,7 +1,15 @@
 import { getFlowUrl } from "./flow";
 import type { MitmFlow } from "../types";
 
-export type FlowTreeNodeType = "host" | "folder" | "flow";
+export type FlowTreeNodeType = "client" | "host" | "folder" | "flow";
+
+function getClientLabel(flow: MitmFlow): string {
+  const peername = flow.client_conn?.peername;
+  if (peername && peername.length > 0) {
+    return peername[0];
+  }
+  return "Unknown client";
+}
 
 export interface FlowTreeNode {
   id: string;
@@ -36,7 +44,12 @@ function incrementCount(node: FlowTreeNode): void {
 
 function sortTreeNodes(nodes: FlowTreeNode[]): void {
   nodes.sort((left, right) => {
-    const typeOrder: Record<FlowTreeNodeType, number> = { host: 0, folder: 1, flow: 2 };
+    const typeOrder: Record<FlowTreeNodeType, number> = {
+      client: 0,
+      host: 1,
+      folder: 2,
+      flow: 3,
+    };
     if (left.type !== right.type) {
       return typeOrder[left.type] - typeOrder[right.type];
     }
@@ -49,27 +62,46 @@ function sortTreeNodes(nodes: FlowTreeNode[]): void {
   });
 }
 
+function getOrCreateHost(parent: FlowTreeNode, host: string): FlowTreeNode {
+  const existing = parent.children.find((child) => child.type === "host" && child.label === host);
+  if (existing) {
+    return existing;
+  }
+  const hostNode: FlowTreeNode = {
+    id: `host:${parent.id}:${host}`,
+    label: host,
+    type: "host",
+    children: [],
+    count: 0,
+  };
+  parent.children.push(hostNode);
+  return hostNode;
+}
+
 export function buildFlowTree(flows: MitmFlow[]): FlowTreeNode[] {
-  const hostMap = new Map<string, FlowTreeNode>();
+  const clientMap = new Map<string, FlowTreeNode>();
   flows.forEach((flow) => {
+    const clientLabel = getClientLabel(flow);
     const host = flow.request.host || "unknown";
     const path = flow.request.path || "/";
     const segments = path.split("/").filter((segment) => segment.length > 0);
-    if (!hostMap.has(host)) {
-      hostMap.set(host, {
-        id: `host:${host}`,
-        label: host,
-        type: "host",
+    if (!clientMap.has(clientLabel)) {
+      clientMap.set(clientLabel, {
+        id: `client:${clientLabel}`,
+        label: clientLabel,
+        type: "client",
         children: [],
         count: 0,
       });
     }
-    const hostNode = hostMap.get(host);
-    if (!hostNode) {
+    const clientNode = clientMap.get(clientLabel);
+    if (!clientNode) {
       return;
     }
+    incrementCount(clientNode);
+    const hostNode = getOrCreateHost(clientNode, host);
     incrementCount(hostNode);
-    let currentNode = hostNode;
+    let currentNode: FlowTreeNode = hostNode;
     let builtPath = "";
     if (segments.length <= 1) {
       const leafLabel =
@@ -90,7 +122,11 @@ export function buildFlowTree(flows: MitmFlow[]): FlowTreeNode[] {
       const segment = segments[index];
       builtPath = `${builtPath}/${segment}`;
       const folderLabel = `/${segment}`;
-      const folderNode = getOrCreateFolder(currentNode, folderLabel, `folder:${host}${builtPath}`);
+      const folderNode = getOrCreateFolder(
+        currentNode,
+        folderLabel,
+        `folder:${clientLabel}:${host}${builtPath}`
+      );
       incrementCount(folderNode);
       currentNode = folderNode;
     }
@@ -104,9 +140,33 @@ export function buildFlowTree(flows: MitmFlow[]): FlowTreeNode[] {
       count: 1,
     });
   });
-  const roots = Array.from(hostMap.values());
+  const roots = Array.from(clientMap.values());
   sortTreeNodes(roots);
   return roots;
+}
+
+export function findTreeNode(nodes: FlowTreeNode[], nodeId: string): FlowTreeNode | null {
+  for (const node of nodes) {
+    if (node.id === nodeId) {
+      return node;
+    }
+    const childMatch = findTreeNode(node.children, nodeId);
+    if (childMatch) {
+      return childMatch;
+    }
+  }
+  return null;
+}
+
+export function collectFlowsUnderNode(node: FlowTreeNode): MitmFlow[] {
+  if (node.type === "flow" && node.flow) {
+    return [node.flow];
+  }
+  const flows: MitmFlow[] = [];
+  node.children.forEach((child) => {
+    flows.push(...collectFlowsUnderNode(child));
+  });
+  return flows;
 }
 
 export function filterFlowTree(nodes: FlowTreeNode[], query: string): FlowTreeNode[] {
@@ -140,12 +200,31 @@ export function filterFlowTree(nodes: FlowTreeNode[], query: string): FlowTreeNo
     .filter((node): node is FlowTreeNode => node !== null);
 }
 
+export function collectAncestorIdsForFlow(nodes: FlowTreeNode[], flowId: string): string[] {
+  const ancestors: string[] = [];
+  const walk = (node: FlowTreeNode, path: string[]): boolean => {
+    if (node.type === "flow" && node.id === flowId) {
+      ancestors.push(...path);
+      return true;
+    }
+    for (const child of node.children) {
+      const childPath = node.type === "flow" ? path : [...path, node.id];
+      if (walk(child, childPath)) {
+        return true;
+      }
+    }
+    return false;
+  };
+  nodes.forEach((node) => walk(node, []));
+  return ancestors;
+}
+
 export function collectDefaultExpandedIds(nodes: FlowTreeNode[]): string[] {
   const ids: string[] = [];
   const walk = (node: FlowTreeNode, depth: number): void => {
-    if (node.type === "host" || node.type === "folder") {
+    if (node.type === "client" || node.type === "host" || node.type === "folder") {
       ids.push(node.id);
-      if (depth < 2) {
+      if (depth < 3) {
         node.children.forEach((child) => walk(child, depth + 1));
       }
     }

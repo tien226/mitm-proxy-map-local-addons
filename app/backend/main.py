@@ -1,5 +1,6 @@
 """TFT Proxy App backend API."""
 
+import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -27,7 +28,13 @@ app.add_middleware(
 proxy_manager = ProxyManager()
 config_store = ConfigStore()
 
-STATIC_DIR = Path(__file__).resolve().parent / "static"
+def _resolve_static_dir() -> Path:
+    if getattr(sys, "frozen", False):
+        return Path(sys._MEIPASS) / "static"
+    return Path(__file__).resolve().parent / "static"
+
+
+STATIC_DIR = _resolve_static_dir()
 
 
 class ProxyStartRequest(BaseModel):

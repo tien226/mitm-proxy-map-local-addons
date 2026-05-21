@@ -6,7 +6,6 @@ import { SetupPanel } from "./components/SetupPanel";
 import { Toolbar } from "./components/Toolbar";
 import { TrafficPanel } from "./components/TrafficPanel";
 import { ResizableHorizontalSplit } from "./components/ResizableHorizontalSplit";
-import { buildDomainGroups } from "./utils/domains";
 import type { AppSection, MapLocalSeed, MitmFlow, ProxyStatus } from "./types";
 
 const DEFAULT_STATUS: ProxyStatus = {
@@ -25,7 +24,6 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [mapLocalSeed, setMapLocalSeed] = useState<MapLocalSeed | null>(null);
   const [flows, setFlows] = useState<MitmFlow[]>([]);
-  const [selectedHost, setSelectedHost] = useState<string | null>(null);
 
   const handleMapLocalFromTraffic = (seed: MapLocalSeed): void => {
     setMapLocalSeed(seed);
@@ -58,8 +56,6 @@ export default function App() {
     const intervalId = window.setInterval(loadFlows, 3000);
     return () => window.clearInterval(intervalId);
   }, [status.is_running]);
-
-  const domains = buildDomainGroups(flows);
 
   const handleStart = async (): Promise<void> => {
     setIsLoading(true);
@@ -123,20 +119,12 @@ export default function App() {
         flows={flows}
         isProxyRunning={status.is_running}
         onMapLocal={handleMapLocalFromTraffic}
-        selectedHost={selectedHost}
       />
     );
   };
 
   const sidebar = (
-    <AppSidebar
-      activeSection={activeSection}
-      onSectionChange={setActiveSection}
-      domains={domains}
-      selectedHost={selectedHost}
-      onSelectHost={setSelectedHost}
-      totalFlowCount={flows.length}
-    />
+    <AppSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
   );
 
   return (
@@ -153,9 +141,9 @@ export default function App() {
         <ResizableHorizontalSplit
           left={sidebar}
           right={mainContent()}
-          initialLeftPercent={22}
-          minLeftPercent={16}
-          maxLeftPercent={40}
+          initialLeftPercent={14}
+          minLeftPercent={12}
+          maxLeftPercent={22}
           storageKey="tft-proxy-sidebar-split"
         />
       </div>

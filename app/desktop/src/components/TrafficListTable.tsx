@@ -1,5 +1,5 @@
 import { formatDurationMs } from "../utils/duration";
-import { getFlowDurationMs, isMapLocalFlow } from "../utils/flow";
+import { getFlowDurationMs, getFlowUrl, isMapLocalFlow } from "../utils/flow";
 import type { MitmFlow } from "../types";
 
 interface TrafficListTableProps {
@@ -60,7 +60,7 @@ export function TrafficListTable({ flows, selectedId, onSelectFlow }: TrafficLis
         {flows.map((flow, index) => {
           const statusCode = flow.response?.status_code;
           const isError = statusCode !== undefined && statusCode >= 400;
-          const path = flow.request.path || "/";
+          const url = getFlowUrl(flow);
           return (
             <tr
               key={flow.id}
@@ -68,8 +68,8 @@ export function TrafficListTable({ flows, selectedId, onSelectFlow }: TrafficLis
               onClick={() => onSelectFlow(flow.id)}
             >
               <td className="col-id">{index + 1}</td>
-              <td className="col-url">
-                {path}
+              <td className="col-url" title={url}>
+                {url}
                 {isMapLocalFlow(flow) && <span className="badge-mapped">MAP</span>}
               </td>
               <td className="col-client">{getClientIp(flow)}</td>

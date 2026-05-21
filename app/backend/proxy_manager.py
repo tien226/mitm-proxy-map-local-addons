@@ -7,12 +7,13 @@ import subprocess
 import sys
 import time
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Dict, Optional
 
 import httpx
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+from project_paths import get_project_root
+
+PROJECT_ROOT = get_project_root()
 ADDON_SCRIPT = PROJECT_ROOT / "map-local-addons.py"
 LOG_FILE = PROJECT_ROOT / ".mitmweb.log"
 DEFAULT_PROXY_PORT = 8080

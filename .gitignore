@@ -2,6 +2,8 @@
 .mitmweb.log
 .flow-cache/
 app/desktop/node_modules/
+app/desktop/dist-electron/
+app/desktop/build/
 app/backend/static/
 __pycache__/
 *.pyc

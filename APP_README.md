@@ -18,7 +18,43 @@ chmod +x launch-app.sh
 
 Opens **http://127.0.0.1:6789** automatically (one port — UI + API).
 
-Dev mode (hot reload UI on port 5173):
+### Desktop app (native window)
+
+Same backend and UI, opened in an Electron window instead of the browser:
+
+```bash
+chmod +x launch-desktop.sh
+./launch-desktop.sh
+```
+
+Dev mode (hot reload in the desktop window):
+
+```bash
+./launch-desktop.sh dev
+```
+
+### Install like a normal Mac app (no terminal after build)
+
+Build once (requires Node.js + Python 3 + network):
+
+```bash
+chmod +x build-mac-app.sh
+./build-mac-app.sh
+```
+
+Then drag **TFT Proxy.app** from `app/desktop/dist-electron/mac/` into **Applications**. Open from Launchpad — no `./launch-desktop.sh` needed.
+
+One-time on the Mac: `brew install mitmproxy` (proxy engine).
+
+**Other Mac shows "damaged"?** — See [INSTALL_MAC.md](INSTALL_MAC.md) (Gatekeeper, not a broken build).
+
+Quick dev window (terminal):
+
+```bash
+./launch-desktop.sh
+```
+
+### Web app dev mode (hot reload UI on port 5173)
 
 ```bash
 ./launch-app.sh dev
@@ -51,6 +87,7 @@ map-local-addons.py
 config.json
 local-files/
 launch-app.sh
+launch-desktop.sh
 ```
 
 ## Build production UI into backend

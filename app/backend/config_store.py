@@ -6,7 +6,9 @@ from typing import Any, Dict, List
 
 from pydantic import BaseModel, Field
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+from project_paths import get_project_root
+
+PROJECT_ROOT = get_project_root()
 CONFIG_PATH = PROJECT_ROOT / "config.json"
 LOCAL_FILES_DIR = PROJECT_ROOT / "local-files"
 

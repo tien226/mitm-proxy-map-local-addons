@@ -8,7 +8,8 @@ VENV_DIR="$ROOT_DIR/.venv"
 PORT=6789
 MODE="${1:-}"
 
-echo "==> TFT Proxy App"
+echo "==> TFT Proxy (web)"
+echo "    Desktop window: ./launch-desktop.sh"
 echo "Project: $ROOT_DIR"
 
 if ! command -v mitmweb &>/dev/null; then

@@ -38,9 +38,6 @@ export function FlowInspector({
   const url = getFlowUrl(flow);
   const requestHeaders = normalizeHeaders(flow.request.headers);
   const responseHeaders = normalizeHeaders(flow.response?.headers);
-  const statusCode = flow.response?.status_code;
-  const statusReason = (flow.response as { reason?: string } | undefined)?.reason;
-
   const handleCopyCurl = async (): Promise<void> => {
     const command = buildCurlCommand(flow.request.method, url, requestHeaders, requestBody);
     try {
@@ -86,7 +83,6 @@ export function FlowInspector({
             <MessagePane
               title="Request"
               url={url}
-              method={flow.request.method}
               headers={requestHeaders}
               body={requestBody}
               isLoading={isLoading}
@@ -97,8 +93,6 @@ export function FlowInspector({
             <MessagePane
               title="Response"
               url={url}
-              statusCode={statusCode}
-              statusReason={statusReason}
               headers={responseHeaders}
               body={responseBody}
               isLoading={isLoading}

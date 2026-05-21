@@ -6,9 +6,6 @@ type TabId = "header" | "query" | "body" | "json" | "raw";
 interface MessagePaneProps {
   title: string;
   url: string;
-  method?: string;
-  statusCode?: number;
-  statusReason?: string;
   headers: Array<[string, string]>;
   body: string;
   isLoading: boolean;
@@ -44,9 +41,6 @@ function tryParseJson(text: string): unknown | null {
 export function MessagePane({
   title,
   url,
-  method,
-  statusCode,
-  statusReason,
   headers,
   body,
   isLoading,
@@ -135,12 +129,6 @@ export function MessagePane({
     <div className="message-pane">
       <div className="message-pane-title">
         <span>{title}</span>
-        {method && <span className={`method method-${method}`}>{method}</span>}
-        {statusCode !== undefined && (
-          <span className={`status-badge status-${Math.floor(statusCode / 100)}xx`}>
-            {statusCode} {statusReason ?? ""}
-          </span>
-        )}
       </div>
       <div className="pane-tabs">
         {tabs.map((tab) => (

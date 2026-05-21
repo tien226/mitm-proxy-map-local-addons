@@ -2,10 +2,14 @@
   "name": "tft-proxy",
   "version": "1.0.0",
   "private": true,
+  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "electron": "npx electron .",
+    "electron:dev": "TFT_PROXY_ELECTRON_DEV=1 npx electron .",
+    "desktop:pack": "npm run build && npx electron-builder --mac"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -15,7 +19,47 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
     "typescript": "^5.6.3",
     "vite": "^5.4.11"
+  },
+  "build": {
+    "appId": "com.tft.proxy",
+    "productName": "TFT Proxy",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "electron/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "build/tft-proxy-backend",
+        "to": "tft-proxy-backend"
+      },
+      {
+        "from": "../../map-local-addons.py",
+        "to": "map-local-addons.py"
+      },
+      {
+        "from": "../../config.json",
+        "to": "config.json"
+      },
+      {
+        "from": "../../local-files",
+        "to": "local-files"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "identity": "-",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    }
   }
 }

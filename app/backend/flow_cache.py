@@ -1,10 +1,11 @@
 """Read flow bodies cached by the mitmproxy addon."""
 
 import json
-from pathlib import Path
 from typing import Any, Dict, Optional
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+from project_paths import get_project_root
+
+PROJECT_ROOT = get_project_root()
 CACHE_DIR = PROJECT_ROOT / ".flow-cache"
 MAX_CACHE_FILES = 500
 

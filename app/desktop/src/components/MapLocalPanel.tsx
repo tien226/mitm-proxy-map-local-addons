@@ -119,15 +119,25 @@ export function MapLocalPanel({ seed, onSeedConsumed }: MapLocalPanelProps) {
           </thead>
           <tbody>
             {rules.map((rule, index) => (
-              <tr key={`${rule.url}-${index}`}>
+              <tr
+                key={`${rule.url}-${index}`}
+                className={`rules-table-row ${editingIndex === index ? "selected" : ""}`}
+                onClick={() => {
+                  void startEdit(index);
+                }}
+              >
                 <td>{rule.method}</td>
-                <td>{rule.url}</td>
+                <td className="rules-table-url">{rule.url}</td>
                 <td>{rule.status_code}</td>
-                <td>
-                  <button className="btn" type="button" onClick={() => startEdit(index)}>
-                    Edit
-                  </button>
-                  <button className="btn btn-danger" type="button" onClick={() => removeRule(index)}>
+                <td
+                  className="rules-table-actions"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <button
+                    className="btn btn-danger"
+                    type="button"
+                    onClick={() => removeRule(index)}
+                  >
                     Delete
                   </button>
                 </td>

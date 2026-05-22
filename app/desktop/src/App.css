@@ -1275,6 +1275,37 @@ pre {
   min-height: 0;
 }
 
+.rules-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rules-table-row {
+  cursor: pointer;
+}
+
+.rules-table-row:hover {
+  background: rgba(88, 166, 255, 0.08);
+}
+
+.rules-table-row.selected {
+  background: #094771;
+}
+
+.rules-table-row.selected:hover {
+  background: #094771;
+}
+
+.rules-table-url {
+  word-break: break-all;
+}
+
+.rules-table-actions {
+  width: 88px;
+  text-align: right;
+  white-space: nowrap;
+}
+
 .rule-form {
   flex: 1;
   min-height: 0;

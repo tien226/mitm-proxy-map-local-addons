@@ -6,79 +6,112 @@ interface SetupPanelProps {
 
 export function SetupPanel({ status }: SetupPanelProps) {
   const emulatorHost = status.emulator_host || "10.0.2.2";
+  const proxyPort = status.proxy_port;
+  const macIp = status.local_ip;
   return (
     <div className="setup-panel">
-      <h2>Device Setup</h2>
+      <h2>Setup Guide</h2>
+      <p className="setup-intro">
+        Follow these steps to route your app traffic through TFT Proxy on this Mac. When setup is
+        correct, requests appear in the <strong>Traffic</strong> tab within a few seconds.
+      </p>
+      <div className="setup-card setup-card-summary">
+        <h3>Quick reference</h3>
+        <table className="setup-ref-table">
+          <tbody>
+            <tr>
+              <th>Proxy port</th>
+              <td>
+                <code>{proxyPort}</code>
+              </td>
+            </tr>
+            <tr>
+              <th>Mac IP (physical phone)</th>
+              <td>
+                <code>{macIp}</code>
+              </td>
+            </tr>
+            <tr>
+              <th>Emulator host</th>
+              <td>
+                <code>{emulatorHost}</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div className="setup-card">
-        <h3>1. Proxy</h3>
+        <h3>1. Start the proxy</h3>
         <p>
-          Proxy starts automatically when you open TFT Proxy and stops when you quit. It listens on{" "}
-          <code>0.0.0.0:{status.proxy_port}</code> (all interfaces).
+          TFT Proxy starts the mitmproxy service automatically when you open the app and stops it
+          when you quit. You do not need to press a Start button.
+        </p>
+        <p>
+          Check the toolbar: status should show <strong>Running</strong>. If it shows Stopped or
+          an error, install mitmproxy (<code>brew install mitmproxy</code>) and restart the app.
         </p>
       </div>
       <div className="setup-card setup-card-primary">
-        <h3>2. Physical phone (same Wi‑Fi as Mac)</h3>
+        <h3>2. Device proxy</h3>
         <p>
-          Use your Mac IP — <strong>do not</strong> use <code>{emulatorHost}</code>.
+          <strong>Physical phone</strong> (same Wi‑Fi as this Mac): Wi‑Fi → your network → HTTP
+          proxy → Manual → Host <code>{macIp}</code>, Port <code>{proxyPort}</code>.
         </p>
         <p>
-          Wi‑Fi → your network → Proxy → <strong>Manual</strong>:
-          <br />
-          Host: <code>{status.local_ip}</code>
-          <br />
-          Port: <code>{status.proxy_port}</code>
-        </p>
-        <p>
-          <strong>Bypass proxy for:</strong> clear all fields (leave empty). Remove{" "}
-          <code>example.com</code>, <code>localhost</code>, etc. — defaults often cause
-          &quot;no internet&quot; errors.
-        </p>
-        <p>Turn off VPN on the phone. Mac and phone must be on the same Wi‑Fi.</p>
-        <p>
-          On the phone, open Safari/Chrome → <code>http://mitm.it</code> → download the Android
-          certificate → install and trust it (see <code>certificates-setups.md</code>).
-        </p>
-      </div>
-      <div className="setup-card setup-card-warning">
-        <h3>3. Android Emulator (AndroidWifi)</h3>
-        <p>
-          If your Wi‑Fi name is <strong>AndroidWifi</strong>, you are on the <strong>emulator</strong>.
-          Do <strong>not</strong> use <code>{status.local_ip}</code>.
-        </p>
-        <p>
-          Set manual proxy on the emulator:
-          <br />
-          Host: <code>{emulatorHost}</code> (not <code>{status.local_ip}</code>)
-          <br />
-          Port: <code>{status.proxy_port}</code>
-        </p>
-        <p>
-          Or run in terminal:
-          <br />
+          <strong>Android Emulator</strong> (AndroidWifi): Host <code>{emulatorHost}</code>, Port{" "}
+          <code>{proxyPort}</code>. Or in terminal:{" "}
           <code>
-            adb shell settings put global http_proxy {emulatorHost}:{status.proxy_port}
+            adb shell settings put global http_proxy {emulatorHost}:{proxyPort}
           </code>
         </p>
         <p>
-          To clear proxy later: <code>adb shell settings put global http_proxy :0</code>
+          <strong>Bypass proxy for:</strong> leave empty. Turn off VPN on the phone while
+          debugging.
         </p>
         <p>
-          <strong>Bypass proxy for:</strong> leave empty (remove <code>local</code>,{" "}
-          <code>example.com</code>, etc.) while testing <code>mitm.it</code>.
+          Open <code>http://mitm.it</code> on the device browser, install the certificate, and
+          trust it (see <code>certificates-setups.md</code>). Then use your app and check the{" "}
+          <strong>Traffic</strong> tab.
         </p>
       </div>
       <div className="setup-card">
-        <h3>4. Map Local</h3>
+        <h3>3. HTTPS traffic (certificate)</h3>
         <p>
-          Open the <strong>Map Local</strong> tab — map API URLs to JSON files in{" "}
-          <code>local-files/</code>.
+          HTTP requests appear in Traffic without extra steps. For <strong>HTTPS</strong>, the
+          device must trust the mitmproxy certificate from <code>http://mitm.it</code>.
         </p>
+        <ul className="setup-steps">
+          <li>Install the certificate on the phone or emulator.</li>
+          <li>
+            Android: Settings → Security → Encryption &amp; credentials → Trusted credentials →
+            User → enable the mitmproxy certificate.
+          </li>
+          <li>
+            iOS: Settings → General → About → Certificate Trust Settings → enable full trust for
+            the mitmproxy root certificate.
+          </li>
+          <li>
+            Reload the app and confirm HTTPS calls show in Traffic without certificate errors in
+            the app.
+          </li>
+        </ul>
       </div>
       <div className="setup-card">
-        <h3>5. macOS certificate (this Mac)</h3>
+        <h3>4. Map Local (mock responses)</h3>
         <p>
-          Run <code>./setup.sh</code> once to trust the mitmproxy CA on macOS.
+          Optional: open the <strong>Map Local</strong> tab to return a local JSON file instead of
+          the real API response.
         </p>
+        <ol className="setup-steps">
+          <li>Click a request in Traffic → <strong>Map Local</strong> (or add a rule manually).</li>
+          <li>
+            Edit the JSON under <strong>Response JSON</strong> and click <strong>Save</strong>.
+          </li>
+          <li>
+            Files are stored in <code>local-files/</code>. The URL and HTTP method must match
+            exactly.
+          </li>
+        </ol>
       </div>
     </div>
   );

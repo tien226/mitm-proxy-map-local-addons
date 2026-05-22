@@ -30,6 +30,8 @@ export function SearchablePaneContent({
 }: SearchablePaneContentProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const prevFindOpenRequestRef = useRef<number>(0);
+  const prevSearchTextRef = useRef<string>(searchText);
   const [isFindOpen, setIsFindOpen] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
   const [caseSensitive, setCaseSensitive] = useState<boolean>(false);
@@ -77,9 +79,19 @@ export function SearchablePaneContent({
     }
   }, [enabled]);
   useEffect(() => {
-    if (!enabled || findOpenRequest === 0) {
+    if (prevSearchTextRef.current !== searchText) {
+      prevSearchTextRef.current = searchText;
+      closeFind();
+    }
+  }, [searchText, closeFind]);
+  useEffect(() => {
+    if (!enabled) {
       return;
     }
+    if (findOpenRequest <= prevFindOpenRequestRef.current) {
+      return;
+    }
+    prevFindOpenRequestRef.current = findOpenRequest;
     openFind();
   }, [enabled, findOpenRequest, openFind]);
   useEffect(() => {

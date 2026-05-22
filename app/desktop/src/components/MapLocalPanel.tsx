@@ -67,8 +67,12 @@ export function MapLocalPanel({ seed, onSeedConsumed }: MapLocalPanelProps) {
     setFileContent('{\n  "message": "Hello from local file"\n}\n');
   };
 
-  const startEdit = async (index: number): Promise<void> => {
-    const rule = rules[index];
+  const applyEditAtIndex = async (rulesList: MapLocalRule[], index: number): Promise<void> => {
+    const rule = rulesList[index];
+    if (!rule) {
+      setEditingIndex(null);
+      return;
+    }
     setEditingIndex(index);
     setDraft({ ...rule });
     try {
@@ -77,6 +81,10 @@ export function MapLocalPanel({ seed, onSeedConsumed }: MapLocalPanelProps) {
     } catch {
       setFileContent("{}");
     }
+  };
+
+  const startEdit = async (index: number): Promise<void> => {
+    await applyEditAtIndex(rules, index);
   };
 
   const saveRule = async (): Promise<void> => {
@@ -94,9 +102,37 @@ export function MapLocalPanel({ seed, onSeedConsumed }: MapLocalPanelProps) {
   };
 
   const removeRule = async (index: number): Promise<void> => {
-    await deleteRule(index);
-    setMessage("Rule deleted");
-    await loadData();
+    const currentEditingIndex = editingIndex;
+    try {
+      await deleteRule(index);
+      const rulesData = await fetchRules();
+      setRules(rulesData);
+      setMessage("Rule deleted");
+      if (currentEditingIndex === null) {
+        return;
+      }
+      if (rulesData.length === 0) {
+        setEditingIndex(null);
+        return;
+      }
+      if (currentEditingIndex < 0) {
+        return;
+      }
+      if (currentEditingIndex === index) {
+        const nextIndex = Math.min(index, rulesData.length - 1);
+        await applyEditAtIndex(rulesData, nextIndex);
+        return;
+      }
+      if (currentEditingIndex > index) {
+        await applyEditAtIndex(rulesData, currentEditingIndex - 1);
+        return;
+      }
+      await applyEditAtIndex(rulesData, currentEditingIndex);
+    } catch (deleteError) {
+      const message =
+        deleteError instanceof Error ? deleteError.message : "Failed to delete rule";
+      setMessage(message);
+    }
   };
 
   const rulesPane = (
@@ -215,11 +251,15 @@ export function MapLocalPanel({ seed, onSeedConsumed }: MapLocalPanelProps) {
           </button>
         </div>
       </div>
-    ) : null;
+    ) : (
+      <div className="rule-form rule-form-empty">
+        <div className="empty">Select a rule from the list or add a new Map Local rule.</div>
+      </div>
+    );
 
   return (
     <div className="map-local-panel">
-      {ruleFormPane !== null ? (
+      {rules.length > 0 || editingIndex !== null ? (
         <ResizableHorizontalSplit
           storageKey="tft-proxy-map-local-split"
           initialLeftPercent={55}

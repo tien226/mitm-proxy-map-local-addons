@@ -115,34 +115,37 @@ export default function App() {
     }
   };
 
-  const mainContent = (): JSX.Element => {
-    if (activeSection === "map-local") {
-      return (
-        <div className="main-panel-right">
-          <MapLocalPanel seed={mapLocalSeed} onSeedConsumed={() => setMapLocalSeed(null)} />
-        </div>
-      );
-    }
-    if (activeSection === "setup") {
-      return (
-        <div className="main-panel-right">
-          <SetupPanel status={status} />
-        </div>
-      );
-    }
-    return (
-      <TrafficPanel
-        flows={flows}
-        flowsError={flowsError}
-        isProxyRunning={status.is_running}
-        isProxyStarting={isLoading && !status.is_running}
-        onMapLocal={handleMapLocalFromTraffic}
-      />
-    );
-  };
-
   const sidebar = (
     <AppSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+  );
+
+  const mainPanels = (
+    <div className="main-panels">
+      <div
+        className={`main-panel-slot main-panel-right ${activeSection === "traffic" ? "is-active" : ""}`}
+        aria-hidden={activeSection !== "traffic"}
+      >
+        <TrafficPanel
+          flows={flows}
+          flowsError={flowsError}
+          isProxyRunning={status.is_running}
+          isProxyStarting={isLoading && !status.is_running}
+          onMapLocal={handleMapLocalFromTraffic}
+        />
+      </div>
+      <div
+        className={`main-panel-slot main-panel-right ${activeSection === "map-local" ? "is-active" : ""}`}
+        aria-hidden={activeSection !== "map-local"}
+      >
+        <MapLocalPanel seed={mapLocalSeed} onSeedConsumed={() => setMapLocalSeed(null)} />
+      </div>
+      <div
+        className={`main-panel-slot main-panel-right ${activeSection === "setup" ? "is-active" : ""}`}
+        aria-hidden={activeSection !== "setup"}
+      >
+        <SetupPanel status={status} />
+      </div>
+    </div>
   );
 
   return (
@@ -152,7 +155,7 @@ export default function App() {
       <div className="app-body">
         <ResizableHorizontalSplit
           left={sidebar}
-          right={mainContent()}
+          right={mainPanels}
           initialLeftPercent={14}
           minLeftPercent={12}
           maxLeftPercent={22}

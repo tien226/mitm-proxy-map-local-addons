@@ -176,10 +176,32 @@ body {
   min-height: 0;
 }
 
+.main-panels {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.main-panel-slot {
+  display: none;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.main-panel-slot.is-active {
+  display: flex;
+}
+
 .main-panel-right {
   height: 100%;
+  min-height: 0;
   overflow: hidden;
-  display: flex;
+  flex: 1;
   flex-direction: column;
 }
 
@@ -1315,6 +1337,17 @@ pre {
   padding: 16px;
   box-sizing: border-box;
   background: #1a1d23;
+}
+
+.rule-form-empty {
+  align-items: center;
+  justify-content: center;
+}
+
+.rule-form-empty .empty {
+  max-width: 280px;
+  text-align: center;
+  line-height: 1.5;
 }
 
 .rule-form h3 {

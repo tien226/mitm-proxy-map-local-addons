@@ -56,7 +56,6 @@ export function MapLocalJsonSection({ value, onChange }: MapLocalJsonSectionProp
         </span>
       </div>
       <SearchablePaneContent
-        key={activeTab}
         searchText={searchText}
         enabled={searchText.length > 0}
         enableFindShortcut={true}

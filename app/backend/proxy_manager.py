@@ -1,13 +1,15 @@
 """Manage mitmweb subprocess lifecycle."""
 
 import os
+import shutil
 import signal
 import socket
 import subprocess
 import sys
 import time
 from dataclasses import dataclass
-from typing import Dict, Optional
+from pathlib import Path
+from typing import Dict, List, Optional
 
 import httpx
 
@@ -20,6 +22,25 @@ DEFAULT_PROXY_PORT = 8080
 DEFAULT_WEB_PORT = 8081
 EMULATOR_PROXY_HOST = "10.0.2.2"
 WEB_PASSWORD = "tftproxy"
+MITMWEB_CANDIDATE_PATHS: List[str] = [
+    "/opt/homebrew/bin/mitmweb",
+    "/usr/local/bin/mitmweb",
+]
+
+
+def resolve_mitmweb_executable() -> Optional[str]:
+    env_path = os.environ.get("MITMWEB_PATH") or os.environ.get("MITM_PROXY_MITMWEB")
+    if env_path:
+        env_candidate = Path(env_path).expanduser()
+        if env_candidate.is_file():
+            return str(env_candidate)
+    found = shutil.which("mitmweb")
+    if found:
+        return found
+    for candidate in MITMWEB_CANDIDATE_PATHS:
+        if Path(candidate).is_file():
+            return candidate
+    return None
 
 
 @dataclass
@@ -47,9 +68,16 @@ class ProxyManager:
         self.stop()
         self._kill_processes_on_ports(proxy_port, web_port)
         self.last_error = None
+        mitmweb_bin = resolve_mitmweb_executable()
+        if mitmweb_bin is None:
+            self.last_error = (
+                "mitmweb not found. Install mitmproxy: brew install mitmproxy "
+                "(or set MITMWEB_PATH to the mitmweb binary)."
+            )
+            return self.get_status()
         log_handle = LOG_FILE.open("w", encoding="utf-8")
         command = [
-            "mitmweb",
+            mitmweb_bin,
             "-s",
             str(ADDON_SCRIPT),
             "--listen-host",

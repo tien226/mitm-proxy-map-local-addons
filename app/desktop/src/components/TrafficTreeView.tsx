@@ -9,6 +9,7 @@ interface TrafficTreeViewProps {
   nodes: FlowTreeNode[];
   selectedFlowId: string | null;
   selectedScopeId: string | null;
+  isScopeSelectionActive: boolean;
   onSelectScope: (nodeId: string) => void;
   onSelectFlow: (flowId: string) => void;
 }
@@ -17,6 +18,7 @@ export function TrafficTreeView({
   nodes,
   selectedFlowId,
   selectedScopeId,
+  isScopeSelectionActive,
   onSelectScope,
   onSelectFlow,
 }: TrafficTreeViewProps) {
@@ -97,9 +99,10 @@ export function TrafficTreeView({
   const renderNode = (node: FlowTreeNode, depth: number): JSX.Element => {
     const isExpanded = expandedIds.has(node.id);
     const hasChildren = node.children.length > 0;
-    const isFlowSelected = node.type === "flow" && node.id === selectedFlowId;
+    const isFlowSelected =
+      node.type === "flow" && node.id === selectedFlowId && !isScopeSelectionActive;
     const isScopeSelected =
-      node.type !== "flow" && node.id === selectedScopeId && selectedFlowId === null;
+      node.type !== "flow" && node.id === selectedScopeId && isScopeSelectionActive;
     if (node.type === "flow" && node.flow) {
       return (
         <div

@@ -11,10 +11,20 @@ MODE="${1:-}"
 echo "==> TFT Proxy Desktop"
 echo "Project: $ROOT_DIR"
 
-if ! command -v mitmweb &>/dev/null; then
-  echo "Error: mitmproxy not found. Install with: brew install mitmproxy"
+MITMWEB_BIN=""
+if command -v mitmweb &>/dev/null; then
+  MITMWEB_BIN="$(command -v mitmweb)"
+elif [ -x "/opt/homebrew/bin/mitmweb" ]; then
+  MITMWEB_BIN="/opt/homebrew/bin/mitmweb"
+elif [ -x "/usr/local/bin/mitmweb" ]; then
+  MITMWEB_BIN="/usr/local/bin/mitmweb"
+fi
+if [ -z "$MITMWEB_BIN" ]; then
+  echo "Error: mitmweb not found. Install with: brew install mitmproxy"
   exit 1
 fi
+export MITMWEB_PATH="$MITMWEB_BIN"
+export PATH="$(dirname "$MITMWEB_BIN"):$PATH"
 
 if ! command -v python3 &>/dev/null; then
   echo "Error: python3 not found"

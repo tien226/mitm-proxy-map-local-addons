@@ -25,6 +25,7 @@ export function TrafficPanel({ flows, isProxyRunning, onMapLocal }: TrafficPanel
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedScopeId, setSelectedScopeId] = useState<string | null>(null);
   const [tableListMode, setTableListMode] = useState<"scope" | "single">("scope");
+  const [isTableSelectionPrimary, setIsTableSelectionPrimary] = useState<boolean>(false);
   const [requestBody, setRequestBody] = useState<string>("");
   const [responseBody, setResponseBody] = useState<string>("");
   const [detailError, setDetailError] = useState<string | null>(null);
@@ -36,6 +37,7 @@ export function TrafficPanel({ flows, isProxyRunning, onMapLocal }: TrafficPanel
       setSelectedId(null);
       setSelectedScopeId(null);
       setTableListMode("scope");
+      setIsTableSelectionPrimary(false);
       return;
     }
     if (selectedId && !flows.some((flow) => flow.id === selectedId)) {
@@ -107,18 +109,31 @@ export function TrafficPanel({ flows, isProxyRunning, onMapLocal }: TrafficPanel
 
   const handleSelectScope = (nodeId: string): void => {
     setSelectedScopeId(nodeId);
-    setSelectedId(null);
     setTableListMode("scope");
+    setIsTableSelectionPrimary(false);
+    const scopeNode = findTreeNode(treeNodes, nodeId);
+    if (!scopeNode) {
+      setSelectedId(null);
+      return;
+    }
+    const scopedFlows = collectFlowsUnderNode(scopeNode);
+    setSelectedId(scopedFlows[0]?.id ?? null);
   };
 
   const handleSelectFlowFromTree = (flowId: string): void => {
     setSelectedId(flowId);
     setTableListMode("single");
+    setIsTableSelectionPrimary(true);
   };
 
   const handleSelectFlowFromTable = (flowId: string): void => {
     setSelectedId(flowId);
+    setIsTableSelectionPrimary(true);
   };
+
+  const isScopeSelectionActive = tableListMode === "scope" && selectedScopeId !== null;
+  const tableSelectionVariant: "primary" | "subtle" =
+    isScopeSelectionActive && !isTableSelectionPrimary ? "subtle" : "primary";
 
   if (!isProxyRunning) {
     return (
@@ -138,6 +153,7 @@ export function TrafficPanel({ flows, isProxyRunning, onMapLocal }: TrafficPanel
           nodes={treeNodes}
           selectedFlowId={selectedId}
           selectedScopeId={selectedScopeId}
+          isScopeSelectionActive={isScopeSelectionActive}
           onSelectScope={handleSelectScope}
           onSelectFlow={handleSelectFlowFromTree}
         />
@@ -159,6 +175,7 @@ export function TrafficPanel({ flows, isProxyRunning, onMapLocal }: TrafficPanel
         <TrafficListTable
           flows={tableFlows}
           selectedId={selectedId}
+          selectionVariant={tableSelectionVariant}
           onSelectFlow={handleSelectFlowFromTable}
         />
       </div>

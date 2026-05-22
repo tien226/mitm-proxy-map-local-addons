@@ -5,6 +5,7 @@ import type { MitmFlow } from "../types";
 interface TrafficListTableProps {
   flows: MitmFlow[];
   selectedId: string | null;
+  selectionVariant?: "primary" | "subtle";
   onSelectFlow: (flowId: string) => void;
 }
 
@@ -38,7 +39,12 @@ function getClientIp(flow: MitmFlow): string {
   return "—";
 }
 
-export function TrafficListTable({ flows, selectedId, onSelectFlow }: TrafficListTableProps) {
+export function TrafficListTable({
+  flows,
+  selectedId,
+  selectionVariant = "primary",
+  onSelectFlow,
+}: TrafficListTableProps) {
   if (flows.length === 0) {
     return <div className="empty">No requests yet.</div>;
   }
@@ -61,10 +67,16 @@ export function TrafficListTable({ flows, selectedId, onSelectFlow }: TrafficLis
           const statusCode = flow.response?.status_code;
           const isError = statusCode !== undefined && statusCode >= 400;
           const url = getFlowUrl(flow);
+          const isSelected = flow.id === selectedId;
+          const rowClass = isSelected
+            ? selectionVariant === "subtle"
+              ? "selected-subtle"
+              : "selected"
+            : "";
           return (
             <tr
               key={flow.id}
-              className={flow.id === selectedId ? "selected" : ""}
+              className={rowClass}
               onClick={() => onSelectFlow(flow.id)}
             >
               <td className="col-id">{index + 1}</td>

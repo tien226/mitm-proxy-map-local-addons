@@ -425,7 +425,7 @@ body {
   cursor: pointer;
 }
 
-.traffic-pro-table tbody tr:hover:not(.selected) {
+.traffic-pro-table tbody tr:hover:not(.selected):not(.selected-subtle) {
   background: #21262d;
 }
 
@@ -435,6 +435,14 @@ body {
 
 .traffic-pro-table tbody tr.selected td {
   color: #e8eaed;
+}
+
+.traffic-pro-table tbody tr.selected-subtle {
+  background: #21262d;
+}
+
+.traffic-pro-table tbody tr.selected-subtle td {
+  color: #c9d1d9;
 }
 
 .col-id {

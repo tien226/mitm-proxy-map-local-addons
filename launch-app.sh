@@ -12,9 +12,29 @@ echo "==> TFT Proxy (web)"
 echo "    Desktop window: ./launch-desktop.sh"
 echo "Project: $ROOT_DIR"
 
-if ! command -v mitmweb &>/dev/null; then
-  echo "Error: mitmproxy not found. Install with: brew install mitmproxy"
+MITMWEB_BIN=""
+if command -v mitmweb &>/dev/null; then
+  MITMWEB_BIN="$(command -v mitmweb)"
+elif [ -x "/opt/homebrew/bin/mitmweb" ]; then
+  MITMWEB_BIN="/opt/homebrew/bin/mitmweb"
+elif [ -x "/usr/local/bin/mitmweb" ]; then
+  MITMWEB_BIN="/usr/local/bin/mitmweb"
+fi
+if [ -z "$MITMWEB_BIN" ]; then
+  echo "Error: mitmweb not found. Install with: brew install mitmproxy"
   exit 1
+fi
+export MITMWEB_PATH="$MITMWEB_BIN"
+export PATH="$(dirname "$MITMWEB_BIN"):$PATH"
+
+if command -v lsof &>/dev/null; then
+  EXISTING_PIDS=$(lsof -ti :"$PORT" 2>/dev/null || true)
+  if [ -n "$EXISTING_PIDS" ]; then
+    echo "Error: port $PORT is already in use (PID: $EXISTING_PIDS)"
+    echo "Stop the old app: ./stop-app.sh"
+    echo "Or manually: kill $EXISTING_PIDS"
+    exit 1
+  fi
 fi
 
 if ! command -v python3 &>/dev/null; then

@@ -1,5 +1,8 @@
 import { useMemo, useState } from "react";
 import { JsonHighlightedCode } from "./JsonHighlightedCode";
+import { MapLocalJsonEditor } from "./MapLocalJsonEditor";
+import { SearchablePaneContent } from "./SearchablePaneContent";
+import { SearchablePre } from "./SearchablePre";
 
 type JsonViewTab = "edit" | "preview";
 
@@ -28,44 +31,54 @@ export function MapLocalJsonSection({ value, onChange }: MapLocalJsonSectionProp
     }
     return `${JSON.stringify(parsedJson, null, 2)}\n`;
   }, [parsedJson]);
-
-  const renderPreview = (): JSX.Element => {
-    if (parsedJson === null) {
-      return <div className="pane-empty">Not valid JSON — fix in Edit tab</div>;
-    }
-    return <JsonHighlightedCode text={formattedJson} />;
-  };
+  const isEditTab = activeTab === "edit";
+  const searchText = isEditTab ? value : formattedJson || value;
 
   return (
     <div className="map-local-json-section">
-      <div className="pane-tabs">
+      <div className="pane-tabs map-local-json-tabs">
         <button
           type="button"
-          className={`pane-tab ${activeTab === "edit" ? "active" : ""}`}
+          className={`pane-tab ${isEditTab ? "active" : ""}`}
           onClick={() => setActiveTab("edit")}
         >
           Edit
         </button>
         <button
           type="button"
-          className={`pane-tab ${activeTab === "preview" ? "active" : ""}`}
+          className={`pane-tab ${!isEditTab ? "active" : ""}`}
           onClick={() => setActiveTab("preview")}
         >
           Preview
         </button>
+        <span className="map-local-json-hint">
+          {isEditTab ? "Edit JSON · Cmd+F to find" : "Preview · Cmd+F highlights matches"}
+        </span>
       </div>
-      <div className="map-local-json-body pane-content">
-        {activeTab === "edit" ? (
-          <textarea
-            className="map-local-json-textarea"
-            value={value}
-            onChange={(event) => onChange(event.target.value)}
-            spellCheck={false}
-          />
-        ) : (
-          renderPreview()
-        )}
-      </div>
+      <SearchablePaneContent
+        key={activeTab}
+        searchText={searchText}
+        enabled={searchText.length > 0}
+        enableFindShortcut={true}
+        autoFocusContainer={false}
+        highlightScroll={true}
+      >
+        {(find) => {
+          if (isEditTab) {
+            return <MapLocalJsonEditor value={value} onChange={onChange} find={find} />;
+          }
+          if (parsedJson === null) {
+            if (!value.trim()) {
+              return <div className="pane-empty">Invalid JSON — fix in Edit tab</div>;
+            }
+            if (find) {
+              return <SearchablePre text={value} find={find} />;
+            }
+            return <pre className="pane-pre map-local-json-preview-raw">{value}</pre>;
+          }
+          return <JsonHighlightedCode text={formattedJson} find={find} plainText />;
+        }}
+      </SearchablePaneContent>
     </div>
   );
 }

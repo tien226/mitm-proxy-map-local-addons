@@ -13,7 +13,7 @@ from pydantic import BaseModel
 
 from config_store import ConfigStore, MapLocalRule, MapLocalRuleUpdate
 from flow_cache import clear_flow_cache, read_cached_body
-from flow_utils import normalize_flow, normalize_flows
+from flow_utils import extract_flow_list, normalize_flow, normalize_flows
 from proxy_manager import EMULATOR_PROXY_HOST, ProxyManager
 
 app = FastAPI(title="TFT Proxy", version="1.0.0")
@@ -137,7 +137,7 @@ def write_local_file(filename: str, payload: LocalFilePayload) -> Dict[str, str]
 
 async def _proxy_mitmweb(path: str) -> Any:
     if not proxy_manager.is_running():
-        detail = proxy_manager.last_error or "Proxy is not running. Click Start Proxy."
+        detail = proxy_manager.last_error or "Proxy is not running."
         raise HTTPException(status_code=503, detail=detail)
     try:
         response = proxy_manager.fetch_mitmweb(path)
@@ -157,7 +157,7 @@ async def _proxy_mitmweb(path: str) -> Any:
 def clear_flows() -> Dict[str, str]:
     proxy_manager.sync_ports_from_running_process()
     if not proxy_manager.is_running():
-        raise HTTPException(status_code=503, detail="Proxy is not running. Click Start Proxy.")
+        raise HTTPException(status_code=503, detail="Proxy is not running.")
     cleared = proxy_manager.clear_flows()
     clear_flow_cache()
     if not cleared:
@@ -168,10 +168,9 @@ def clear_flows() -> Dict[str, str]:
 
 @app.get("/api/flows")
 async def list_flows() -> Any:
-    flows = await _proxy_mitmweb("/flows")
-    if isinstance(flows, list):
-        return normalize_flows(flows)
-    return flows
+    payload = await _proxy_mitmweb("/flows")
+    flow_list = extract_flow_list(payload)
+    return normalize_flows(flow_list)
 
 
 @app.get("/api/flows/{flow_id}")
@@ -191,7 +190,7 @@ def get_flow_content(flow_id: str, message: str) -> Dict[str, str]:
         return {"content": cached_body, "source": "cache"}
     proxy_manager.sync_ports_from_running_process()
     if not proxy_manager.is_running():
-        raise HTTPException(status_code=503, detail="Proxy is not running. Click Start Proxy.")
+        raise HTTPException(status_code=503, detail="Proxy is not running.")
     raw_path = f"/flows/{flow_id}/{message}/content.data"
     auto_path = f"/flows/{flow_id}/{message}/content/auto.json"
     try:

@@ -17,11 +17,19 @@ import type { MapLocalSeed, MitmFlow } from "../types";
 
 interface TrafficPanelProps {
   flows: MitmFlow[];
+  flowsError: string | null;
   isProxyRunning: boolean;
+  isProxyStarting: boolean;
   onMapLocal: (seed: MapLocalSeed) => void;
 }
 
-export function TrafficPanel({ flows, isProxyRunning, onMapLocal }: TrafficPanelProps) {
+export function TrafficPanel({
+  flows,
+  flowsError,
+  isProxyRunning,
+  isProxyStarting,
+  onMapLocal,
+}: TrafficPanelProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedScopeId, setSelectedScopeId] = useState<string | null>(null);
   const [tableListMode, setTableListMode] = useState<"scope" | "single">("scope");
@@ -138,7 +146,9 @@ export function TrafficPanel({ flows, isProxyRunning, onMapLocal }: TrafficPanel
   if (!isProxyRunning) {
     return (
       <div className="traffic-main-empty">
-        <div className="empty">Start proxy to capture traffic from your device.</div>
+        <div className="empty">
+          {isProxyStarting ? "Starting proxy..." : "Proxy is not running. Restart the app."}
+        </div>
       </div>
     );
   }
@@ -151,6 +161,8 @@ export function TrafficPanel({ flows, isProxyRunning, onMapLocal }: TrafficPanel
       <div className="traffic-tree-scroll">
         <TrafficTreeView
           nodes={treeNodes}
+          flowsCount={flows.length}
+          flowsError={flowsError}
           selectedFlowId={selectedId}
           selectedScopeId={selectedScopeId}
           isScopeSelectionActive={isScopeSelectionActive}

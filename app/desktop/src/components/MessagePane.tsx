@@ -1,5 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { JsonHighlightedCode } from "./JsonHighlightedCode";
+import { SearchablePaneContent, type SearchableFindProps } from "./SearchablePaneContent";
+import { SearchablePre } from "./SearchablePre";
 
 type TabId = "header" | "query" | "body" | "json" | "raw";
 
@@ -38,6 +40,10 @@ function tryParseJson(text: string): unknown | null {
   }
 }
 
+function isSearchableTab(tab: TabId): boolean {
+  return tab === "body" || tab === "json" || tab === "raw";
+}
+
 export function MessagePane({
   title,
   url,
@@ -50,6 +56,7 @@ export function MessagePane({
     ? ["header", "query", "body", "json", "raw"]
     : ["header", "body", "json", "raw"];
   const [activeTab, setActiveTab] = useState<TabId>("header");
+  const [findOpenRequest, setFindOpenRequest] = useState<number>(0);
   const queryParams = useMemo(() => parseQueryString(url), [url]);
   const jsonValue = useMemo(() => tryParseJson(body), [body]);
   const formattedJson = useMemo(() => {
@@ -58,12 +65,41 @@ export function MessagePane({
     }
     return `${JSON.stringify(jsonValue, null, 2)}\n`;
   }, [jsonValue]);
+  const isSearchable = isSearchableTab(activeTab);
+  const searchText = useMemo(() => {
+    if (activeTab === "json" || (activeTab === "body" && jsonValue !== null)) {
+      return formattedJson;
+    }
+    return body;
+  }, [activeTab, body, formattedJson, jsonValue]);
 
-  const renderJsonBody = (): JSX.Element => {
-    return <JsonHighlightedCode text={formattedJson} />;
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (!isSearchable || isLoading) {
+        return;
+      }
+      const isFindShortcut = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "f";
+      if (isFindShortcut) {
+        event.preventDefault();
+        setFindOpenRequest((count) => count + 1);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isSearchable, isLoading]);
+
+  const renderJsonBody = (find?: SearchableFindProps): JSX.Element => {
+    return <JsonHighlightedCode text={formattedJson} find={find} />;
   };
 
-  const renderContent = (): JSX.Element => {
+  const renderPlainBody = (find?: SearchableFindProps): JSX.Element => {
+    if (find && find.query) {
+      return <SearchablePre text={body} find={find} />;
+    }
+    return <pre className="pane-pre">{body}</pre>;
+  };
+
+  const renderContent = (find?: SearchableFindProps): JSX.Element => {
     if (isLoading) {
       return <div className="pane-empty">Loading...</div>;
     }
@@ -105,22 +141,22 @@ export function MessagePane({
       if (jsonValue === null) {
         return <div className="pane-empty">Not valid JSON — use Body or Raw tab</div>;
       }
-      return renderJsonBody();
+      return renderJsonBody(find);
     }
     if (activeTab === "body") {
       if (!body) {
         return <div className="pane-empty">(empty)</div>;
       }
       if (jsonValue !== null) {
-        return renderJsonBody();
+        return renderJsonBody(find);
       }
-      return <pre className="pane-pre">{body}</pre>;
+      return renderPlainBody(find);
     }
     if (activeTab === "raw") {
       if (!body) {
         return <div className="pane-empty">(empty)</div>;
       }
-      return <pre className="pane-pre">{body}</pre>;
+      return renderPlainBody(find);
     }
     return <div className="pane-empty">(empty)</div>;
   };
@@ -142,7 +178,17 @@ export function MessagePane({
           </button>
         ))}
       </div>
-      <div className="pane-content">{renderContent()}</div>
+      {isSearchable ? (
+        <SearchablePaneContent
+          searchText={searchText}
+          enabled={!isLoading}
+          findOpenRequest={findOpenRequest}
+        >
+          {(find) => renderContent(find)}
+        </SearchablePaneContent>
+      ) : (
+        <div className="pane-content">{renderContent()}</div>
+      )}
     </div>
   );
 }

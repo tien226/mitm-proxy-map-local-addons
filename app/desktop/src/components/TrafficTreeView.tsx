@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  collectAncestorIdsForFlow,
-  collectDefaultExpandedIds,
-  type FlowTreeNode,
-} from "../utils/flowTree";
+import { useCallback, useState } from "react";
+import type { FlowTreeNode } from "../utils/flowTree";
+
+const TREE_EXPANDED_STORAGE_KEY = "tft-proxy-tree-expanded";
 
 interface TrafficTreeViewProps {
   nodes: FlowTreeNode[];
+  flowsCount: number;
+  flowsError: string | null;
   selectedFlowId: string | null;
   selectedScopeId: string | null;
   isScopeSelectionActive: boolean;
@@ -14,48 +14,36 @@ interface TrafficTreeViewProps {
   onSelectFlow: (flowId: string) => void;
 }
 
+function loadExpandedIds(): Set<string> {
+  try {
+    const raw = sessionStorage.getItem(TREE_EXPANDED_STORAGE_KEY);
+    if (!raw) {
+      return new Set();
+    }
+    const parsed = JSON.parse(raw) as string[];
+    return new Set(parsed);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveExpandedIds(expandedIds: Set<string>): void {
+  sessionStorage.setItem(TREE_EXPANDED_STORAGE_KEY, JSON.stringify([...expandedIds]));
+}
+
 export function TrafficTreeView({
   nodes,
+  flowsCount,
+  flowsError,
   selectedFlowId,
   selectedScopeId,
   isScopeSelectionActive,
   onSelectScope,
   onSelectFlow,
 }: TrafficTreeViewProps) {
-  const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
-  const didInitExpandRef = useRef<boolean>(false);
-  const userToggledRef = useRef<boolean>(false);
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(loadExpandedIds);
 
-  useEffect(() => {
-    if (nodes.length === 0) {
-      didInitExpandRef.current = false;
-      userToggledRef.current = false;
-      setExpandedIds(new Set());
-      return;
-    }
-    if (!didInitExpandRef.current) {
-      didInitExpandRef.current = true;
-      setExpandedIds(new Set(collectDefaultExpandedIds(nodes)));
-    }
-  }, [nodes]);
-
-  useEffect(() => {
-    if (!selectedFlowId || userToggledRef.current) {
-      return;
-    }
-    const ancestorIds = collectAncestorIdsForFlow(nodes, selectedFlowId);
-    if (ancestorIds.length === 0) {
-      return;
-    }
-    setExpandedIds((previous) => {
-      const next = new Set(previous);
-      ancestorIds.forEach((id) => next.add(id));
-      return next;
-    });
-  }, [selectedFlowId, nodes]);
-
-  const toggleExpanded = (nodeId: string): void => {
-    userToggledRef.current = true;
+  const toggleExpanded = useCallback((nodeId: string): void => {
     setExpandedIds((previous) => {
       const next = new Set(previous);
       if (next.has(nodeId)) {
@@ -63,9 +51,10 @@ export function TrafficTreeView({
       } else {
         next.add(nodeId);
       }
+      saveExpandedIds(next);
       return next;
     });
-  };
+  }, []);
 
   const handleGroupLabelClick = (nodeId: string): void => {
     onSelectScope(nodeId);
@@ -152,8 +141,16 @@ export function TrafficTreeView({
     );
   };
 
-  if (nodes.length === 0) {
-    return <div className="empty tree-empty">No requests yet.</div>;
+  if (flowsError) {
+    return <div className="empty tree-empty tree-empty-error">{flowsError}</div>;
+  }
+  if (flowsCount === 0 || nodes.length === 0) {
+    return (
+      <div className="empty tree-empty">
+        <p>No requests captured yet.</p>
+        <p className="tree-empty-hint">Send traffic from your device (see Setup tab).</p>
+      </div>
+    );
   }
 
   return <div className="traffic-tree">{nodes.map((node) => renderNode(node, 0))}</div>;

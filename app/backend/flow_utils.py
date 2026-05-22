@@ -64,3 +64,25 @@ def normalize_flow(flow: Dict[str, Any]) -> Dict[str, Any]:
 
 def normalize_flows(flows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return [normalize_flow(flow) for flow in flows]
+
+
+def extract_flow_list(payload: Any) -> List[Dict[str, Any]]:
+    if isinstance(payload, list):
+        return [item for item in payload if isinstance(item, dict)]
+    if isinstance(payload, dict):
+        for key in ("flows", "data", "items"):
+            value = payload.get(key)
+            if isinstance(value, list):
+                return [item for item in value if isinstance(item, dict)]
+    return []
+
+
+def extract_flow_list(payload: Any) -> List[Dict[str, Any]]:
+    if isinstance(payload, list):
+        return [item for item in payload if isinstance(item, dict)]
+    if isinstance(payload, dict):
+        for key in ("flows", "data", "items"):
+            value = payload.get(key)
+            if isinstance(value, list):
+                return [item for item in value if isinstance(item, dict)]
+    return []

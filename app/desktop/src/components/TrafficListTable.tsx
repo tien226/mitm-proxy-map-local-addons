@@ -46,7 +46,11 @@ export function TrafficListTable({
   onSelectFlow,
 }: TrafficListTableProps) {
   if (flows.length === 0) {
-    return <div className="empty">No requests yet.</div>;
+    return (
+      <div className="empty">
+        No requests in this view. Select a folder in Structure or capture traffic from your device.
+      </div>
+    );
   }
   return (
     <table className="traffic-pro-table">

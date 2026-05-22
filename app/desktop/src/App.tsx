@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { clearFlows, fetchFlows, fetchProxyStatus, startProxy, stopProxy } from "./api/client";
 import { AppSidebar } from "./components/AppSidebar";
 import { MapLocalPanel } from "./components/MapLocalPanel";
@@ -24,6 +24,8 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [mapLocalSeed, setMapLocalSeed] = useState<MapLocalSeed | null>(null);
   const [flows, setFlows] = useState<MitmFlow[]>([]);
+  const [flowsError, setFlowsError] = useState<string | null>(null);
+  const didAutoStartRef = useRef<boolean>(false);
 
   const handleMapLocalFromTraffic = (seed: MapLocalSeed): void => {
     setMapLocalSeed(seed);
@@ -35,40 +37,67 @@ export default function App() {
     setStatus(proxyStatus);
   }, []);
 
+  const ensureProxyRunning = useCallback(async (): Promise<void> => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const currentStatus = await fetchProxyStatus();
+      if (currentStatus.is_running) {
+        setStatus(currentStatus);
+        return;
+      }
+      const startedStatus = await startProxy(currentStatus.proxy_port, currentStatus.web_port);
+      setStatus(startedStatus);
+      if (!startedStatus.is_running) {
+        setError(startedStatus.error ?? "Failed to start proxy");
+      }
+    } catch (startError) {
+      const message = startError instanceof Error ? startError.message : "Failed to start proxy";
+      setError(message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    refreshStatus().catch((statusError: Error) => setError(statusError.message));
+    if (didAutoStartRef.current) {
+      return;
+    }
+    didAutoStartRef.current = true;
+    ensureProxyRunning();
+    return () => {
+      stopProxy().catch(() => undefined);
+    };
+  }, [ensureProxyRunning]);
+
+  useEffect(() => {
+    const statusIntervalId = window.setInterval(() => {
+      refreshStatus().catch(() => undefined);
+    }, 5000);
+    return () => window.clearInterval(statusIntervalId);
   }, [refreshStatus]);
 
   useEffect(() => {
     if (!status.is_running) {
       setFlows([]);
+      setFlowsError(null);
       return;
     }
     const loadFlows = async (): Promise<void> => {
       try {
         const data = await fetchFlows();
         setFlows(data);
-      } catch {
+        setFlowsError(null);
+      } catch (loadError) {
         setFlows([]);
+        const message = loadError instanceof Error ? loadError.message : "Failed to load flows";
+        setFlowsError(message);
       }
     };
     loadFlows();
     const intervalId = window.setInterval(loadFlows, 3000);
     return () => window.clearInterval(intervalId);
   }, [status.is_running]);
-
-  const handleStart = async (): Promise<void> => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const proxyStatus = await startProxy(status.proxy_port, status.web_port);
-      setStatus(proxyStatus);
-    } catch (startError) {
-      setError(startError instanceof Error ? startError.message : "Failed to start proxy");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleClearFlows = async (): Promise<void> => {
     if (!status.is_running || flows.length === 0) {
@@ -81,19 +110,6 @@ export default function App() {
       setFlows([]);
     } catch (clearError) {
       setError(clearError instanceof Error ? clearError.message : "Failed to clear list");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleStop = async (): Promise<void> => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const proxyStatus = await stopProxy();
-      setStatus(proxyStatus);
-    } catch (stopError) {
-      setError(stopError instanceof Error ? stopError.message : "Failed to stop proxy");
     } finally {
       setIsLoading(false);
     }
@@ -117,7 +133,9 @@ export default function App() {
     return (
       <TrafficPanel
         flows={flows}
+        flowsError={flowsError}
         isProxyRunning={status.is_running}
+        isProxyStarting={isLoading && !status.is_running}
         onMapLocal={handleMapLocalFromTraffic}
       />
     );
@@ -129,13 +147,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <Toolbar
-        status={status}
-        isLoading={isLoading}
-        onStart={handleStart}
-        onStop={handleStop}
-        onClearFlows={handleClearFlows}
-      />
+      <Toolbar status={status} isLoading={isLoading} onClearFlows={handleClearFlows} />
       {error && <div className="error-banner">{error}</div>}
       <div className="app-body">
         <ResizableHorizontalSplit

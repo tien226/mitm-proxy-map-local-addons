@@ -251,11 +251,19 @@ class ProxyManager:
             return False
 
     def fetch_mitmweb(self, path: str) -> httpx.Response:
-        return httpx.get(
-            f"http://127.0.0.1:{self.web_port}{path}",
-            params={"token": self.web_token},
+        with httpx.Client(
+            base_url=f"http://127.0.0.1:{self.web_port}",
             timeout=30.0,
-        )
+            follow_redirects=True,
+        ) as client:
+            self._authenticate_mitmweb_client(client)
+            xsrf_token = self._get_xsrf_token(client)
+            params: Dict[str, str] = {"token": self.web_token}
+            headers: Dict[str, str] = {}
+            if xsrf_token is not None:
+                params["_xsrf"] = xsrf_token
+                headers["X-Xsrftoken"] = xsrf_token
+            return client.get(path, params=params, headers=headers)
 
     def sync_ports_from_running_process(self) -> None:
         """Keep web_port in sync when mitmweb was started outside this manager."""

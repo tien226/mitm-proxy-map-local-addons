@@ -1,8 +1,17 @@
+import type { SearchableFindProps } from "./SearchablePaneContent";
+import { findLineMatchRanges, type TextMatchRange } from "../utils/textSearch";
+
 type JsonTokenType = "key" | "string" | "number" | "boolean" | "null" | "punctuation" | "text";
 
 interface JsonToken {
   type: JsonTokenType;
   value: string;
+}
+
+interface TokenSpan {
+  token: JsonToken;
+  start: number;
+  end: number;
 }
 
 function tokenizeJsonLine(line: string): JsonToken[] {
@@ -77,23 +86,154 @@ function tokenizeJsonLine(line: string): JsonToken[] {
   return tokens;
 }
 
-interface JsonHighlightedCodeProps {
-  text: string;
+function buildTokenSpans(line: string): TokenSpan[] {
+  const tokens = tokenizeJsonLine(line);
+  let position = 0;
+  return tokens.map((token) => {
+    const start = position;
+    const end = position + token.value.length;
+    position = end;
+    return { token, start, end };
+  });
 }
 
-export function JsonHighlightedCode({ text }: JsonHighlightedCodeProps) {
-  const lines = text.split("\n");
+function rangeOverlapsToken(range: TextMatchRange, start: number, end: number): boolean {
+  return range.start < end && range.end > start;
+}
+
+function tokenClassName(token: JsonToken, plainText: boolean): string {
+  return plainText ? "json-plain" : `json-${token.type}`;
+}
+
+function renderJsonTokenSpan(
+  token: JsonToken,
+  lineIndex: number,
+  keyPrefix: string,
+  plainText: boolean
+): JSX.Element {
   return (
-    <pre className="json-highlight">
-      {lines.map((line, lineIndex) => (
-        <div key={`line-${lineIndex}`} className="json-line">
-          {tokenizeJsonLine(line).map((token, tokenIndex) => (
-            <span key={`token-${lineIndex}-${tokenIndex}`} className={`json-${token.type}`}>
-              {token.value}
-            </span>
-          ))}
-        </div>
-      ))}
+    <span
+      key={`${keyPrefix}-${lineIndex}-${token.type}-${token.value}`}
+      className={tokenClassName(token, plainText)}
+    >
+      {token.value}
+    </span>
+  );
+}
+
+function renderTokenSpanWithFind(
+  span: TokenSpan,
+  lineIndex: number,
+  keyPrefix: string,
+  ranges: TextMatchRange[],
+  find: SearchableFindProps,
+  matchOffsetRef: { value: number },
+  plainText: boolean
+): JSX.Element[] {
+  const overlappingRanges = ranges
+    .filter((range) => rangeOverlapsToken(range, span.start, span.end))
+    .sort((left, right) => left.start - right.start);
+  if (overlappingRanges.length === 0) {
+    return [renderJsonTokenSpan(span.token, lineIndex, keyPrefix, plainText)];
+  }
+  const parts: JSX.Element[] = [];
+  let relativeCursor = 0;
+  overlappingRanges.forEach((range, rangeIndex) => {
+    const relativeStart = Math.max(relativeCursor, range.start - span.start);
+    const relativeEnd = Math.min(span.token.value.length, range.end - span.start);
+    if (relativeEnd <= relativeStart) {
+      return;
+    }
+    if (relativeStart > relativeCursor) {
+      const beforeText = span.token.value.slice(relativeCursor, relativeStart);
+      parts.push(
+        <span
+          key={`${keyPrefix}-before-${lineIndex}-${rangeIndex}`}
+          className={tokenClassName(span.token, plainText)}
+        >
+          {beforeText}
+        </span>
+      );
+    }
+    if (relativeEnd > relativeStart) {
+      const matchText = span.token.value.slice(relativeStart, relativeEnd);
+      const isActive = matchOffsetRef.value === find.activeMatchIndex;
+      parts.push(
+        <mark
+          key={`${keyPrefix}-match-${lineIndex}-${rangeIndex}`}
+          className={`find-match ${isActive ? "active" : ""}`}
+          data-find-match-index={matchOffsetRef.value}
+        >
+          <span className={tokenClassName(span.token, plainText)}>{matchText}</span>
+        </mark>
+      );
+      matchOffsetRef.value += 1;
+      relativeCursor = relativeEnd;
+    }
+  });
+  if (relativeCursor < span.token.value.length) {
+    parts.push(
+      <span key={`${keyPrefix}-after-${lineIndex}`} className={tokenClassName(span.token, plainText)}>
+        {span.token.value.slice(relativeCursor)}
+      </span>
+    );
+  }
+  return parts;
+}
+
+function renderLine(
+  line: string,
+  lineIndex: number,
+  find: SearchableFindProps | undefined,
+  matchOffsetRef: { value: number },
+  plainText: boolean
+): JSX.Element {
+  const tokenSpans = buildTokenSpans(line);
+  const ranges =
+    find && find.query ? findLineMatchRanges(line, find.query, find.options) : [];
+  if (ranges.length === 0) {
+    return (
+      <div key={`line-${lineIndex}`} className="json-line">
+        {tokenSpans.map((span, spanIndex) =>
+          renderJsonTokenSpan(span.token, lineIndex, `plain-${spanIndex}`, plainText)
+        )}
+      </div>
+    );
+  }
+  const parts: JSX.Element[] = [];
+  tokenSpans.forEach((span, spanIndex) => {
+    parts.push(
+      ...renderTokenSpanWithFind(
+        span,
+        lineIndex,
+        `span-${spanIndex}`,
+        ranges,
+        find!,
+        matchOffsetRef,
+        plainText
+      )
+    );
+  });
+  return (
+    <div key={`line-${lineIndex}`} className="json-line">
+      {parts}
+    </div>
+  );
+}
+
+interface JsonHighlightedCodeProps {
+  text: string;
+  find?: SearchableFindProps;
+  plainText?: boolean;
+}
+
+export function JsonHighlightedCode({ text, find, plainText = false }: JsonHighlightedCodeProps) {
+  const lines = text.split("\n");
+  const matchOffsetRef = { value: 0 };
+  const highlightClass = plainText ? "json-highlight json-highlight--plain" : "json-highlight";
+  return (
+    <pre className={highlightClass}>
+      {lines.map((line, lineIndex) => renderLine(line, lineIndex, find, matchOffsetRef, plainText))}
     </pre>
   );
 }

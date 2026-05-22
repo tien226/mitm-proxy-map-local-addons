@@ -10,9 +10,9 @@ export function SetupPanel({ status }: SetupPanelProps) {
     <div className="setup-panel">
       <h2>Device Setup</h2>
       <div className="setup-card">
-        <h3>1. Start proxy</h3>
+        <h3>1. Proxy</h3>
         <p>
-          Click <strong>Start Proxy</strong> in the toolbar. Proxy listens on{" "}
+          Proxy starts automatically when you open TFT Proxy and stops when you quit. It listens on{" "}
           <code>0.0.0.0:{status.proxy_port}</code> (all interfaces).
         </p>
       </div>

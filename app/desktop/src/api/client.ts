@@ -1,4 +1,4 @@
-import type { MapLocalRule, MitmFlow, ProxyStatus } from "../types";
+import type { ConnectedClient, MapLocalRule, MitmFlow, ProxyStatus } from "../types";
 
 const API_BASE = import.meta.env.DEV ? "http://127.0.0.1:6789" : "";
 
@@ -36,8 +36,38 @@ export async function stopProxy(): Promise<ProxyStatus> {
   return request<ProxyStatus>("/api/proxy/stop", { method: "POST" });
 }
 
+export interface FlowsSnapshot {
+  version: number;
+  unchanged: boolean;
+  flows: MitmFlow[];
+  connected_clients?: ConnectedClient[];
+}
+
+export async function fetchFlowsSnapshot(
+  sinceVersion: number,
+  signal?: AbortSignal
+): Promise<FlowsSnapshot> {
+  const query = sinceVersion > 0 ? `?since=${sinceVersion}` : "";
+  const response = await fetch(`${API_BASE}/api/flows${query}`, { signal });
+  if (!response.ok) {
+    const rawMessage = await response.text();
+    let message = rawMessage || `Request failed: ${response.status}`;
+    try {
+      const parsed = JSON.parse(rawMessage) as { detail?: string };
+      if (parsed.detail) {
+        message = parsed.detail;
+      }
+    } catch {
+      // keep raw message
+    }
+    throw new Error(message);
+  }
+  return response.json() as Promise<FlowsSnapshot>;
+}
+
 export async function fetchFlows(): Promise<MitmFlow[]> {
-  return request<MitmFlow[]>("/api/flows");
+  const snapshot = await fetchFlowsSnapshot(0);
+  return snapshot.flows;
 }
 
 export async function clearFlows(): Promise<void> {

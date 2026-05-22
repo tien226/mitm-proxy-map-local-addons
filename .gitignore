@@ -1,6 +1,7 @@
 .venv/
 .mitmweb.log
 .flow-cache/
+.connected-clients.json
 app/desktop/node_modules/
 app/desktop/dist-electron/
 app/desktop/build/

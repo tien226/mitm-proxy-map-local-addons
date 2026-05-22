@@ -1,6 +1,11 @@
 export type TabId = "traffic" | "map-local" | "setup";
 export type AppSection = TabId;
 
+export interface ConnectedClient {
+  ip: string;
+  last_seen: number;
+}
+
 export interface ProxyStatus {
   is_running: boolean;
   proxy_port: number;
@@ -8,6 +13,7 @@ export interface ProxyStatus {
   pid: number | null;
   local_ip: string;
   emulator_host: string;
+  connected_clients?: ConnectedClient[];
   error?: string;
 }
 

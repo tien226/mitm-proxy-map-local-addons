@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import type { FlowTreeNode } from "../utils/flowTree";
 
 const TREE_EXPANDED_STORAGE_KEY = "tft-proxy-tree-expanded";
@@ -31,7 +31,7 @@ function saveExpandedIds(expandedIds: Set<string>): void {
   sessionStorage.setItem(TREE_EXPANDED_STORAGE_KEY, JSON.stringify([...expandedIds]));
 }
 
-export function TrafficTreeView({
+function TrafficTreeViewInner({
   nodes,
   flowsCount,
   flowsError,
@@ -144,7 +144,7 @@ export function TrafficTreeView({
   if (flowsError) {
     return <div className="empty tree-empty tree-empty-error">{flowsError}</div>;
   }
-  if (flowsCount === 0 || nodes.length === 0) {
+  if (flowsCount === 0) {
     return (
       <div className="empty tree-empty">
         <p>No requests captured yet.</p>
@@ -155,3 +155,5 @@ export function TrafficTreeView({
 
   return <div className="traffic-tree">{nodes.map((node) => renderNode(node, 0))}</div>;
 }
+
+export const TrafficTreeView = memo(TrafficTreeViewInner);

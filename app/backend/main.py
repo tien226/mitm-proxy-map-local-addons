@@ -12,8 +12,10 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from config_store import ConfigStore, MapLocalRule, MapLocalRuleUpdate
+from client_tracker import clear_connected_clients, list_connected_clients, merge_clients_from_flows
 from flow_cache import clear_flow_cache, read_cached_body
-from flow_utils import extract_flow_list, normalize_flow, normalize_flows
+from flows_store import reset_flows_store, update_flows
+from flow_utils import extract_flow_list, normalize_flow
 from proxy_manager import EMULATOR_PROXY_HOST, ProxyManager
 
 app = FastAPI(title="TFT Proxy", version="1.0.0")
@@ -62,6 +64,7 @@ def _proxy_status_payload(status: Any) -> Dict[str, Any]:
     }
     if status.error:
         payload["error"] = status.error
+    payload["connected_clients"] = list_connected_clients()
     return payload
 
 
@@ -160,6 +163,8 @@ def clear_flows() -> Dict[str, str]:
         raise HTTPException(status_code=503, detail="Proxy is not running.")
     cleared = proxy_manager.clear_flows()
     clear_flow_cache()
+    clear_connected_clients()
+    reset_flows_store()
     if not cleared:
         detail = proxy_manager.last_error or "Failed to clear flows in mitmproxy"
         raise HTTPException(status_code=502, detail=detail)
@@ -167,10 +172,24 @@ def clear_flows() -> Dict[str, str]:
 
 
 @app.get("/api/flows")
-async def list_flows() -> Any:
+async def list_flows(since: Optional[int] = None) -> Dict[str, Any]:
     payload = await _proxy_mitmweb("/flows")
     flow_list = extract_flow_list(payload)
-    return normalize_flows(flow_list)
+    version, flows, unchanged = update_flows(flow_list)
+    connected_clients = merge_clients_from_flows(flow_list)
+    if since is not None and since >= 0 and unchanged:
+        return {
+            "version": version,
+            "unchanged": True,
+            "flows": [],
+            "connected_clients": connected_clients,
+        }
+    return {
+        "version": version,
+        "unchanged": False,
+        "flows": flows,
+        "connected_clients": connected_clients,
+    }
 
 
 @app.get("/api/flows/{flow_id}")

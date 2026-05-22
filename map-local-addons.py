@@ -16,6 +16,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 CONFIG_PATH = PROJECT_ROOT / "config.json"
 LOCAL_FILES_DIR = PROJECT_ROOT / "local-files"
 FLOW_CACHE_DIR = PROJECT_ROOT / ".flow-cache"
+CLIENTS_PATH = PROJECT_ROOT / ".connected-clients.json"
 MAX_CACHE_FILES = 500
 
 
@@ -67,6 +68,7 @@ class TftMapLocal:
         logger.info("Loaded %s map local rules", len(configs))
 
     def request(self, flow: http.HTTPFlow) -> None:
+        self.register_connected_client(flow)
         self.load_configs()
         for config in self.map_local_configs:
             if config.map_local_file is None:
@@ -94,7 +96,36 @@ class TftMapLocal:
             return
 
     def response(self, flow: http.HTTPFlow) -> None:
+        self.register_connected_client(flow)
         self.save_flow_cache(flow)
+
+    def register_connected_client(self, flow: http.HTTPFlow) -> None:
+        peername = flow.client_conn.peername
+        if not peername or len(peername) < 1:
+            return
+        client_ip = str(peername[0])
+        if client_ip in ("127.0.0.1", "::1", "0.0.0.0"):
+            return
+        store = self.load_connected_clients()
+        store[client_ip] = time.time()
+        self.save_connected_clients(store)
+
+    def load_connected_clients(self) -> dict[str, float]:
+        if not CLIENTS_PATH.exists():
+            return {}
+        try:
+            with CLIENTS_PATH.open("r", encoding="utf-8") as clients_file:
+                raw = json.load(clients_file)
+        except (json.JSONDecodeError, OSError):
+            return {}
+        if not isinstance(raw, dict):
+            return {}
+        return {str(ip): float(seen_at) for ip, seen_at in raw.items() if isinstance(seen_at, (int, float))}
+
+    def save_connected_clients(self, store: dict[str, float]) -> None:
+        CLIENTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with CLIENTS_PATH.open("w", encoding="utf-8") as clients_file:
+            json.dump(store, clients_file)
 
     def save_flow_cache(self, flow: http.HTTPFlow) -> None:
         if not flow.request:

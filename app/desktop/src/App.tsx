@@ -1,12 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { clearFlows, fetchFlows, fetchProxyStatus, startProxy, stopProxy } from "./api/client";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { clearFlows, fetchProxyStatus, startProxy, stopProxy } from "./api/client";
+import { useFlowsPolling } from "./hooks/useFlowsPolling";
 import { AppSidebar } from "./components/AppSidebar";
 import { MapLocalPanel } from "./components/MapLocalPanel";
 import { SetupPanel } from "./components/SetupPanel";
 import { Toolbar } from "./components/Toolbar";
 import { TrafficPanel } from "./components/TrafficPanel";
 import { ResizableHorizontalSplit } from "./components/ResizableHorizontalSplit";
-import type { AppSection, MapLocalSeed, MitmFlow, ProxyStatus } from "./types";
+import { areConnectedClientsEqual, mergeConnectedClients } from "./utils/connectedClients";
+import type { AppSection, ConnectedClient, MapLocalSeed, ProxyStatus } from "./types";
 
 const DEFAULT_STATUS: ProxyStatus = {
   is_running: false,
@@ -23,14 +25,25 @@ export default function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [mapLocalSeed, setMapLocalSeed] = useState<MapLocalSeed | null>(null);
-  const [flows, setFlows] = useState<MitmFlow[]>([]);
-  const [flowsError, setFlowsError] = useState<string | null>(null);
   const didAutoStartRef = useRef<boolean>(false);
+  const { flows, flowsError, polledClients, resetFlows } = useFlowsPolling(
+    status.is_running,
+    activeSection
+  );
+  const connectedClientsRef = useRef<ConnectedClient[]>([]);
+  const connectedClients = useMemo((): ConnectedClient[] => {
+    const merged = mergeConnectedClients(status.connected_clients, polledClients);
+    if (areConnectedClientsEqual(connectedClientsRef.current, merged)) {
+      return connectedClientsRef.current;
+    }
+    connectedClientsRef.current = merged;
+    return merged;
+  }, [status.connected_clients, polledClients]);
 
-  const handleMapLocalFromTraffic = (seed: MapLocalSeed): void => {
+  const handleMapLocalFromTraffic = useCallback((seed: MapLocalSeed): void => {
     setMapLocalSeed(seed);
     setActiveSection("map-local");
-  };
+  }, []);
 
   const refreshStatus = useCallback(async (): Promise<void> => {
     const proxyStatus = await fetchProxyStatus();
@@ -71,33 +84,12 @@ export default function App() {
   }, [ensureProxyRunning]);
 
   useEffect(() => {
+    refreshStatus().catch(() => undefined);
     const statusIntervalId = window.setInterval(() => {
       refreshStatus().catch(() => undefined);
-    }, 5000);
+    }, 3000);
     return () => window.clearInterval(statusIntervalId);
   }, [refreshStatus]);
-
-  useEffect(() => {
-    if (!status.is_running) {
-      setFlows([]);
-      setFlowsError(null);
-      return;
-    }
-    const loadFlows = async (): Promise<void> => {
-      try {
-        const data = await fetchFlows();
-        setFlows(data);
-        setFlowsError(null);
-      } catch (loadError) {
-        setFlows([]);
-        const message = loadError instanceof Error ? loadError.message : "Failed to load flows";
-        setFlowsError(message);
-      }
-    };
-    loadFlows();
-    const intervalId = window.setInterval(loadFlows, 3000);
-    return () => window.clearInterval(intervalId);
-  }, [status.is_running]);
 
   const handleClearFlows = async (): Promise<void> => {
     if (!status.is_running || flows.length === 0) {
@@ -107,7 +99,7 @@ export default function App() {
     setError(null);
     try {
       await clearFlows();
-      setFlows([]);
+      resetFlows();
     } catch (clearError) {
       setError(clearError instanceof Error ? clearError.message : "Failed to clear list");
     } finally {
@@ -143,14 +135,19 @@ export default function App() {
         className={`main-panel-slot main-panel-right ${activeSection === "setup" ? "is-active" : ""}`}
         aria-hidden={activeSection !== "setup"}
       >
-        <SetupPanel status={status} />
+        <SetupPanel status={status} connectedClients={connectedClients} />
       </div>
     </div>
   );
 
   return (
     <div className="app">
-      <Toolbar status={status} isLoading={isLoading} onClearFlows={handleClearFlows} />
+      <Toolbar
+        status={status}
+        connectedClients={connectedClients}
+        isLoading={isLoading}
+        onClearFlows={handleClearFlows}
+      />
       {error && <div className="error-banner">{error}</div>}
       <div className="app-body">
         <ResizableHorizontalSplit

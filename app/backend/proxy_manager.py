@@ -59,6 +59,7 @@ class ProxyManager:
         self.web_port: int = DEFAULT_WEB_PORT
         self.web_token: str = WEB_PASSWORD
         self.last_error: Optional[str] = None
+        self._mitmweb_client: Optional[httpx.Client] = None
 
     def start(self, proxy_port: int = DEFAULT_PROXY_PORT, web_port: int = DEFAULT_WEB_PORT) -> ProxyStatus:
         self.proxy_port = proxy_port
@@ -111,7 +112,13 @@ class ProxyManager:
             self.stop()
         return self.get_status()
 
+    def _close_mitmweb_client(self) -> None:
+        if self._mitmweb_client is not None:
+            self._mitmweb_client.close()
+            self._mitmweb_client = None
+
     def stop(self) -> ProxyStatus:
+        self._close_mitmweb_client()
         self._kill_processes_on_ports(self.proxy_port, self.web_port)
         if self.process is not None:
             if sys.platform != "win32":
@@ -202,12 +209,25 @@ class ProxyManager:
 
     @staticmethod
     def get_local_ip() -> str:
+        candidates: List[str] = []
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                 sock.connect(("8.8.8.8", 80))
-                return sock.getsockname()[0]
+                candidates.append(sock.getsockname()[0])
         except OSError:
-            return "127.0.0.1"
+            pass
+        try:
+            hostname = socket.gethostname()
+            for info in socket.getaddrinfo(hostname, None, socket.AF_INET):
+                address = info[4][0]
+                if address and not address.startswith("127."):
+                    candidates.append(address)
+        except OSError:
+            pass
+        for candidate in candidates:
+            if candidate and not candidate.startswith("127."):
+                return candidate
+        return candidates[0] if candidates else "127.0.0.1"
 
     def _authenticate_mitmweb_client(self, client: httpx.Client) -> None:
         # XSRF cookie is issued only when loading the mitmweb UI (GET /), not API routes like /flows.
@@ -228,42 +248,52 @@ class ProxyManager:
             self.last_error = "Proxy is not running"
             return False
         try:
-            with httpx.Client(
-                base_url=f"http://127.0.0.1:{self.web_port}",
-                timeout=10.0,
-                follow_redirects=True,
-            ) as client:
-                self._authenticate_mitmweb_client(client)
-                xsrf_token = self._get_xsrf_token(client)
-                if xsrf_token is None:
-                    self.last_error = "mitmweb XSRF token missing; reload mitmweb UI and try again"
-                    return False
-                params: Dict[str, str] = {"token": self.web_token, "_xsrf": xsrf_token}
-                headers: Dict[str, str] = {"X-Xsrftoken": xsrf_token}
-                response = client.post("/clear", params=params, headers=headers)
-                if response.status_code < 400:
-                    self.last_error = None
-                    return True
-                self.last_error = f"mitmweb clear failed (HTTP {response.status_code})"
+            client = self._get_mitmweb_client()
+            xsrf_token = self._get_xsrf_token(client)
+            if xsrf_token is None:
+                self.last_error = "mitmweb XSRF token missing; reload mitmweb UI and try again"
                 return False
+            params: Dict[str, str] = {"token": self.web_token, "_xsrf": xsrf_token}
+            headers: Dict[str, str] = {"X-Xsrftoken": xsrf_token}
+            response = client.post("/clear", params=params, headers=headers)
+            if response.status_code < 400:
+                self.last_error = None
+                return True
+            self.last_error = f"mitmweb clear failed (HTTP {response.status_code})"
+            return False
         except httpx.HTTPError as error:
             self.last_error = f"Cannot reach mitmweb: {error}"
             return False
 
+    def _get_mitmweb_client(self) -> httpx.Client:
+        if self._mitmweb_client is None:
+            self._mitmweb_client = httpx.Client(
+                base_url=f"http://127.0.0.1:{self.web_port}",
+                timeout=30.0,
+                follow_redirects=True,
+            )
+            self._authenticate_mitmweb_client(self._mitmweb_client)
+        return self._mitmweb_client
+
+    def _mitmweb_request_params(self, client: httpx.Client) -> tuple[Dict[str, str], Dict[str, str]]:
+        xsrf_token = self._get_xsrf_token(client)
+        params: Dict[str, str] = {"token": self.web_token}
+        headers: Dict[str, str] = {}
+        if xsrf_token is not None:
+            params["_xsrf"] = xsrf_token
+            headers["X-Xsrftoken"] = xsrf_token
+        return params, headers
+
     def fetch_mitmweb(self, path: str) -> httpx.Response:
-        with httpx.Client(
-            base_url=f"http://127.0.0.1:{self.web_port}",
-            timeout=30.0,
-            follow_redirects=True,
-        ) as client:
-            self._authenticate_mitmweb_client(client)
-            xsrf_token = self._get_xsrf_token(client)
-            params: Dict[str, str] = {"token": self.web_token}
-            headers: Dict[str, str] = {}
-            if xsrf_token is not None:
-                params["_xsrf"] = xsrf_token
-                headers["X-Xsrftoken"] = xsrf_token
-            return client.get(path, params=params, headers=headers)
+        client = self._get_mitmweb_client()
+        params, headers = self._mitmweb_request_params(client)
+        response = client.get(path, params=params, headers=headers)
+        if response.status_code == 403:
+            self._close_mitmweb_client()
+            client = self._get_mitmweb_client()
+            params, headers = self._mitmweb_request_params(client)
+            response = client.get(path, params=params, headers=headers)
+        return response
 
     def sync_ports_from_running_process(self) -> None:
         """Keep web_port in sync when mitmweb was started outside this manager."""

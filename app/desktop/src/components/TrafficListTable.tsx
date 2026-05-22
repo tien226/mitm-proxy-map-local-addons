@@ -1,6 +1,9 @@
+import { memo } from "react";
+import { useTrafficTableColumns } from "../hooks/useTrafficTableColumns";
 import { formatDurationMs } from "../utils/duration";
 import { getFlowDurationMs, getFlowUrl, isMapLocalFlow } from "../utils/flow";
 import type { MitmFlow } from "../types";
+import type { TrafficTableColumnId } from "../hooks/useTrafficTableColumns";
 
 interface TrafficListTableProps {
   flows: MitmFlow[];
@@ -30,21 +33,47 @@ function getStatusLabel(statusCode: number | undefined): string {
   return "Completed";
 }
 
-function getClientIp(flow: MitmFlow): string {
-  const peername = (flow as MitmFlow & { client_conn?: { peername?: [string, number] } }).client_conn
-    ?.peername;
-  if (peername && peername.length > 0) {
-    return peername[0];
+function renderCell(columnId: TrafficTableColumnId, flow: MitmFlow, index: number): React.ReactNode {
+  const statusCode = flow.response?.status_code;
+  const isError = statusCode !== undefined && statusCode >= 400;
+  const url = getFlowUrl(flow);
+  switch (columnId) {
+    case "index":
+      return index + 1;
+    case "url":
+      return (
+        <>
+          {url}
+          {isMapLocalFlow(flow) && <span className="badge-mapped">MAP</span>}
+        </>
+      );
+    case "method":
+      return <span className={`method method-${flow.request.method}`}>{flow.request.method}</span>;
+    case "status":
+      return (
+        <span className="traffic-status-cell">
+          <span className={`status-dot ${isError ? "error" : "ok"}`} />
+          <span className="traffic-status-label">{getStatusLabel(statusCode)}</span>
+        </span>
+      );
+    case "code":
+      return statusCode ?? "—";
+    case "duration":
+      return formatDurationMs(getFlowDurationMs(flow));
+    case "time":
+      return formatTime(flow.timestamp_created);
+    default:
+      return null;
   }
-  return "—";
 }
 
-export function TrafficListTable({
+function TrafficListTableInner({
   flows,
   selectedId,
   selectionVariant = "primary",
   onSelectFlow,
 }: TrafficListTableProps) {
+  const { columns, getColumnWidth, handleResizeStart, isResizing } = useTrafficTableColumns();
   if (flows.length === 0) {
     return (
       <div className="empty">
@@ -53,24 +82,35 @@ export function TrafficListTable({
     );
   }
   return (
-    <table className="traffic-pro-table">
+    <table className={`traffic-pro-table ${isResizing ? "is-resizing-columns" : ""}`}>
+      <colgroup>
+        {columns.map((column) => (
+          <col key={column.id} style={{ width: `${getColumnWidth(column.id)}px` }} />
+        ))}
+      </colgroup>
       <thead>
         <tr>
-          <th>#</th>
-          <th>URL</th>
-          <th>Client</th>
-          <th>Method</th>
-          <th>Status</th>
-          <th>Code</th>
-          <th>Duration</th>
-          <th>Time</th>
+          {columns.map((column) => (
+            <th key={column.id} className={column.className}>
+              <span className="traffic-col-header-label">{column.label}</span>
+              {column.resizable && (
+                <span
+                  className="traffic-col-resizer"
+                  role="separator"
+                  aria-orientation="vertical"
+                  aria-label={`Resize ${column.label} column`}
+                  onMouseDown={(event) => handleResizeStart(column.id, event)}
+                />
+              )}
+            </th>
+          ))}
         </tr>
       </thead>
       <tbody>
         {flows.map((flow, index) => {
+          const url = getFlowUrl(flow);
           const statusCode = flow.response?.status_code;
           const isError = statusCode !== undefined && statusCode >= 400;
-          const url = getFlowUrl(flow);
           const isSelected = flow.id === selectedId;
           const rowClass = isSelected
             ? selectionVariant === "subtle"
@@ -78,29 +118,22 @@ export function TrafficListTable({
               : "selected"
             : "";
           return (
-            <tr
-              key={flow.id}
-              className={rowClass}
-              onClick={() => onSelectFlow(flow.id)}
-            >
-              <td className="col-id">{index + 1}</td>
-              <td className="col-url" title={url}>
-                {url}
-                {isMapLocalFlow(flow) && <span className="badge-mapped">MAP</span>}
-              </td>
-              <td className="col-client">{getClientIp(flow)}</td>
-              <td>
-                <span className={`method method-${flow.request.method}`}>{flow.request.method}</span>
-              </td>
-              <td className={isError ? "status-error" : "status-ok"}>
-                <span className={`status-dot ${isError ? "error" : "ok"}`} />
-                {getStatusLabel(statusCode)}
-              </td>
-              <td>{statusCode ?? "—"}</td>
-              <td className="col-duration">{formatDurationMs(getFlowDurationMs(flow))}</td>
-              <td className="col-time">
-                {formatTime(flow.timestamp_created)}
-              </td>
+            <tr key={flow.id} className={rowClass} onClick={() => onSelectFlow(flow.id)}>
+              {columns.map((column) => {
+                const cellClass =
+                  column.id === "status"
+                    ? `${column.className} ${isError ? "status-error" : "status-ok"}`
+                    : column.className;
+                return (
+                  <td
+                    key={column.id}
+                    className={cellClass}
+                    title={column.id === "url" ? url : undefined}
+                  >
+                    {renderCell(column.id, flow, index)}
+                  </td>
+                );
+              })}
             </tr>
           );
         })}
@@ -108,3 +141,14 @@ export function TrafficListTable({
     </table>
   );
 }
+
+function areTablePropsEqual(left: TrafficListTableProps, right: TrafficListTableProps): boolean {
+  return (
+    left.flows === right.flows &&
+    left.selectedId === right.selectedId &&
+    left.selectionVariant === right.selectionVariant &&
+    left.onSelectFlow === right.onSelectFlow
+  );
+}
+
+export const TrafficListTable = memo(TrafficListTableInner, areTablePropsEqual);

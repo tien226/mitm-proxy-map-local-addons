@@ -1,15 +1,19 @@
 import { ClearFlowsButton } from "./ClearFlowsButton";
-import type { ProxyStatus } from "../types";
+import { formatConnectedClientsLabel, getPrimaryConnectedClient } from "../utils/connectedClients";
+import type { ConnectedClient, ProxyStatus } from "../types";
 
 interface ToolbarProps {
   status: ProxyStatus;
+  connectedClients: ConnectedClient[];
   isLoading: boolean;
   onClearFlows: () => void;
 }
 
-export function Toolbar({ status, isLoading, onClearFlows }: ToolbarProps) {
+export function Toolbar({ status, connectedClients, isLoading, onClearFlows }: ToolbarProps) {
   const canClear = status.is_running && !isLoading;
   const statusLabel = isLoading && !status.is_running ? "Starting..." : status.is_running ? "Running" : "Stopped";
+  const primaryClient = getPrimaryConnectedClient(connectedClients);
+  const deviceLabel = formatConnectedClientsLabel(status, connectedClients);
   return (
     <header className="toolbar">
       <span className="toolbar-title">TFT Proxy</span>
@@ -18,8 +22,11 @@ export function Toolbar({ status, isLoading, onClearFlows }: ToolbarProps) {
         {statusLabel}
         {status.is_running && (
           <span className="toolbar-proxy-endpoints">
-            · Emulator <strong>{status.emulator_host}:{status.proxy_port}</strong>
-            · Phone {status.local_ip}:{status.proxy_port}
+            · Mac proxy <strong>{status.local_ip}:{status.proxy_port}</strong>
+            · Device{" "}
+            <strong className={primaryClient ? "toolbar-device-detected" : "toolbar-device-waiting"}>
+              {deviceLabel}
+            </strong>
           </span>
         )}
       </div>

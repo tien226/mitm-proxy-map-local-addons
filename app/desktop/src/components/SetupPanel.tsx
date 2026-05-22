@@ -1,13 +1,16 @@
-import type { ProxyStatus } from "../types";
+import { getPrimaryConnectedClient } from "../utils/connectedClients";
+import type { ConnectedClient, ProxyStatus } from "../types";
 
 interface SetupPanelProps {
   status: ProxyStatus;
+  connectedClients: ConnectedClient[];
 }
 
-export function SetupPanel({ status }: SetupPanelProps) {
+export function SetupPanel({ status, connectedClients }: SetupPanelProps) {
   const emulatorHost = status.emulator_host || "10.0.2.2";
   const proxyPort = status.proxy_port;
   const macIp = status.local_ip;
+  const detectedDevice = getPrimaryConnectedClient(connectedClients);
   return (
     <div className="setup-panel">
       <h2>Setup Guide</h2>
@@ -26,9 +29,21 @@ export function SetupPanel({ status }: SetupPanelProps) {
               </td>
             </tr>
             <tr>
-              <th>Mac IP (physical phone)</th>
+              <th>Mac IP (proxy host)</th>
               <td>
                 <code>{macIp}</code>
+              </td>
+            </tr>
+            <tr>
+              <th>Connected device</th>
+              <td>
+                {detectedDevice ? (
+                  <code className="setup-detected-ip">{detectedDevice.ip}</code>
+                ) : (
+                  <span className="setup-waiting-device">
+                    Not detected yet — set phone proxy to Mac IP, then open an app
+                  </span>
+                )}
               </td>
             </tr>
             <tr>

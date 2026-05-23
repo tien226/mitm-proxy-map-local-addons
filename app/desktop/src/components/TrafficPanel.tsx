@@ -9,11 +9,12 @@ import { getFlowUrl } from "../utils/flow";
 import { buildFlowTree, collectFlowsUnderNode, findTreeNode } from "../utils/flowTree";
 import { buildMapLocalSeed } from "../utils/mapLocal";
 import { sortFlowsByTime } from "../utils/sortFlows";
-import type { MapLocalSeed, MitmFlow } from "../types";
+import type { MapLocalRule, MapLocalSeed, MitmFlow } from "../types";
 
 interface TrafficPanelProps {
   flows: MitmFlow[];
   flowsError: string | null;
+  mapLocalRules: MapLocalRule[];
   isProxyRunning: boolean;
   isProxyStarting: boolean;
   onMapLocal: (seed: MapLocalSeed) => void;
@@ -22,6 +23,7 @@ interface TrafficPanelProps {
 function TrafficPanelInner({
   flows,
   flowsError,
+  mapLocalRules,
   isProxyRunning,
   isProxyStarting,
   onMapLocal,
@@ -166,6 +168,7 @@ function TrafficPanelInner({
         ) : (
           <TrafficListTable
             flows={tableFlows}
+            mapLocalRules={mapLocalRules}
             selectedId={selectedId}
             selectionVariant={tableSelectionVariant}
             onSelectFlow={handleSelectFlowFromTable}
@@ -230,6 +233,10 @@ function TrafficPanelInner({
   );
 }
 
+function mapLocalRulesKey(rules: MapLocalRule[]): string {
+  return rules.map((rule) => `${rule.method}|${rule.url}`).join("\n");
+}
+
 function areTrafficPanelPropsEqual(
   left: TrafficPanelProps,
   right: TrafficPanelProps
@@ -237,6 +244,7 @@ function areTrafficPanelPropsEqual(
   return (
     left.flows === right.flows &&
     left.flowsError === right.flowsError &&
+    mapLocalRulesKey(left.mapLocalRules) === mapLocalRulesKey(right.mapLocalRules) &&
     left.isProxyRunning === right.isProxyRunning &&
     left.isProxyStarting === right.isProxyStarting &&
     left.onMapLocal === right.onMapLocal

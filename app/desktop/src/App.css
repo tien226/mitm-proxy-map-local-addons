@@ -895,7 +895,9 @@ body {
 .pane-find-bar {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
   padding: 6px 8px;
   background: #21262d;
   border: 1px solid #30363d;
@@ -909,9 +911,9 @@ body {
 }
 
 .pane-find-input {
-  flex: 1;
-  min-width: 120px;
-  max-width: 280px;
+  flex: 1 1 0;
+  width: 0;
+  min-width: 72px;
   background: #0d1117;
   border: 1px solid #30363d;
   border-radius: 4px;
@@ -921,6 +923,13 @@ body {
   outline: none;
 }
 
+.pane-find-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
 .pane-find-input:focus {
   border-color: #58a6ff;
 }
@@ -928,6 +937,7 @@ body {
 .pane-find-toggle,
 .pane-find-nav,
 .pane-find-close {
+  flex-shrink: 0;
   border: 1px solid transparent;
   background: transparent;
   color: #9aa0a6;
@@ -952,10 +962,17 @@ body {
 }
 
 .pane-find-results {
+  flex-shrink: 0;
   font-size: 11px;
   color: #9aa0a6;
-  min-width: 72px;
+  min-width: 56px;
+  padding: 0 4px;
   text-align: center;
+  white-space: nowrap;
+}
+
+.pane-content--find-open .pane-content-body {
+  padding-top: 40px;
 }
 
 .find-match {

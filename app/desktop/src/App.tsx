@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { clearFlows, fetchProxyStatus, startProxy, stopProxy } from "./api/client";
+import { clearFlows, fetchProxyStatus, fetchRules, startProxy, stopProxy } from "./api/client";
 import { useFlowsPolling } from "./hooks/useFlowsPolling";
 import { AppSidebar } from "./components/AppSidebar";
 import { MapLocalPanel } from "./components/MapLocalPanel";
@@ -8,7 +8,7 @@ import { Toolbar } from "./components/Toolbar";
 import { TrafficPanel } from "./components/TrafficPanel";
 import { ResizableHorizontalSplit } from "./components/ResizableHorizontalSplit";
 import { areConnectedClientsEqual, mergeConnectedClients } from "./utils/connectedClients";
-import type { AppSection, ConnectedClient, MapLocalSeed, ProxyStatus } from "./types";
+import type { AppSection, ConnectedClient, MapLocalRule, MapLocalSeed, ProxyStatus } from "./types";
 
 const DEFAULT_STATUS: ProxyStatus = {
   is_running: false,
@@ -25,6 +25,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [mapLocalSeed, setMapLocalSeed] = useState<MapLocalSeed | null>(null);
+  const [mapLocalRules, setMapLocalRules] = useState<MapLocalRule[]>([]);
   const didAutoStartRef = useRef<boolean>(false);
   const { flows, flowsError, polledClients, resetFlows } = useFlowsPolling(
     status.is_running,
@@ -40,10 +41,30 @@ export default function App() {
     return merged;
   }, [status.connected_clients, polledClients]);
 
+  const refreshMapLocalRules = useCallback(async (): Promise<void> => {
+    try {
+      const rules = await fetchRules();
+      setMapLocalRules((previous) => {
+        const previousKey = previous.map((rule) => `${rule.method}|${rule.url}`).join("\n");
+        const nextKey = rules.map((rule) => `${rule.method}|${rule.url}`).join("\n");
+        if (previousKey === nextKey && previous.length === rules.length) {
+          return previous;
+        }
+        return rules;
+      });
+    } catch {
+      setMapLocalRules([]);
+    }
+  }, []);
+
   const handleMapLocalFromTraffic = useCallback((seed: MapLocalSeed): void => {
     setMapLocalSeed(seed);
     setActiveSection("map-local");
   }, []);
+
+  const handleMapLocalRulesChanged = useCallback((): void => {
+    refreshMapLocalRules().catch(() => undefined);
+  }, [refreshMapLocalRules]);
 
   const refreshStatus = useCallback(async (): Promise<void> => {
     const proxyStatus = await fetchProxyStatus();
@@ -85,11 +106,18 @@ export default function App() {
 
   useEffect(() => {
     refreshStatus().catch(() => undefined);
+    refreshMapLocalRules().catch(() => undefined);
     const statusIntervalId = window.setInterval(() => {
       refreshStatus().catch(() => undefined);
     }, 3000);
     return () => window.clearInterval(statusIntervalId);
-  }, [refreshStatus]);
+  }, [refreshStatus, refreshMapLocalRules]);
+
+  useEffect(() => {
+    if (activeSection === "traffic") {
+      refreshMapLocalRules().catch(() => undefined);
+    }
+  }, [activeSection, refreshMapLocalRules]);
 
   const handleClearFlows = async (): Promise<void> => {
     if (!status.is_running || flows.length === 0) {
@@ -120,6 +148,7 @@ export default function App() {
         <TrafficPanel
           flows={flows}
           flowsError={flowsError}
+          mapLocalRules={mapLocalRules}
           isProxyRunning={status.is_running}
           isProxyStarting={isLoading && !status.is_running}
           onMapLocal={handleMapLocalFromTraffic}
@@ -129,7 +158,11 @@ export default function App() {
         className={`main-panel-slot main-panel-right ${activeSection === "map-local" ? "is-active" : ""}`}
         aria-hidden={activeSection !== "map-local"}
       >
-        <MapLocalPanel seed={mapLocalSeed} onSeedConsumed={() => setMapLocalSeed(null)} />
+        <MapLocalPanel
+          seed={mapLocalSeed}
+          onSeedConsumed={() => setMapLocalSeed(null)}
+          onRulesChanged={handleMapLocalRulesChanged}
+        />
       </div>
       <div
         className={`main-panel-slot main-panel-right ${activeSection === "setup" ? "is-active" : ""}`}

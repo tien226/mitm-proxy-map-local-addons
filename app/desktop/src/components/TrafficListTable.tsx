@@ -2,11 +2,12 @@ import { memo } from "react";
 import { useTrafficTableColumns } from "../hooks/useTrafficTableColumns";
 import { formatDurationMs } from "../utils/duration";
 import { getFlowDurationMs, getFlowUrl, isMapLocalFlow } from "../utils/flow";
-import type { MitmFlow } from "../types";
+import type { MapLocalRule, MitmFlow } from "../types";
 import type { TrafficTableColumnId } from "../hooks/useTrafficTableColumns";
 
 interface TrafficListTableProps {
   flows: MitmFlow[];
+  mapLocalRules: MapLocalRule[];
   selectedId: string | null;
   selectionVariant?: "primary" | "subtle";
   onSelectFlow: (flowId: string) => void;
@@ -33,7 +34,12 @@ function getStatusLabel(statusCode: number | undefined): string {
   return "Completed";
 }
 
-function renderCell(columnId: TrafficTableColumnId, flow: MitmFlow, index: number): React.ReactNode {
+function renderCell(
+  columnId: TrafficTableColumnId,
+  flow: MitmFlow,
+  index: number,
+  mapLocalRules: MapLocalRule[]
+): React.ReactNode {
   const statusCode = flow.response?.status_code;
   const isError = statusCode !== undefined && statusCode >= 400;
   const url = getFlowUrl(flow);
@@ -44,7 +50,7 @@ function renderCell(columnId: TrafficTableColumnId, flow: MitmFlow, index: numbe
       return (
         <>
           {url}
-          {isMapLocalFlow(flow) && <span className="badge-mapped">MAP</span>}
+          {isMapLocalFlow(flow, mapLocalRules) && <span className="badge-mapped">MAP</span>}
         </>
       );
     case "method":
@@ -69,6 +75,7 @@ function renderCell(columnId: TrafficTableColumnId, flow: MitmFlow, index: numbe
 
 function TrafficListTableInner({
   flows,
+  mapLocalRules,
   selectedId,
   selectionVariant = "primary",
   onSelectFlow,
@@ -130,7 +137,7 @@ function TrafficListTableInner({
                     className={cellClass}
                     title={column.id === "url" ? url : undefined}
                   >
-                    {renderCell(column.id, flow, index)}
+                    {renderCell(column.id, flow, index, mapLocalRules)}
                   </td>
                 );
               })}
@@ -142,9 +149,14 @@ function TrafficListTableInner({
   );
 }
 
+function mapLocalRulesKey(rules: MapLocalRule[]): string {
+  return rules.map((rule) => `${rule.method}|${rule.url}`).join("\n");
+}
+
 function areTablePropsEqual(left: TrafficListTableProps, right: TrafficListTableProps): boolean {
   return (
     left.flows === right.flows &&
+    mapLocalRulesKey(left.mapLocalRules) === mapLocalRulesKey(right.mapLocalRules) &&
     left.selectedId === right.selectedId &&
     left.selectionVariant === right.selectionVariant &&
     left.onSelectFlow === right.onSelectFlow

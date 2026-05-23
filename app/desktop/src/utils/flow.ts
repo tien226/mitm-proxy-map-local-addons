@@ -1,4 +1,5 @@
-import type { MitmFlow } from "../types";
+import { isFlowMappedByRules } from "./mapLocalMatch";
+import type { MapLocalRule, MitmFlow } from "../types";
 
 export function getFlowUrl(flow: MitmFlow): string {
   if (flow.request.pretty_url) {
@@ -15,8 +16,11 @@ export function getFlowUrl(flow: MitmFlow): string {
   return `${url}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
-export function isMapLocalFlow(flow: MitmFlow): boolean {
-  return flow.metadata?.map_local === "true";
+export function isMapLocalFlow(flow: MitmFlow, mapLocalRules: MapLocalRule[] = []): boolean {
+  if (mapLocalRules.length === 0) {
+    return false;
+  }
+  return isFlowMappedByRules(flow, mapLocalRules);
 }
 
 export function getFlowDurationMs(flow: MitmFlow): number | undefined {

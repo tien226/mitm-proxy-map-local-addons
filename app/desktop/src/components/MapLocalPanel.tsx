@@ -16,6 +16,7 @@ import type { MapLocalRule, MapLocalSeed } from "../types";
 interface MapLocalPanelProps {
   seed: MapLocalSeed | null;
   onSeedConsumed: () => void;
+  onRulesChanged?: () => void;
 }
 
 const EMPTY_RULE: MapLocalRule = {
@@ -34,7 +35,7 @@ function buildRulePayload(draft: MapLocalRule): MapLocalRule {
   };
 }
 
-export function MapLocalPanel({ seed, onSeedConsumed }: MapLocalPanelProps) {
+export function MapLocalPanel({ seed, onSeedConsumed, onRulesChanged }: MapLocalPanelProps) {
   const [rules, setRules] = useState<MapLocalRule[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [draft, setDraft] = useState<MapLocalRule>(EMPTY_RULE);
@@ -99,6 +100,7 @@ export function MapLocalPanel({ seed, onSeedConsumed }: MapLocalPanelProps) {
     }
     setEditingIndex(null);
     await loadData();
+    onRulesChanged?.();
   };
 
   const removeRule = async (index: number): Promise<void> => {
@@ -108,6 +110,7 @@ export function MapLocalPanel({ seed, onSeedConsumed }: MapLocalPanelProps) {
       const rulesData = await fetchRules();
       setRules(rulesData);
       setMessage("Rule deleted");
+      onRulesChanged?.();
       if (currentEditingIndex === null) {
         return;
       }

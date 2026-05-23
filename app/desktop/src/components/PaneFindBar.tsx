@@ -47,7 +47,7 @@ export function PaneFindBar({
       <input
         ref={inputRef}
         className="pane-find-input"
-        type="text"
+        type="search"
         placeholder="Find"
         value={query}
         onChange={(event) => onQueryChange(event.target.value)}
@@ -66,40 +66,42 @@ export function PaneFindBar({
           }
         }}
       />
-      <button
-        type="button"
-        className={`pane-find-toggle ${caseSensitive ? "active" : ""}`}
-        title="Case sensitive"
-        onClick={() => onCaseSensitiveChange(!caseSensitive)}
-      >
-        Aa
-      </button>
-      <button
-        type="button"
-        className={`pane-find-toggle ${wholeWord ? "active" : ""}`}
-        title="Whole word"
-        onClick={() => onWholeWordChange(!wholeWord)}
-      >
-        ab
-      </button>
-      <button
-        type="button"
-        className={`pane-find-toggle ${useRegex ? "active" : ""}`}
-        title="Regex"
-        onClick={() => onUseRegexChange(!useRegex)}
-      >
-        .*
-      </button>
-      <span className="pane-find-results">{resultLabel}</span>
-      <button type="button" className="pane-find-nav" title="Previous" onClick={onPrevious}>
-        ↑
-      </button>
-      <button type="button" className="pane-find-nav" title="Next" onClick={onNext}>
-        ↓
-      </button>
-      <button type="button" className="pane-find-close" title="Close" onClick={onClose}>
-        ×
-      </button>
+      <div className="pane-find-actions">
+        <button
+          type="button"
+          className={`pane-find-toggle ${caseSensitive ? "active" : ""}`}
+          title="Case sensitive"
+          onClick={() => onCaseSensitiveChange(!caseSensitive)}
+        >
+          Aa
+        </button>
+        <button
+          type="button"
+          className={`pane-find-toggle ${wholeWord ? "active" : ""}`}
+          title="Whole word"
+          onClick={() => onWholeWordChange(!wholeWord)}
+        >
+          ab
+        </button>
+        <button
+          type="button"
+          className={`pane-find-toggle ${useRegex ? "active" : ""}`}
+          title="Regex"
+          onClick={() => onUseRegexChange(!useRegex)}
+        >
+          .*
+        </button>
+        <span className="pane-find-results">{resultLabel}</span>
+        <button type="button" className="pane-find-nav" title="Previous" onClick={onPrevious}>
+          ↑
+        </button>
+        <button type="button" className="pane-find-nav" title="Next" onClick={onNext}>
+          ↓
+        </button>
+        <button type="button" className="pane-find-close" title="Close" onClick={onClose}>
+          ×
+        </button>
+      </div>
     </div>
   );
 }

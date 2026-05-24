@@ -54,3 +54,14 @@ export function isFlowCoveredByMapLocalRule(flow: MitmFlow, rule: MapLocalRule):
 export function isFlowMappedByRules(flow: MitmFlow, rules: MapLocalRule[]): boolean {
   return rules.some((rule) => isFlowCoveredByMapLocalRule(flow, rule));
 }
+
+export function isSameMapLocalRule(left: MapLocalRule, right: MapLocalRule): boolean {
+  if (left.method !== right.method) {
+    return false;
+  }
+  return isSameMapLocalUrl(left.url, right.url);
+}
+
+export function findMatchingRuleIndex(rules: MapLocalRule[], rule: MapLocalRule): number {
+  return rules.findIndex((existing) => isSameMapLocalRule(existing, rule));
+}

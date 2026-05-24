@@ -7,6 +7,7 @@ from typing import Any, Dict, List
 from pydantic import BaseModel, Field
 
 from project_paths import get_project_root
+from rule_matching import find_matching_rule_indices
 
 PROJECT_ROOT = get_project_root()
 CONFIG_PATH = PROJECT_ROOT / "config.json"
@@ -46,9 +47,21 @@ class ConfigStore:
         return rules
 
     def add_rule(self, rule: MapLocalRuleUpdate) -> List[MapLocalRule]:
+        rules, _was_updated = self.upsert_rule(rule)
+        return rules
+
+    def upsert_rule(self, rule: MapLocalRuleUpdate) -> tuple[List[MapLocalRule], bool]:
         rules = self.list_rules()
-        rules.append(MapLocalRule.model_validate(rule.model_dump()))
-        return self.save_rules(rules)
+        validated = MapLocalRule.model_validate(rule.model_dump())
+        matching_indices = find_matching_rule_indices(rules, validated)
+        if matching_indices:
+            primary_index = matching_indices[0]
+            rules[primary_index] = validated
+            for index in reversed(matching_indices[1:]):
+                del rules[index]
+            return self.save_rules(rules), True
+        rules.append(validated)
+        return self.save_rules(rules), False
 
     def update_rule(self, index: int, rule: MapLocalRuleUpdate) -> List[MapLocalRule]:
         rules = self.list_rules()

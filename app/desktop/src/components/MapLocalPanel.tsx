@@ -8,6 +8,7 @@ import {
   writeLocalFile,
 } from "../api/client";
 import { HTTP_STATUS_OPTIONS } from "../constants/httpStatus";
+import { findMatchingRuleIndex } from "../utils/mapLocalMatch";
 import { suggestLocalFileName } from "../utils/mapLocal";
 import { MapLocalJsonSection } from "./MapLocalJsonSection";
 import { ResizableHorizontalSplit } from "./ResizableHorizontalSplit";
@@ -55,11 +56,23 @@ export function MapLocalPanel({ seed, onSeedConsumed, onRulesChanged }: MapLocal
     if (seed === null) {
       return;
     }
-    setEditingIndex(-1);
-    setDraft({ ...seed.rule });
-    setFileContent(seed.content);
-    setMessage("Filled from selected request — click Save to enable Map Local");
-    onSeedConsumed();
+    const applySeed = async (): Promise<void> => {
+      const rulesData = await fetchRules();
+      setRules(rulesData);
+      const matchIndex = findMatchingRuleIndex(rulesData, seed.rule);
+      if (matchIndex >= 0) {
+        await applyEditAtIndex(rulesData, matchIndex);
+        setFileContent(seed.content);
+        setMessage("Opened existing rule for this URL — Save to update response");
+      } else {
+        setEditingIndex(-1);
+        setDraft({ ...seed.rule });
+        setFileContent(seed.content);
+        setMessage("New rule from request — Save to enable Map Local");
+      }
+      onSeedConsumed();
+    };
+    applySeed().catch((error: Error) => setMessage(error.message));
   }, [seed, onSeedConsumed]);
 
   const startCreate = (): void => {
@@ -92,9 +105,25 @@ export function MapLocalPanel({ seed, onSeedConsumed, onRulesChanged }: MapLocal
     const rulePayload = buildRulePayload(draft);
     await writeLocalFile(rulePayload.local_file, fileContent);
     if (editingIndex === null || editingIndex < 0) {
-      await createRule(rulePayload);
-      setMessage("Rule created");
+      const matchIndex = findMatchingRuleIndex(rules, rulePayload);
+      if (matchIndex >= 0) {
+        await updateRule(matchIndex, rulePayload);
+        setMessage("Updated existing rule for this URL");
+      } else {
+        await createRule(rulePayload);
+        setMessage("Rule created");
+      }
     } else {
+      const duplicateIndex = rules.findIndex(
+        (rule, index) =>
+          index !== editingIndex &&
+          rule.method === rulePayload.method &&
+          findMatchingRuleIndex([rule], rulePayload) === 0
+      );
+      if (duplicateIndex >= 0) {
+        setMessage("Another rule already uses this URL and method");
+        return;
+      }
       await updateRule(editingIndex, rulePayload);
       setMessage("Rule updated");
     }

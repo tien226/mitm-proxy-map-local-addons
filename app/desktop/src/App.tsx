@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { clearFlows, fetchProxyStatus, fetchRules, startProxy, stopProxy } from "./api/client";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { clearFlows, ensureProxy, fetchProxyStatus, fetchRules, stopProxy } from "./api/client";
 import { useFlowsPolling } from "./hooks/useFlowsPolling";
 import { AppSidebar } from "./components/AppSidebar";
 import { MapLocalPanel } from "./components/MapLocalPanel";
@@ -7,8 +7,9 @@ import { SetupPanel } from "./components/SetupPanel";
 import { Toolbar } from "./components/Toolbar";
 import { TrafficPanel } from "./components/TrafficPanel";
 import { ResizableHorizontalSplit } from "./components/ResizableHorizontalSplit";
-import { areConnectedClientsEqual, mergeConnectedClients } from "./utils/connectedClients";
-import type { AppSection, ConnectedClient, MapLocalRule, MapLocalSeed, ProxyStatus } from "./types";
+import { mergeConnectedClients } from "./utils/connectedClients";
+import { useKnownDeviceClients } from "./hooks/useKnownDeviceClients";
+import type { AppSection, MapLocalRule, MapLocalSeed, ProxyStatus } from "./types";
 
 const DEFAULT_STATUS: ProxyStatus = {
   is_running: false,
@@ -26,20 +27,19 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [mapLocalSeed, setMapLocalSeed] = useState<MapLocalSeed | null>(null);
   const [mapLocalRules, setMapLocalRules] = useState<MapLocalRule[]>([]);
+  const [trafficListResetKey, setTrafficListResetKey] = useState<number>(0);
   const didAutoStartRef = useRef<boolean>(false);
-  const { flows, flowsError, polledClients, resetFlows } = useFlowsPolling(
+  const { flows, flowsError, polledClients, resetFlows, clearFlowsList } = useFlowsPolling(
     status.is_running,
     activeSection
   );
-  const connectedClientsRef = useRef<ConnectedClient[]>([]);
-  const connectedClients = useMemo((): ConnectedClient[] => {
-    const merged = mergeConnectedClients(status.connected_clients, polledClients);
-    if (areConnectedClientsEqual(connectedClientsRef.current, merged)) {
-      return connectedClientsRef.current;
-    }
-    connectedClientsRef.current = merged;
-    return merged;
-  }, [status.connected_clients, polledClients]);
+  const resetFlowsRef = useRef(resetFlows);
+  resetFlowsRef.current = resetFlows;
+  const { knownDeviceClients, snapshotDevicesBeforeClear } = useKnownDeviceClients(
+    status.connected_clients,
+    polledClients
+  );
+  const connectedClients = knownDeviceClients;
 
   const refreshMapLocalRules = useCallback(async (): Promise<void> => {
     try {
@@ -75,15 +75,14 @@ export default function App() {
     setIsLoading(true);
     setError(null);
     try {
-      const currentStatus = await fetchProxyStatus();
-      if (currentStatus.is_running) {
-        setStatus(currentStatus);
-        return;
+      const proxyStatus = await ensureProxy(DEFAULT_STATUS.proxy_port, DEFAULT_STATUS.web_port);
+      setStatus(proxyStatus);
+      if (proxyStatus.reused_existing) {
+        resetFlowsRef.current();
+        setTrafficListResetKey((value) => value + 1);
       }
-      const startedStatus = await startProxy(currentStatus.proxy_port, currentStatus.web_port);
-      setStatus(startedStatus);
-      if (!startedStatus.is_running) {
-        setError(startedStatus.error ?? "Failed to start proxy");
+      if (!proxyStatus.is_running) {
+        setError(proxyStatus.error ?? "Failed to start proxy");
       }
     } catch (startError) {
       const message = startError instanceof Error ? startError.message : "Failed to start proxy";
@@ -126,8 +125,12 @@ export default function App() {
     setIsLoading(true);
     setError(null);
     try {
+      const liveClients = mergeConnectedClients(status.connected_clients, polledClients);
+      snapshotDevicesBeforeClear(flows, liveClients);
       await clearFlows();
-      resetFlows();
+      clearFlowsList();
+      setTrafficListResetKey((value) => value + 1);
+      await refreshStatus();
     } catch (clearError) {
       setError(clearError instanceof Error ? clearError.message : "Failed to clear list");
     } finally {
@@ -149,6 +152,8 @@ export default function App() {
           flows={flows}
           flowsError={flowsError}
           mapLocalRules={mapLocalRules}
+          knownDeviceClients={knownDeviceClients}
+          listResetKey={trafficListResetKey}
           isProxyRunning={status.is_running}
           isProxyStarting={isLoading && !status.is_running}
           onMapLocal={handleMapLocalFromTraffic}

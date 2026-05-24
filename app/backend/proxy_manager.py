@@ -26,19 +26,31 @@ MITMWEB_CANDIDATE_PATHS: List[str] = [
     "/opt/homebrew/bin/mitmweb",
     "/usr/local/bin/mitmweb",
 ]
+READY_POLL_INTERVAL_SECONDS = 0.05
+READY_TCP_TIMEOUT_SECONDS = 0.08
+READY_HTTP_TIMEOUT_SECONDS = 0.35
+DEFAULT_READY_TIMEOUT_SECONDS = 6.0
+_cached_mitmweb_executable: Optional[str] = None
+_cached_local_ip: Optional[str] = None
 
 
 def resolve_mitmweb_executable() -> Optional[str]:
+    global _cached_mitmweb_executable
+    if _cached_mitmweb_executable is not None:
+        return _cached_mitmweb_executable
     env_path = os.environ.get("MITMWEB_PATH") or os.environ.get("MITM_PROXY_MITMWEB")
     if env_path:
         env_candidate = Path(env_path).expanduser()
         if env_candidate.is_file():
-            return str(env_candidate)
+            _cached_mitmweb_executable = str(env_candidate)
+            return _cached_mitmweb_executable
     found = shutil.which("mitmweb")
     if found:
+        _cached_mitmweb_executable = found
         return found
     for candidate in MITMWEB_CANDIDATE_PATHS:
         if Path(candidate).is_file():
+            _cached_mitmweb_executable = candidate
             return candidate
     return None
 
@@ -50,6 +62,7 @@ class ProxyStatus:
     web_port: int
     pid: Optional[int]
     error: Optional[str] = None
+    reused_existing: bool = False
 
 
 class ProxyManager:
@@ -60,15 +73,36 @@ class ProxyManager:
         self.web_token: str = WEB_PASSWORD
         self.last_error: Optional[str] = None
         self._mitmweb_client: Optional[httpx.Client] = None
+        self._ready_probe_client: Optional[httpx.Client] = None
+
+    def ensure_running(
+        self, proxy_port: int = DEFAULT_PROXY_PORT, web_port: int = DEFAULT_WEB_PORT
+    ) -> ProxyStatus:
+        self.proxy_port = proxy_port
+        self.web_port = web_port
+        if self.is_mitmweb_ready():
+            self._warm_mitmweb_client()
+            status = self.get_status()
+            status.reused_existing = True
+            return status
+        return self.start(proxy_port, web_port)
 
     def start(self, proxy_port: int = DEFAULT_PROXY_PORT, web_port: int = DEFAULT_WEB_PORT) -> ProxyStatus:
         self.proxy_port = proxy_port
         self.web_port = web_port
         if self.is_mitmweb_ready():
+            self._warm_mitmweb_client()
             return self.get_status()
-        self.stop()
-        self._kill_processes_on_ports(proxy_port, web_port)
         self.last_error = None
+        if self._any_port_listening(proxy_port, web_port):
+            self._close_mitmweb_client()
+            if self.process is not None:
+                self._terminate_process()
+            self._kill_processes_on_ports(proxy_port, web_port)
+            time.sleep(0.08)
+        else:
+            self._close_mitmweb_client()
+            self._terminate_process()
         mitmweb_bin = resolve_mitmweb_executable()
         if mitmweb_bin is None:
             self.last_error = (
@@ -107,46 +141,71 @@ class ProxyManager:
             self.last_error = str(error)
             log_handle.close()
             return self.get_status()
-        if not self._wait_until_ready(timeout_seconds=8.0):
+        if not self._wait_until_ready(timeout_seconds=DEFAULT_READY_TIMEOUT_SECONDS):
             self.last_error = self._read_log_tail()
-            self.stop()
+            self._terminate_process()
+        else:
+            self._warm_mitmweb_client()
         return self.get_status()
+
+    def _terminate_process(self) -> None:
+        if self.process is None:
+            return
+        if sys.platform != "win32":
+            try:
+                os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
+            except ProcessLookupError:
+                pass
+        else:
+            self.process.terminate()
+        try:
+            self.process.wait(timeout=2)
+        except subprocess.TimeoutExpired:
+            if sys.platform != "win32":
+                try:
+                    os.killpg(os.getpgid(self.process.pid), signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+            else:
+                self.process.kill()
+        self.process = None
 
     def _close_mitmweb_client(self) -> None:
         if self._mitmweb_client is not None:
             self._mitmweb_client.close()
             self._mitmweb_client = None
+        if self._ready_probe_client is not None:
+            self._ready_probe_client.close()
+            self._ready_probe_client = None
 
     def stop(self) -> ProxyStatus:
         self._close_mitmweb_client()
+        self._terminate_process()
         self._kill_processes_on_ports(self.proxy_port, self.web_port)
-        if self.process is not None:
-            if sys.platform != "win32":
-                try:
-                    os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
-                except ProcessLookupError:
-                    pass
-            else:
-                self.process.terminate()
-            try:
-                self.process.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                if sys.platform != "win32":
-                    try:
-                        os.killpg(os.getpgid(self.process.pid), signal.SIGKILL)
-                    except ProcessLookupError:
-                        pass
-                else:
-                    self.process.kill()
-        self.process = None
         return self.get_status()
 
-    def is_mitmweb_ready(self) -> bool:
+    def _get_ready_probe_client(self) -> httpx.Client:
+        if self._ready_probe_client is None:
+            self._ready_probe_client = httpx.Client(
+                base_url=f"http://127.0.0.1:{self.web_port}",
+                timeout=READY_HTTP_TIMEOUT_SECONDS,
+                follow_redirects=True,
+            )
+        return self._ready_probe_client
+
+    def _warm_mitmweb_client(self) -> None:
         try:
-            response = httpx.get(
-                f"http://127.0.0.1:{self.web_port}/flows",
+            self._get_mitmweb_client()
+        except httpx.HTTPError:
+            pass
+
+    def is_mitmweb_ready(self) -> bool:
+        if not self._is_web_port_open():
+            return False
+        try:
+            response = self._get_ready_probe_client().get(
+                "/flows",
                 params={"token": self.web_token},
-                timeout=1.5,
             )
             return response.status_code == 200
         except httpx.HTTPError:
@@ -170,14 +229,36 @@ class ProxyManager:
             error=self.last_error,
         )
 
+    def _is_web_port_open(self) -> bool:
+        try:
+            with socket.create_connection(
+                ("127.0.0.1", self.web_port),
+                timeout=READY_TCP_TIMEOUT_SECONDS,
+            ):
+                return True
+        except OSError:
+            return False
+
+    def _any_port_listening(self, *ports: int) -> bool:
+        for port in ports:
+            try:
+                with socket.create_connection(
+                    ("127.0.0.1", port),
+                    timeout=READY_TCP_TIMEOUT_SECONDS,
+                ):
+                    return True
+            except OSError:
+                continue
+        return False
+
     def _wait_until_ready(self, timeout_seconds: float) -> bool:
         deadline = time.time() + timeout_seconds
         while time.time() < deadline:
             if self.process is not None and self.process.poll() is not None:
                 return False
-            if self.is_mitmweb_ready():
+            if self._is_web_port_open() and self.is_mitmweb_ready():
                 return True
-            time.sleep(0.25)
+            time.sleep(READY_POLL_INTERVAL_SECONDS)
         return False
 
     def _kill_processes_on_ports(self, *ports: int) -> None:
@@ -209,6 +290,9 @@ class ProxyManager:
 
     @staticmethod
     def get_local_ip() -> str:
+        global _cached_local_ip
+        if _cached_local_ip is not None:
+            return _cached_local_ip
         candidates: List[str] = []
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
@@ -226,8 +310,10 @@ class ProxyManager:
             pass
         for candidate in candidates:
             if candidate and not candidate.startswith("127."):
+                _cached_local_ip = candidate
                 return candidate
-        return candidates[0] if candidates else "127.0.0.1"
+        _cached_local_ip = candidates[0] if candidates else "127.0.0.1"
+        return _cached_local_ip
 
     def _authenticate_mitmweb_client(self, client: httpx.Client) -> None:
         # XSRF cookie is issued only when loading the mitmweb UI (GET /), not API routes like /flows.
@@ -269,7 +355,7 @@ class ProxyManager:
         if self._mitmweb_client is None:
             self._mitmweb_client = httpx.Client(
                 base_url=f"http://127.0.0.1:{self.web_port}",
-                timeout=30.0,
+                timeout=httpx.Timeout(connect=1.0, read=12.0, write=5.0, pool=1.0),
                 follow_redirects=True,
             )
             self._authenticate_mitmweb_client(self._mitmweb_client)

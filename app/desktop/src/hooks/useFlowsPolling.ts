@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchFlowsSnapshot } from "../api/client";
-import {
-  areConnectedClientsEqual,
-  extractClientsFromFlows,
-  mergeConnectedClients,
-} from "../utils/connectedClients";
-import { mergeFlowLists } from "../utils/flowMerge";
+import { areConnectedClientsEqual, mergeConnectedClients } from "../utils/connectedClients";
+import { extractAllClientsFromFlows } from "../utils/knownDevices";
+import { applyFlowsSnapshot } from "../utils/flowMerge";
 import type { AppSection, ConnectedClient, MitmFlow } from "../types";
 
-const POLL_ACTIVE_MS = 1200;
-const POLL_IDLE_MS = 5000;
+const POLL_ACTIVE_MS = 450;
+const POLL_IDLE_MS = 2000;
+const POLL_HIDDEN_MS = 4000;
 
 interface UseFlowsPollingResult {
   flows: MitmFlow[];
@@ -17,6 +15,17 @@ interface UseFlowsPollingResult {
   flowsVersion: number;
   polledClients: ConnectedClient[];
   resetFlows: () => void;
+  clearFlowsList: () => void;
+}
+
+function resolvePollIntervalMs(activeSection: AppSection, isDocumentVisible: boolean): number {
+  if (!isDocumentVisible) {
+    return POLL_HIDDEN_MS;
+  }
+  if (activeSection === "traffic") {
+    return POLL_ACTIVE_MS;
+  }
+  return POLL_IDLE_MS;
 }
 
 export function useFlowsPolling(
@@ -29,8 +38,11 @@ export function useFlowsPolling(
   const [polledClients, setPolledClients] = useState<ConnectedClient[]>([]);
   const versionRef = useRef<number>(0);
   const flowsRef = useRef<MitmFlow[]>([]);
+  const pollGenerationRef = useRef<number>(0);
   const inFlightRef = useRef<boolean>(false);
-  const abortRef = useRef<AbortController | null>(null);
+  const isDocumentVisibleRef = useRef<boolean>(
+    typeof document === "undefined" ? true : document.visibilityState === "visible"
+  );
 
   const resetFlows = useCallback((): void => {
     versionRef.current = 0;
@@ -41,60 +53,84 @@ export function useFlowsPolling(
     setPolledClients([]);
   }, []);
 
+  const clearFlowsList = useCallback((): void => {
+    versionRef.current = 0;
+    setFlowsVersion(0);
+    flowsRef.current = [];
+    setFlows([]);
+    setFlowsError(null);
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+    const handleVisibilityChange = (): void => {
+      isDocumentVisibleRef.current = document.visibilityState === "visible";
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
   useEffect(() => {
     if (!isProxyRunning) {
       resetFlows();
       return;
     }
     let cancelled = false;
-    const pollIntervalMs = activeSection === "traffic" ? POLL_ACTIVE_MS : POLL_IDLE_MS;
 
     const pollOnce = async (): Promise<void> => {
       if (inFlightRef.current) {
         return;
       }
       inFlightRef.current = true;
-      abortRef.current?.abort();
-      const controller = new AbortController();
-      abortRef.current = controller;
+      const pollGeneration = pollGenerationRef.current + 1;
+      pollGenerationRef.current = pollGeneration;
+      const sinceVersion = versionRef.current;
       try {
-        const snapshot = await fetchFlowsSnapshot(versionRef.current, controller.signal);
-        if (cancelled) {
+        const snapshot = await fetchFlowsSnapshot(sinceVersion);
+        if (cancelled || pollGeneration !== pollGenerationRef.current) {
           return;
+        }
+        if (snapshot.version < versionRef.current) {
+          versionRef.current = 0;
         }
         versionRef.current = snapshot.version;
         setFlowsVersion(snapshot.version);
+        const snapshotClients = snapshot.connected_clients ?? [];
+        const mergePolledClients = (flowList: MitmFlow[], previousClients: ConnectedClient[]): ConnectedClient[] => {
+          const fromFlows = extractAllClientsFromFlows(flowList);
+          return mergeConnectedClients(
+            mergeConnectedClients(snapshotClients, fromFlows),
+            previousClients
+          );
+        };
         if (snapshot.unchanged) {
-          const mergedClients = mergeConnectedClients(
-            snapshot.connected_clients ?? [],
-            extractClientsFromFlows(flowsRef.current)
-          );
-          setPolledClients((previous) =>
-            areConnectedClientsEqual(previous, mergedClients) ? previous : mergedClients
-          );
+          setPolledClients((previous) => {
+            const merged = mergePolledClients(flowsRef.current, previous);
+            return areConnectedClientsEqual(previous, merged) ? previous : merged;
+          });
           setFlowsError(null);
           return;
         }
-        setFlows((previous) => {
-          const nextFlows = mergeFlowLists(previous, snapshot.flows);
-          flowsRef.current = nextFlows;
-          const mergedClients = mergeConnectedClients(
-            snapshot.connected_clients ?? [],
-            extractClientsFromFlows(nextFlows)
-          );
-          setPolledClients((previousClients) =>
-            areConnectedClientsEqual(previousClients, mergedClients)
-              ? previousClients
-              : mergedClients
-          );
-          return nextFlows;
+        const nextFlows = applyFlowsSnapshot(flowsRef.current, snapshot.flows, {
+          partial: snapshot.partial,
+          reset: snapshot.reset,
+          removedFlowIds: snapshot.removed_flow_ids,
+        });
+        flowsRef.current = nextFlows;
+        setFlows(nextFlows);
+        setPolledClients((previousClients) => {
+          const merged = mergePolledClients(nextFlows, previousClients);
+          return areConnectedClientsEqual(previousClients, merged) ? previousClients : merged;
         });
         setFlowsError(null);
       } catch (loadError) {
-        if (cancelled || (loadError instanceof DOMException && loadError.name === "AbortError")) {
+        if (cancelled || pollGeneration !== pollGenerationRef.current) {
           return;
         }
         setFlows([]);
+        flowsRef.current = [];
         const message = loadError instanceof Error ? loadError.message : "Failed to load flows";
         setFlowsError(message);
       } finally {
@@ -102,15 +138,25 @@ export function useFlowsPolling(
       }
     };
 
+    let timeoutId = 0;
+    const scheduleNextPoll = (): void => {
+      const delayMs = resolvePollIntervalMs(activeSection, isDocumentVisibleRef.current);
+      timeoutId = window.setTimeout(async () => {
+        await pollOnce();
+        if (!cancelled) {
+          scheduleNextPoll();
+        }
+      }, delayMs);
+    };
     pollOnce();
-    const intervalId = window.setInterval(pollOnce, pollIntervalMs);
+    scheduleNextPoll();
     return () => {
       cancelled = true;
-      window.clearInterval(intervalId);
-      abortRef.current?.abort();
-      inFlightRef.current = false;
+      window.clearTimeout(timeoutId);
+      pollGenerationRef.current += 1;
     };
   }, [isProxyRunning, activeSection, resetFlows]);
 
-  return { flows, flowsError, flowsVersion, polledClients, resetFlows };
+  return { flows, flowsError, flowsVersion, polledClients, resetFlows, clearFlowsList };
+
 }

@@ -18,6 +18,10 @@ LOCAL_FILES_DIR = PROJECT_ROOT / "local-files"
 FLOW_CACHE_DIR = PROJECT_ROOT / ".flow-cache"
 CLIENTS_PATH = PROJECT_ROOT / ".connected-clients.json"
 MAX_CACHE_FILES = 500
+MAX_CACHE_BODY_BYTES = 512 * 1024
+CONFIG_RELOAD_INTERVAL_SECONDS = 1.0
+CLIENT_FLUSH_INTERVAL_SECONDS = 1.0
+CACHE_TRIM_INTERVAL_WRITES = 25
 
 
 class MapLocalConfig:
@@ -40,6 +44,10 @@ class TftMapLocal:
     def __init__(self) -> None:
         self.map_local_configs: List[MapLocalConfig] = []
         self.config_mtime: float = 0.0
+        self.config_checked_at: float = 0.0
+        self.pending_clients: dict[str, float] = {}
+        self.clients_flush_at: float = 0.0
+        self.cache_writes_since_trim: int = 0
         self.load_configs()
 
     def load_configs(self) -> None:
@@ -67,9 +75,16 @@ class TftMapLocal:
         self.config_mtime = current_mtime
         logger.info("Loaded %s map local rules", len(configs))
 
+    def maybe_reload_configs(self) -> None:
+        now = time.time()
+        if now - self.config_checked_at < CONFIG_RELOAD_INTERVAL_SECONDS:
+            return
+        self.config_checked_at = now
+        self.load_configs()
+
     def request(self, flow: http.HTTPFlow) -> None:
         self.register_connected_client(flow)
-        self.load_configs()
+        self.maybe_reload_configs()
         for config in self.map_local_configs:
             if config.map_local_file is None:
                 continue
@@ -106,9 +121,21 @@ class TftMapLocal:
         client_ip = str(peername[0])
         if client_ip in ("127.0.0.1", "::1", "0.0.0.0"):
             return
+        now = time.time()
+        self.pending_clients[client_ip] = now
+        if now - self.clients_flush_at < CLIENT_FLUSH_INTERVAL_SECONDS:
+            return
+        self.flush_connected_clients(now)
+
+    def flush_connected_clients(self, now: Optional[float] = None) -> None:
+        if not self.pending_clients:
+            return
+        timestamp = now if now is not None else time.time()
         store = self.load_connected_clients()
-        store[client_ip] = time.time()
+        store.update(self.pending_clients)
         self.save_connected_clients(store)
+        self.pending_clients.clear()
+        self.clients_flush_at = timestamp
 
     def load_connected_clients(self) -> dict[str, float]:
         if not CLIENTS_PATH.exists():
@@ -142,6 +169,9 @@ class TftMapLocal:
                 response_body = flow.response.get_text(strict=False) or ""
             except (ValueError, TypeError):
                 response_body = ""
+        body_bytes = len(request_body.encode("utf-8")) + len(response_body.encode("utf-8"))
+        if body_bytes > MAX_CACHE_BODY_BYTES:
+            return
         cache_payload = {
             "method": flow.request.method,
             "url": flow.request.pretty_url,
@@ -152,7 +182,10 @@ class TftMapLocal:
         cache_path = FLOW_CACHE_DIR / f"{flow.id}.json"
         with cache_path.open("w", encoding="utf-8") as cache_file:
             json.dump(cache_payload, cache_file)
-        self.trim_flow_cache()
+        self.cache_writes_since_trim += 1
+        if self.cache_writes_since_trim >= CACHE_TRIM_INTERVAL_WRITES:
+            self.cache_writes_since_trim = 0
+            self.trim_flow_cache()
 
     def trim_flow_cache(self) -> None:
         cache_files = sorted(

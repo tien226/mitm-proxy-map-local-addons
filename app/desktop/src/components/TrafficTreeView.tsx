@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import type { FlowTreeNode } from "../utils/flowTree";
 
 const TREE_EXPANDED_STORAGE_KEY = "tft-proxy-tree-expanded";
@@ -7,11 +7,16 @@ interface TrafficTreeViewProps {
   nodes: FlowTreeNode[];
   flowsCount: number;
   flowsError: string | null;
+  listResetKey: number;
   selectedFlowId: string | null;
   selectedScopeId: string | null;
   isScopeSelectionActive: boolean;
   onSelectScope: (nodeId: string) => void;
   onSelectFlow: (flowId: string) => void;
+}
+
+export function clearTrafficTreeExpandedStorage(): void {
+  sessionStorage.removeItem(TREE_EXPANDED_STORAGE_KEY);
 }
 
 function loadExpandedIds(): Set<string> {
@@ -35,6 +40,7 @@ function TrafficTreeViewInner({
   nodes,
   flowsCount,
   flowsError,
+  listResetKey,
   selectedFlowId,
   selectedScopeId,
   isScopeSelectionActive,
@@ -42,6 +48,14 @@ function TrafficTreeViewInner({
   onSelectFlow,
 }: TrafficTreeViewProps) {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(loadExpandedIds);
+
+  useEffect(() => {
+    if (listResetKey === 0) {
+      return;
+    }
+    clearTrafficTreeExpandedStorage();
+    setExpandedIds(new Set());
+  }, [listResetKey]);
 
   const toggleExpanded = useCallback((nodeId: string): void => {
     setExpandedIds((previous) => {
@@ -144,13 +158,16 @@ function TrafficTreeViewInner({
   if (flowsError) {
     return <div className="empty tree-empty tree-empty-error">{flowsError}</div>;
   }
-  if (flowsCount === 0) {
+  if (flowsCount === 0 && nodes.length === 0) {
     return (
       <div className="empty tree-empty">
         <p>No requests captured yet.</p>
         <p className="tree-empty-hint">Send traffic from your device (see Setup tab).</p>
       </div>
     );
+  }
+  if (flowsCount === 0 && nodes.length > 0) {
+    return <div className="traffic-tree">{nodes.map((node) => renderNode(node, 0))}</div>;
   }
 
   return <div className="traffic-tree">{nodes.map((node) => renderNode(node, 0))}</div>;

@@ -32,6 +32,14 @@ export async function startProxy(proxyPort: number, webPort: number): Promise<Pr
   });
 }
 
+export async function ensureProxy(proxyPort: number, webPort: number): Promise<ProxyStatus> {
+  return request<ProxyStatus>("/api/proxy/ensure", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ proxy_port: proxyPort, web_port: webPort }),
+  });
+}
+
 export async function stopProxy(): Promise<ProxyStatus> {
   return request<ProxyStatus>("/api/proxy/stop", { method: "POST" });
 }
@@ -41,6 +49,9 @@ export interface FlowsSnapshot {
   unchanged: boolean;
   flows: MitmFlow[];
   connected_clients?: ConnectedClient[];
+  partial?: boolean;
+  reset?: boolean;
+  removed_flow_ids?: string[];
 }
 
 export async function fetchFlowsSnapshot(

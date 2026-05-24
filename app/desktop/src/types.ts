@@ -15,6 +15,8 @@ export interface ProxyStatus {
   emulator_host: string;
   connected_clients?: ConnectedClient[];
   error?: string;
+  /** mitmweb was already running (e.g. previous session); traffic was cleared on open */
+  reused_existing?: boolean;
 }
 
 export interface MapLocalRule {

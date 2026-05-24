@@ -4,26 +4,42 @@ import { FlowInspector } from "./FlowInspector";
 import { ResizableHorizontalSplit } from "./ResizableHorizontalSplit";
 import { ResizableVerticalSplit } from "./ResizableVerticalSplit";
 import { TrafficListTable } from "./TrafficListTable";
-import { TrafficTreeView } from "./TrafficTreeView";
+import { clearTrafficTreeExpandedStorage, TrafficTreeView } from "./TrafficTreeView";
 import { getFlowUrl } from "../utils/flow";
 import { buildFlowTree, collectFlowsUnderNode, findTreeNode } from "../utils/flowTree";
 import { buildMapLocalSeed } from "../utils/mapLocal";
 import { sortFlowsByTime } from "../utils/sortFlows";
-import type { MapLocalRule, MapLocalSeed, MitmFlow } from "../types";
+import type { ConnectedClient, MapLocalRule, MapLocalSeed, MitmFlow } from "../types";
 
 interface TrafficPanelProps {
   flows: MitmFlow[];
   flowsError: string | null;
   mapLocalRules: MapLocalRule[];
+  knownDeviceClients: ConnectedClient[];
+  listResetKey: number;
   isProxyRunning: boolean;
   isProxyStarting: boolean;
   onMapLocal: (seed: MapLocalSeed) => void;
+}
+
+function resetTrafficSelection(
+  setSelectedId: (value: string | null) => void,
+  setSelectedScopeId: (value: string | null) => void,
+  setTableListMode: (value: "scope" | "single") => void,
+  setIsTableSelectionPrimary: (value: boolean) => void
+): void {
+  setSelectedId(null);
+  setSelectedScopeId(null);
+  setTableListMode("scope");
+  setIsTableSelectionPrimary(false);
 }
 
 function TrafficPanelInner({
   flows,
   flowsError,
   mapLocalRules,
+  knownDeviceClients,
+  listResetKey,
   isProxyRunning,
   isProxyStarting,
   onMapLocal,
@@ -40,10 +56,12 @@ function TrafficPanelInner({
 
   useEffect(() => {
     if (!isProxyRunning) {
-      setSelectedId(null);
-      setSelectedScopeId(null);
-      setTableListMode("scope");
-      setIsTableSelectionPrimary(false);
+      resetTrafficSelection(
+        setSelectedId,
+        setSelectedScopeId,
+        setTableListMode,
+        setIsTableSelectionPrimary
+      );
       return;
     }
     if (selectedId && !flows.some((flow) => flow.id === selectedId)) {
@@ -51,9 +69,61 @@ function TrafficPanelInner({
     }
   }, [isProxyRunning, flows, selectedId]);
 
+  useEffect(() => {
+    if (listResetKey === 0) {
+      return;
+    }
+    resetTrafficSelection(
+      setSelectedId,
+      setSelectedScopeId,
+      setTableListMode,
+      setIsTableSelectionPrimary
+    );
+    clearTrafficTreeExpandedStorage();
+  }, [listResetKey]);
+
+  useEffect(() => {
+    if (flows.length > 0) {
+      return;
+    }
+    resetTrafficSelection(
+      setSelectedId,
+      setSelectedScopeId,
+      setTableListMode,
+      setIsTableSelectionPrimary
+    );
+  }, [flows.length]);
+
   const flowIdsKey = useMemo(() => flows.map((flow) => flow.id).join(","), [flows]);
 
-  const structureTreeNodes = useMemo(() => buildFlowTree(flows), [flowIdsKey, flows]);
+  const pinnedClientIps = useMemo(
+    () => knownDeviceClients.map((client) => client.ip),
+    [knownDeviceClients]
+  );
+  const structureTreeNodes = useMemo(
+    () => buildFlowTree(flows, pinnedClientIps),
+    [flowIdsKey, flows, pinnedClientIps]
+  );
+
+  useEffect(() => {
+    if (!selectedScopeId || tableListMode !== "scope") {
+      return;
+    }
+    const scopeNode = findTreeNode(structureTreeNodes, selectedScopeId);
+    if (!scopeNode) {
+      resetTrafficSelection(
+        setSelectedId,
+        setSelectedScopeId,
+        setTableListMode,
+        setIsTableSelectionPrimary
+      );
+      return;
+    }
+    if (collectFlowsUnderNode(scopeNode).length === 0) {
+      setSelectedScopeId(null);
+      setSelectedId(null);
+    }
+  }, [structureTreeNodes, selectedScopeId, tableListMode]);
 
   const tableFlowsCacheRef = useRef<{ signature: string; flows: MitmFlow[] }>({
     signature: "",
@@ -139,6 +209,7 @@ function TrafficPanelInner({
           nodes={structureTreeNodes}
           flowsCount={flows.length}
           flowsError={flowsError}
+          listResetKey={listResetKey}
           selectedFlowId={selectedId}
           selectedScopeId={selectedScopeId}
           isScopeSelectionActive={isScopeSelectionActive}
@@ -245,6 +316,8 @@ function areTrafficPanelPropsEqual(
     left.flows === right.flows &&
     left.flowsError === right.flowsError &&
     mapLocalRulesKey(left.mapLocalRules) === mapLocalRulesKey(right.mapLocalRules) &&
+    left.knownDeviceClients === right.knownDeviceClients &&
+    left.listResetKey === right.listResetKey &&
     left.isProxyRunning === right.isProxyRunning &&
     left.isProxyStarting === right.isProxyStarting &&
     left.onMapLocal === right.onMapLocal

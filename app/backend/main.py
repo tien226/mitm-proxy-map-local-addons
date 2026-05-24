@@ -1,6 +1,8 @@
 """TFT Proxy App backend API."""
 
+import asyncio
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -12,7 +14,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from config_store import ConfigStore, MapLocalRule, MapLocalRuleUpdate
-from client_tracker import clear_connected_clients, list_connected_clients, merge_clients_from_flows
+from client_tracker import clear_connected_clients, list_connected_clients
 from flow_cache import clear_flow_cache, read_cached_body
 from flows_store import reset_flows_store, update_flows
 from flow_utils import extract_flow_list, normalize_flow
@@ -29,6 +31,7 @@ app.add_middleware(
 
 proxy_manager = ProxyManager()
 config_store = ConfigStore()
+_flows_executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="mitm-flows")
 
 def _resolve_static_dir() -> Path:
     if getattr(sys, "frozen", False):
@@ -53,7 +56,7 @@ def health() -> Dict[str, str]:
     return {"status": "ok"}
 
 
-def _proxy_status_payload(status: Any) -> Dict[str, Any]:
+def _proxy_status_payload(status: Any, *, include_clients: bool = True) -> Dict[str, Any]:
     payload: Dict[str, Any] = {
         "is_running": status.is_running,
         "proxy_port": status.proxy_port,
@@ -64,7 +67,10 @@ def _proxy_status_payload(status: Any) -> Dict[str, Any]:
     }
     if status.error:
         payload["error"] = status.error
-    payload["connected_clients"] = list_connected_clients()
+    if getattr(status, "reused_existing", False):
+        payload["reused_existing"] = True
+    if include_clients:
+        payload["connected_clients"] = list_connected_clients()
     return payload
 
 
@@ -76,6 +82,20 @@ def get_proxy_status() -> Dict[str, Any]:
 @app.post("/api/proxy/start")
 def start_proxy(request: ProxyStartRequest) -> Dict[str, Any]:
     status = proxy_manager.start(request.proxy_port, request.web_port)
+    payload = _proxy_status_payload(status)
+    if not status.is_running:
+        raise HTTPException(status_code=500, detail=status.error or "Failed to start mitmweb")
+    return payload
+
+
+@app.post("/api/proxy/ensure")
+def ensure_proxy(request: ProxyStartRequest) -> Dict[str, Any]:
+    status = proxy_manager.ensure_running(request.proxy_port, request.web_port)
+    if status.is_running and status.reused_existing:
+        proxy_manager.clear_flows()
+        clear_flow_cache()
+        clear_connected_clients()
+        reset_flows_store()
     payload = _proxy_status_payload(status)
     if not status.is_running:
         raise HTTPException(status_code=500, detail=status.error or "Failed to start mitmweb")
@@ -163,7 +183,6 @@ def clear_flows() -> Dict[str, str]:
         raise HTTPException(status_code=503, detail="Proxy is not running.")
     cleared = proxy_manager.clear_flows()
     clear_flow_cache()
-    clear_connected_clients()
     reset_flows_store()
     if not cleared:
         detail = proxy_manager.last_error or "Failed to clear flows in mitmproxy"
@@ -171,25 +190,40 @@ def clear_flows() -> Dict[str, str]:
     return {"status": "cleared"}
 
 
+def _fetch_mitmweb_flow_list_sync() -> List[Dict[str, Any]]:
+    response = proxy_manager.fetch_mitmweb("/flows")
+    return extract_flow_list(response.json())
+
+
 @app.get("/api/flows")
 async def list_flows(since: Optional[int] = None) -> Dict[str, Any]:
-    payload = await _proxy_mitmweb("/flows")
-    flow_list = extract_flow_list(payload)
-    version, flows, unchanged = update_flows(flow_list)
-    connected_clients = merge_clients_from_flows(flow_list)
-    if since is not None and since >= 0 and unchanged:
+    loop = asyncio.get_running_loop()
+    flow_list = await loop.run_in_executor(
+        _flows_executor,
+        _fetch_mitmweb_flow_list_sync,
+    )
+    update_result = update_flows(flow_list, since=since)
+    connected_clients = list_connected_clients()
+    if since is not None and since >= 0 and update_result.unchanged:
         return {
-            "version": version,
+            "version": update_result.version,
             "unchanged": True,
             "flows": [],
             "connected_clients": connected_clients,
         }
-    return {
-        "version": version,
+    payload: Dict[str, Any] = {
+        "version": update_result.version,
         "unchanged": False,
-        "flows": flows,
+        "flows": update_result.flows,
         "connected_clients": connected_clients,
     }
+    if update_result.partial:
+        payload["partial"] = True
+    if update_result.reset:
+        payload["reset"] = True
+    if update_result.removed_flow_ids:
+        payload["removed_flow_ids"] = update_result.removed_flow_ids
+    return payload
 
 
 @app.get("/api/flows/{flow_id}")

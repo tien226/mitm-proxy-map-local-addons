@@ -78,8 +78,20 @@ function getOrCreateHost(parent: FlowTreeNode, host: string): FlowTreeNode {
   return hostNode;
 }
 
-export function buildFlowTree(flows: MitmFlow[]): FlowTreeNode[] {
+export function buildFlowTree(flows: MitmFlow[], pinnedClientIps: string[] = []): FlowTreeNode[] {
   const clientMap = new Map<string, FlowTreeNode>();
+  for (const clientIp of pinnedClientIps) {
+    if (!clientIp || clientMap.has(clientIp)) {
+      continue;
+    }
+    clientMap.set(clientIp, {
+      id: `client:${clientIp}`,
+      label: clientIp,
+      type: "client",
+      children: [],
+      count: 0,
+    });
+  }
   flows.forEach((flow) => {
     const clientLabel = getClientLabel(flow);
     const host = flow.request.host || "unknown";

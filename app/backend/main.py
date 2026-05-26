@@ -202,28 +202,21 @@ async def list_flows(since: Optional[int] = None) -> Dict[str, Any]:
         _flows_executor,
         _fetch_mitmweb_flow_list_sync,
     )
-    update_result = update_flows(flow_list, since=since)
+    version, flows, unchanged = update_flows(flow_list)
     connected_clients = list_connected_clients()
-    if since is not None and since >= 0 and update_result.unchanged:
+    if since is not None and since >= 0 and unchanged:
         return {
-            "version": update_result.version,
+            "version": version,
             "unchanged": True,
             "flows": [],
             "connected_clients": connected_clients,
         }
-    payload: Dict[str, Any] = {
-        "version": update_result.version,
+    return {
+        "version": version,
         "unchanged": False,
-        "flows": update_result.flows,
+        "flows": flows,
         "connected_clients": connected_clients,
     }
-    if update_result.partial:
-        payload["partial"] = True
-    if update_result.reset:
-        payload["reset"] = True
-    if update_result.removed_flow_ids:
-        payload["removed_flow_ids"] = update_result.removed_flow_ids
-    return payload
 
 
 @app.get("/api/flows/{flow_id}")

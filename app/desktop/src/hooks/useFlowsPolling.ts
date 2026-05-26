@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchFlowsSnapshot } from "../api/client";
 import { areConnectedClientsEqual, mergeConnectedClients } from "../utils/connectedClients";
 import { extractAllClientsFromFlows } from "../utils/knownDevices";
-import { applyFlowsSnapshot } from "../utils/flowMerge";
+import { mergeFlowLists } from "../utils/flowMerge";
 import type { AppSection, ConnectedClient, MitmFlow } from "../types";
 
 const POLL_ACTIVE_MS = 450;
@@ -38,7 +38,6 @@ export function useFlowsPolling(
   const [polledClients, setPolledClients] = useState<ConnectedClient[]>([]);
   const versionRef = useRef<number>(0);
   const flowsRef = useRef<MitmFlow[]>([]);
-  const pollGenerationRef = useRef<number>(0);
   const inFlightRef = useRef<boolean>(false);
   const isDocumentVisibleRef = useRef<boolean>(
     typeof document === "undefined" ? true : document.visibilityState === "visible"
@@ -46,8 +45,8 @@ export function useFlowsPolling(
 
   const resetFlows = useCallback((): void => {
     versionRef.current = 0;
-    setFlowsVersion(0);
     flowsRef.current = [];
+    setFlowsVersion(0);
     setFlows([]);
     setFlowsError(null);
     setPolledClients([]);
@@ -55,8 +54,8 @@ export function useFlowsPolling(
 
   const clearFlowsList = useCallback((): void => {
     versionRef.current = 0;
-    setFlowsVersion(0);
     flowsRef.current = [];
+    setFlowsVersion(0);
     setFlows([]);
     setFlowsError(null);
   }, []);
@@ -84,53 +83,42 @@ export function useFlowsPolling(
         return;
       }
       inFlightRef.current = true;
-      const pollGeneration = pollGenerationRef.current + 1;
-      pollGenerationRef.current = pollGeneration;
-      const sinceVersion = versionRef.current;
       try {
-        const snapshot = await fetchFlowsSnapshot(sinceVersion);
-        if (cancelled || pollGeneration !== pollGenerationRef.current) {
+        const snapshot = await fetchFlowsSnapshot(versionRef.current);
+        if (cancelled) {
           return;
-        }
-        if (snapshot.version < versionRef.current) {
-          versionRef.current = 0;
         }
         versionRef.current = snapshot.version;
         setFlowsVersion(snapshot.version);
         const snapshotClients = snapshot.connected_clients ?? [];
-        const mergePolledClients = (flowList: MitmFlow[], previousClients: ConnectedClient[]): ConnectedClient[] => {
-          const fromFlows = extractAllClientsFromFlows(flowList);
-          return mergeConnectedClients(
-            mergeConnectedClients(snapshotClients, fromFlows),
-            previousClients
-          );
-        };
         if (snapshot.unchanged) {
+          const fromFlows = extractAllClientsFromFlows(flowsRef.current);
           setPolledClients((previous) => {
-            const merged = mergePolledClients(flowsRef.current, previous);
+            const merged = mergeConnectedClients(
+              mergeConnectedClients(snapshotClients, fromFlows),
+              previous
+            );
             return areConnectedClientsEqual(previous, merged) ? previous : merged;
           });
           setFlowsError(null);
           return;
         }
-        const nextFlows = applyFlowsSnapshot(flowsRef.current, snapshot.flows, {
-          partial: snapshot.partial,
-          reset: snapshot.reset,
-          removedFlowIds: snapshot.removed_flow_ids,
-        });
+        const nextFlows = mergeFlowLists(flowsRef.current, snapshot.flows);
         flowsRef.current = nextFlows;
         setFlows(nextFlows);
+        const fromFlows = extractAllClientsFromFlows(nextFlows);
         setPolledClients((previousClients) => {
-          const merged = mergePolledClients(nextFlows, previousClients);
+          const merged = mergeConnectedClients(
+            mergeConnectedClients(snapshotClients, fromFlows),
+            previousClients
+          );
           return areConnectedClientsEqual(previousClients, merged) ? previousClients : merged;
         });
         setFlowsError(null);
       } catch (loadError) {
-        if (cancelled || pollGeneration !== pollGenerationRef.current) {
+        if (cancelled) {
           return;
         }
-        setFlows([]);
-        flowsRef.current = [];
         const message = loadError instanceof Error ? loadError.message : "Failed to load flows";
         setFlowsError(message);
       } finally {
@@ -153,10 +141,8 @@ export function useFlowsPolling(
     return () => {
       cancelled = true;
       window.clearTimeout(timeoutId);
-      pollGenerationRef.current += 1;
     };
   }, [isProxyRunning, activeSection, resetFlows]);
 
   return { flows, flowsError, flowsVersion, polledClients, resetFlows, clearFlowsList };
-
 }

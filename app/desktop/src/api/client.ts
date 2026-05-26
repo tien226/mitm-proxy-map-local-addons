@@ -49,9 +49,6 @@ export interface FlowsSnapshot {
   unchanged: boolean;
   flows: MitmFlow[];
   connected_clients?: ConnectedClient[];
-  partial?: boolean;
-  reset?: boolean;
-  removed_flow_ids?: string[];
 }
 
 export async function fetchFlowsSnapshot(

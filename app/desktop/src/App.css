@@ -1085,6 +1085,49 @@ body {
   color: #e8eaed;
 }
 
+.json-tree {
+  user-select: text;
+}
+
+.json-tree-line {
+  white-space: nowrap;
+  line-height: 1.55;
+  border-left: 1px solid transparent;
+}
+
+.json-tree-line:hover {
+  border-left-color: #30363d;
+  background: rgba(88, 166, 255, 0.04);
+}
+
+.json-tree-arrow {
+  display: inline-block;
+  width: 14px;
+  text-align: center;
+  font-size: 10px;
+  color: #8b949e;
+  cursor: pointer;
+  user-select: none;
+  margin-right: 2px;
+}
+
+.json-tree-arrow:hover {
+  color: #e8eaed;
+}
+
+.json-tree-arrow-spacer {
+  display: inline-block;
+  width: 14px;
+  margin-right: 2px;
+}
+
+.json-tree-collapsed-preview {
+  color: #6e7681;
+  font-style: italic;
+  margin: 0 2px;
+  font-size: 11px;
+}
+
 .pane-empty {
   padding: 24px;
   color: #6e7681;

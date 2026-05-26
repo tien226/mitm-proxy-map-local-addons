@@ -150,7 +150,7 @@ function TrafficPanelInner({
       nextFlows = sortFlowsByTime(baseFlows.filter(matchesFilter));
     }
     const signature = `${tableListMode}|${selectedScopeId ?? ""}|${filter}|${nextFlows
-      .map((flow) => flow.id)
+      .map((flow) => `${flow.id}:${flow.response?.status_code ?? ""}:${flow.duration_ms ?? ""}`)
       .join(",")}`;
     if (signature === tableFlowsCacheRef.current.signature) {
       return tableFlowsCacheRef.current.flows;

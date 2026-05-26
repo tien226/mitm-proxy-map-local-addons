@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { CollapsibleJsonTree } from "./CollapsibleJsonTree";
 import { JsonHighlightedCode } from "./JsonHighlightedCode";
 import { MapLocalJsonEditor } from "./MapLocalJsonEditor";
 import { SearchablePaneContent } from "./SearchablePaneContent";
@@ -74,6 +75,9 @@ export function MapLocalJsonSection({ value, onChange }: MapLocalJsonSectionProp
               return <SearchablePre text={value} find={find} />;
             }
             return <pre className="pane-pre map-local-json-preview-raw">{value}</pre>;
+          }
+          if (!find || !find.query) {
+            return <CollapsibleJsonTree data={parsedJson} defaultExpanded={true} />;
           }
           return <JsonHighlightedCode text={formattedJson} find={find} plainText />;
         }}

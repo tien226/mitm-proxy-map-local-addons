@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { CollapsibleJsonTree } from "./CollapsibleJsonTree";
 import { JsonHighlightedCode } from "./JsonHighlightedCode";
 import { SearchablePaneContent, type SearchableFindProps } from "./SearchablePaneContent";
 import { SearchablePre } from "./SearchablePre";
@@ -89,6 +90,9 @@ export function MessagePane({
   }, [isSearchable, isLoading]);
 
   const renderJsonBody = (find?: SearchableFindProps): JSX.Element => {
+    if (!find || !find.query) {
+      return <CollapsibleJsonTree data={jsonValue} defaultExpanded={true} />;
+    }
     return <JsonHighlightedCode text={formattedJson} find={find} />;
   };
 

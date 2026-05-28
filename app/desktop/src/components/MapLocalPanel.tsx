@@ -272,7 +272,11 @@ export function MapLocalPanel({ seed, onSeedConsumed, onRulesChanged }: MapLocal
         </div>
         <div className="rule-form-json-pane">
           <span className="rule-form-json-title">Response JSON</span>
-          <MapLocalJsonSection value={fileContent} onChange={setFileContent} />
+          <MapLocalJsonSection
+            value={fileContent}
+            onChange={setFileContent}
+            historyKey={`${editingIndex ?? "none"}:${draft.local_file}`}
+          />
         </div>
         <div className="form-actions rule-form-actions">
           <button className="btn btn-primary" type="button" onClick={saveRule}>

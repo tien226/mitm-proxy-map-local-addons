@@ -1095,9 +1095,57 @@ body {
   border-left: 1px solid transparent;
 }
 
+.json-tree-line--deletable {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.json-tree-line-content {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.json-tree-line--selected {
+  border-left-color: #58a6ff;
+  background: rgba(88, 166, 255, 0.1);
+}
+
 .json-tree-line:hover {
   border-left-color: #30363d;
   background: rgba(88, 166, 255, 0.04);
+}
+
+.json-tree-line--selected:hover {
+  border-left-color: #58a6ff;
+  background: rgba(88, 166, 255, 0.12);
+}
+
+.json-tree-delete {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+  background: transparent;
+  color: #8b949e;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+
+.json-tree-line--deletable:hover .json-tree-delete,
+.json-tree-line--selected .json-tree-delete {
+  opacity: 1;
+}
+
+.json-tree-delete:hover {
+  background: rgba(248, 81, 73, 0.2);
+  color: #f85149;
 }
 
 .json-tree-arrow {
@@ -1126,6 +1174,69 @@ body {
   font-style: italic;
   margin: 0 2px;
   font-size: 11px;
+}
+
+.json-tree-inline-input {
+  border: 1px solid #58a6ff;
+  border-radius: 3px;
+  background: #0d1117;
+  color: #e8eaed;
+  font-size: 12px;
+  font-family: inherit;
+  line-height: 1.4;
+  padding: 0 4px;
+  outline: none;
+  min-width: 60px;
+  max-width: 100%;
+}
+
+.json-tree-value--editable {
+  cursor: text;
+}
+
+.json-tree-value--editable:hover {
+  outline: 1px solid rgba(88, 166, 255, 0.35);
+  border-radius: 2px;
+}
+
+.json-tree-key--editable {
+  cursor: text;
+}
+
+.json-tree-key--editable:hover {
+  outline: 1px solid rgba(88, 166, 255, 0.35);
+  border-radius: 2px;
+}
+
+.json-tree-inline-input--key {
+  min-width: 48px;
+  max-width: 200px;
+}
+
+.json-tree-add {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+  background: transparent;
+  color: #8b949e;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+
+.json-tree-line--deletable:hover .json-tree-add,
+.json-tree-line--selected .json-tree-add {
+  opacity: 1;
+}
+
+.json-tree-add:hover {
+  background: rgba(88, 166, 255, 0.2);
+  color: #58a6ff;
 }
 
 .pane-empty {
@@ -1563,53 +1674,167 @@ pre {
   background: #0d1117;
 }
 
-.map-local-json-tabs {
-  align-items: center;
-  gap: 4px;
-}
-
-.map-local-json-hint {
-  margin-left: auto;
-  padding-right: 10px;
-  font-size: 11px;
-  color: #6e7681;
-  font-weight: 400;
-}
-
-.map-local-json-section .pane-content {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  border: none;
-  background: transparent;
-  display: flex;
-  flex-direction: column;
-}
-
-.map-local-json-section .pane-content-body {
+.map-local-json-body {
   flex: 1;
   min-height: 0;
   overflow: auto;
 }
 
-.map-local-json-preview-raw {
-  flex: 1;
-  min-height: 0;
-  overflow: auto;
-}
-
-.map-local-editor-stack {
-  position: relative;
-  min-height: 100%;
+.map-local-json-body .json-highlight {
+  margin: 0;
   padding: 12px;
+  min-height: 100%;
+}
+
+.map-local-json-body--jer {
+  padding: 4px 6px;
+  overflow: auto;
+  width: 100%;
   box-sizing: border-box;
 }
 
-.map-local-editor-backdrop,
-.map-local-editor-input {
+.map-local-json-jer.jer-editor-container {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  min-height: 100%;
+  background: #0d1117 !important;
+  color: #e8eaed !important;
+}
+
+/* View mode: plain text, no boxes (library wraps values in .jer-input-component) */
+.map-local-json-jer .jer-input-component {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Edit mode only: grey input boxes */
+.map-local-json-jer .jer-input-text,
+.map-local-json-jer .jer-input-new-key,
+.map-local-json-jer .jer-input-number,
+.map-local-json-jer .jer-input-boolean,
+.map-local-json-jer .jer-key-edit {
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  padding: 4px 8px !important;
+  background-color: #161b22 !important;
+  color: #e8eaed !important;
+  border: 1px solid #484f58 !important;
+  border-radius: 4px;
+}
+
+/* Large object/array JSON edit: full width + easier to read */
+.map-local-json-jer .jer-form-border,
+.map-local-json-jer .jer-form-border-focus {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.map-local-json-jer .jer-collection-text-area,
+.map-local-json-jer .jer-collection-text-edit {
+  width: 100% !important;
+  min-width: 100% !important;
+  box-sizing: border-box !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  padding: 10px 12px !important;
+  min-height: 140px;
+  resize: vertical;
+}
+
+.map-local-json-jer .jer-collection-inner,
+.map-local-json-jer .jer-collection-element,
+.map-local-json-jer .jer-value-component,
+.map-local-json-jer .jer-value-main-row,
+.map-local-json-jer .jer-collection-header-row {
+  background-color: transparent !important;
+  color: #e8eaed !important;
+}
+
+.map-local-json-jer .jer-key-text,
+.map-local-json-jer .jer-collection-name,
+.map-local-json-jer .jer-key-edit {
+  color: #79c0ff !important;
+}
+
+.map-local-json-jer .jer-value-string,
+.map-local-json-jer .jer-collection-text-area,
+.map-local-json-jer .jer-input-text {
+  color: #ce9178 !important;
+}
+
+.map-local-json-jer .jer-value-number,
+.map-local-json-jer .jer-input-number {
+  color: #b5cea8 !important;
+}
+
+.map-local-json-jer .jer-value-boolean,
+.map-local-json-jer .jer-input-boolean {
+  color: #56d4dd !important;
+}
+
+.map-local-json-jer .jer-value-null {
+  color: #569cd6 !important;
+}
+
+.map-local-json-jer .jer-bracket-open,
+.map-local-json-jer .jer-bracket-outside,
+.map-local-json-jer .jer-key-colon,
+.map-local-json-jer .jer-ellipsis {
+  color: #e8eaed !important;
+}
+
+.map-local-json-jer .jer-collection-item-count {
+  color: #8b949e !important;
+}
+
+.map-local-json-jer .jer-form-border {
+  border-color: #30363d !important;
+}
+
+.map-local-json-jer .jer-form-border-focus {
+  border-color: #58a6ff !important;
+  background-color: rgba(88, 166, 255, 0.08) !important;
+}
+
+.map-local-json-jer .jer-collection-text-edit {
+  background-color: #161b22 !important;
+  color: #e8eaed !important;
+  border-color: #484f58 !important;
+}
+
+.map-local-json-jer .jer-select-inner,
+.map-local-json-jer .jer-select-border {
+  background-color: #161b22 !important;
+  color: #e8eaed !important;
+  border-color: #484f58 !important;
+}
+
+.map-local-json-jer .jer-icon {
+  opacity: 0.85;
+}
+
+.map-local-json-jer .jer-icon:hover {
+  opacity: 1;
+}
+
+
+.map-local-json-textarea {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
   margin: 0;
-  padding: 0;
+  padding: 12px;
   border: none;
+  outline: none;
+  resize: none;
   box-sizing: border-box;
   font-size: 12px;
   line-height: 1.55;
@@ -1617,53 +1842,12 @@ pre {
   white-space: pre-wrap;
   word-break: break-word;
   tab-size: 2;
-}
-
-.map-local-editor-backdrop {
-  position: relative;
-  pointer-events: none;
-  z-index: 0;
+  background: #0d1117;
   color: #e8eaed;
+  caret-color: #58a6ff;
 }
 
-.map-local-editor-backdrop-pre {
-  margin: 0;
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: #e8eaed;
-  font: inherit;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.map-local-editor-backdrop-pre .searchable-line {
-  min-height: 1.55em;
-}
-
-.map-local-editor-input {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
-  overflow: hidden;
-  z-index: 1;
-  resize: none;
-  outline: none;
-  cursor: text;
-  background: transparent;
-  color: transparent;
-  caret-color: #e8eaed;
-}
-
-.map-local-json-section .json-highlight {
-  margin: 0;
-  padding: 12px;
-  min-height: 100%;
-}
-
-.map-local-editor-input::selection {
+.map-local-json-textarea::selection {
   background: rgba(88, 166, 255, 0.35);
 }
 
